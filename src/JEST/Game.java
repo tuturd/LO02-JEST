@@ -1,5 +1,5 @@
 // src/Game.java
-package JEST; //bonjour
+package JEST;
 
 import JEST.cards.Deck;
 import JEST.cards.trophy.Trophy;
