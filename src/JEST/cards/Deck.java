@@ -1,10 +1,11 @@
 package JEST.cards;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Deck {
+public class Deck implements Serializable {
     private List<Card> cards;
 
     private static Deck instance;
@@ -55,5 +56,14 @@ public class Deck {
 
     public boolean isEmpty() {
         return cards.isEmpty();
+    }
+    
+    public String toString() {
+        System.out.println(cards.size());
+        for (Card card : cards) {
+            System.out.println(card);
+        }
+        //return sb.toString();
+        return "blabla";
     }
 }

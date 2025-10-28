@@ -1,8 +1,9 @@
 package JEST.cards;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Offer {
+public class Offer implements Serializable {
     private List<OfferCard> cards;
     private boolean complete;
 

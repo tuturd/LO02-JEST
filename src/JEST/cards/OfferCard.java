@@ -1,6 +1,8 @@
 package JEST.cards;
 
-public class OfferCard {
+import java.io.Serializable;
+
+public class OfferCard implements Serializable {
     private final Card card;
     private final boolean upside;
 

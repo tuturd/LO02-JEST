@@ -5,7 +5,9 @@ import JEST.cards.Deck;
 import JEST.Player;
 import JEST.cards.Offer;
 
-public class AgressiveStrategy implements Strategy {
+import java.io.Serializable;
+
+public class AgressiveStrategy implements Strategy, Serializable {
     @Override
     public void makeOffer(Card c1, Card c2) {}
 

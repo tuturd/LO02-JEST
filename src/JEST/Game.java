@@ -4,11 +4,12 @@ package JEST;
 import JEST.cards.Deck;
 import JEST.cards.trophy.Trophy;
 
+import java.io.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Game {
+public class Game implements Serializable {
     private static Game instance;
     private List<Player> players;
     private Deck deck;
@@ -80,14 +81,98 @@ public class Game {
         return deck;
     }
 
-    public void save() {
-        System.out.println("Sauvegarde de la partie > En cours...");
+    private static boolean isValidFilename(String name) {
+        if (name == null) return false;
+        name = name.trim();
+        // \p{L} accepte toutes les lettres Unicode (lettres accentuées incluses)
+        return !name.isEmpty() && name.matches("^[A-Za-z0-9]+$");
+    }
 
-        System.out.println("Sauvegarde de la partie > OK");
+    public void save() {
+
+        File savesDir = new File("saves");
+        if (!savesDir.exists()) {
+            savesDir.mkdirs();
+        }
+        
+        String filename = null;
+        while (filename == null) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Nom de la sauvegarde : ");
+            String filenameInput = scanner.nextLine();
+            if (isValidFilename(filenameInput)) {
+                filename = filenameInput;
+            } else {
+                System.out.println("Nom de fichier invalide. Veuillez utiliser uniquement des lettres.");
+            }
+        }
+
+        File outFile = new File(savesDir, filename + ".jest");
+
+        System.out.println("Sauvegarde de la partie > En cours...");
+        try (FileOutputStream fos = new FileOutputStream(outFile);
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+
+            oos.writeObject(this);
+
+            System.out.println("Sauvegarde de la partie > OK");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            System.out.println("Sauvegarde de la partie > ERROR");
+        }
+
     }
 
     public void load() {
         System.out.println("Chargement de la partie > En cours...");
-        System.out.println("Chargement de la partie > OK");
+
+        File savesDir = new File("saves");
+        if (!savesDir.exists()) {
+            savesDir.mkdirs();
+        }
+
+        File[] files = savesDir.listFiles((d, name) -> name.toLowerCase().endsWith(".jest"));
+        if (files == null || files.length == 0) {
+            System.out.println("Aucune sauvegarde .jest trouvee dans le dossier saves.");
+            return;
+        }
+
+        System.out.println("Sauvegardes disponibles :");
+        for (int i = 0; i < files.length; i++) {
+            System.out.printf("%d) %s%n", i + 1, files[i].getName());
+        }
+
+        Scanner scanner = new Scanner(System.in);
+        int choice = -1;
+        while (choice < 1 || choice > files.length) {
+            System.out.print("Entrez le numero du fichier a charger : ");
+            String line = scanner.nextLine();
+            try {
+                choice = Integer.parseInt(line);
+                if (choice < 1 || choice > files.length) {
+                    System.out.println("Numero hors champ, reessayez.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Entree invalide, tapez un nombre.");
+            }
+        }
+
+        File selected = files[choice - 1];
+
+        try (FileInputStream fis = new FileInputStream(selected);
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
+
+            Game loadedGame = (Game) ois.readObject();
+            instance = loadedGame;
+            this.players = loadedGame.players;
+            this.deck = loadedGame.deck;
+            this.trophies = loadedGame.trophies;
+
+            System.out.println("Chargement de la partie > OK");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Chargement de la partie > ERROR");
+        }
+
     }
 }

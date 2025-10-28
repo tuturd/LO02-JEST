@@ -1,6 +1,8 @@
 package JEST.cards;
 
-public class SuitCard implements Card {
+import java.io.Serializable;
+
+public class SuitCard implements Card, Serializable {
     private final Suit suit;
     private final int faceValue;
 
@@ -12,5 +14,9 @@ public class SuitCard implements Card {
     public int getFaceValue() { return faceValue; }
     public Suit getSuit() { return suit; }
     public void accept(CardVisitor visitor) { visitor.visit(this); }
+
+    public String toString() {
+        return suit.toString() + " " + faceValue;
+    }
 }
 

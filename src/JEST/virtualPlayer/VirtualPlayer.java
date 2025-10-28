@@ -5,7 +5,9 @@ import JEST.cards.Card;
 import JEST.cards.Deck;
 import JEST.cards.Offer;
 
-public class VirtualPlayer extends Player {
+import java.io.Serializable;
+
+public class VirtualPlayer extends Player implements Serializable {
     private Strategy strategy;
 
     public VirtualPlayer(String firstName, String lastName, Strategy strategy) {

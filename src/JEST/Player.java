@@ -5,9 +5,10 @@ import JEST.cards.Jest;
 import JEST.cards.Offer;
 import JEST.cards.OfferCard;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Player {
+public class Player implements Serializable {
     private final String firstName;
     private final String lastName;
     private Jest jest = new Jest();

@@ -6,4 +6,6 @@ public interface Card {
     int getFaceValue();
 
     Suit getSuit();
+
+    String toString();
 }
