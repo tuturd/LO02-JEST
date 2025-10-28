@@ -4,7 +4,7 @@ public class SuitCard implements Card {
     private final Suit suit;
     private final int faceValue;
 
-    public SuitCard(Suit suit, int faceValue, Suit suit1, int faceValue1) {
+    public SuitCard(Suit suit1, int faceValue1) {
         this.suit = suit1;
         this.faceValue = faceValue1;
     }

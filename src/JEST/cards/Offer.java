@@ -16,6 +16,10 @@ public class Offer {
         return null;
     }
 
+    public Card takeCard() {
+        return null;
+    }
+
     public boolean isComplete() {
         return complete;
     }

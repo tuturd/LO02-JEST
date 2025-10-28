@@ -1,5 +1,7 @@
 package JEST.cards;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Deck {
@@ -8,7 +10,7 @@ public class Deck {
     private static Deck instance;
 
     private Deck() {
-        // Initialiser le deck avec les cartes
+        this.cards = new ArrayList<>();
     }
 
     public static Deck getInstance() {
@@ -18,8 +20,32 @@ public class Deck {
         return instance;
     }
 
+    public void fill() {
+        try {
+            cards.add(new JokerCard());
+            cards.add(new SuitCard(Suit.SPADE, 1));
+            cards.add(new SuitCard(Suit.SPADE, 2));
+            cards.add(new SuitCard(Suit.SPADE, 3));
+            cards.add(new SuitCard(Suit.SPADE, 4));
+            cards.add(new SuitCard(Suit.CLUB, 1));
+            cards.add(new SuitCard(Suit.CLUB, 2));
+            cards.add(new SuitCard(Suit.CLUB, 3));
+            cards.add(new SuitCard(Suit.CLUB, 4));
+            cards.add(new SuitCard(Suit.HEART, 1));
+            cards.add(new SuitCard(Suit.HEART, 2));
+            cards.add(new SuitCard(Suit.HEART, 3));
+            cards.add(new SuitCard(Suit.HEART, 4));
+            cards.add(new SuitCard(Suit.DIAMOND, 1));
+            cards.add(new SuitCard(Suit.DIAMOND, 2));
+            cards.add(new SuitCard(Suit.DIAMOND, 3));
+            cards.add(new SuitCard(Suit.DIAMOND, 4));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void shuffle() {
-        // Mélanger les cartes
+        Collections.shuffle(cards);
     }
 
     public Card deal(int numCards) {

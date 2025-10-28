@@ -27,6 +27,7 @@ public class Player {
     public void chooseOffer(List<Player> players) {
 
     }
+
     public void drawCard() {}
 
     public Jest getJest() { return jest; }
