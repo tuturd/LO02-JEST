@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Game implements Serializable {
+public class Game implements Serializable { // à quoi sert Serializable ?
     private static Game instance;
     private List<Player> players;
     private Deck deck;
