@@ -2,6 +2,7 @@
 package JEST;
 
 import JEST.cards.Deck;
+import JEST.cards.DeckType;
 import JEST.cards.trophy.Trophy;
 
 import java.io.*;
@@ -12,12 +13,14 @@ import java.util.Scanner;
 public class Game implements Serializable { // à quoi sert Serializable ?
     private static Game instance;
     private List<Player> players;
-    private Deck deck;
+    private Deck generalDeck;
+    private Deck restOfCards;
     private List<Trophy> trophies;
 
     private Game() {
         this.players = new  ArrayList<>();
-        this.deck = Deck.getInstance();
+        this.generalDeck = Deck.getInstance(DeckType.GENERAL);
+        this.restOfCards = Deck.getInstance(DeckType.REST_OF_CARDS);
         this.trophies = new ArrayList<>();
     }
 
@@ -58,9 +61,9 @@ public class Game implements Serializable { // à quoi sert Serializable ?
         }
 
         System.out.print("Deck > Initialisation...\n");
-        deck.fill();
+        this.generalDeck.fill();
         System.out.print("Deck > Mélange...\n");
-        deck.shuffle();
+        this.generalDeck.shuffle();
         System.out.print("Deck > OK\n");
     }
 
@@ -77,8 +80,12 @@ public class Game implements Serializable { // à quoi sert Serializable ?
         return null;
     }
 
-    public Deck getDeck() {
-        return deck;
+    public Deck getGeneralDeck() {
+        return this.generalDeck;
+    }
+    
+    public Deck getRestOfCards() {
+        return this.restOfCards;
     }
 
     private static boolean isValidFilename(String name) {
@@ -165,7 +172,8 @@ public class Game implements Serializable { // à quoi sert Serializable ?
             Game loadedGame = (Game) ois.readObject();
             instance = loadedGame;
             this.players = loadedGame.players;
-            this.deck = loadedGame.deck;
+            this.generalDeck = loadedGame.generalDeck;
+            this.restOfCards = loadedGame.restOfCards;
             this.trophies = loadedGame.trophies;
 
             System.out.println("Chargement de la partie > OK");

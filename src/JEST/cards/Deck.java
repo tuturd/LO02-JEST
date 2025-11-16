@@ -3,22 +3,21 @@ package JEST.cards;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Deck implements Serializable {
     private List<Card> cards;
-
-    private static Deck instance;
-
+    
+    private static final Map<DeckType, Deck> instances = new HashMap<>();
+    
     private Deck() {
         this.cards = new ArrayList<>();
     }
-
-    public static Deck getInstance() {
-        if (instance == null) {
-            instance = new Deck();
-        }
-        return instance;
+    
+    public static synchronized Deck getInstance(DeckType type) {
+        return instances.computeIfAbsent(type, t -> new Deck());
     }
 
     public void fill() {
