@@ -1,9 +1,10 @@
 // src/Game.java
 package JEST;
 
+import JEST.cards.Card;
 import JEST.cards.Deck;
 import JEST.cards.DeckType;
-import JEST.cards.trophy.Trophy;
+import JEST.cards.ScoreVisitor;
 
 import java.io.*;
 import java.util.List;
@@ -15,13 +16,13 @@ public class Game implements Serializable { // à quoi sert Serializable ?
     private List<Player> players;
     private Deck generalDeck;
     private Deck restOfCards;
-    private List<Trophy> trophies;
+    private List<Card> trophyCards;
 
     private Game() {
         this.players = new  ArrayList<>();
         this.generalDeck = Deck.getInstance(DeckType.GENERAL);
         this.restOfCards = Deck.getInstance(DeckType.REST_OF_CARDS);
-        this.trophies = new ArrayList<>();
+        this.trophyCards = new ArrayList<>();
     }
 
     public static Game getInstance() {
@@ -72,12 +73,26 @@ public class Game implements Serializable { // à quoi sert Serializable ?
     }
 
     public void awardTrophies() {
-        // attribuer selon conditions
+        for (Card trophyCard : this.trophyCards) {
+            trophyCard.getTrophy().getWinner(this.players).getJest().addCard(trophyCard);
+            this.trophyCards.remove(trophyCard);
+        }
     }
 
-    public Player determineWinner() {
-        // déterminer le gagnant
-        return null;
+    public record PlayerScore(Player player, int score) {}
+
+    public void determineWinner() {
+        this.awardTrophies();
+
+        List<PlayerScore> ranking = new ArrayList<>();
+
+        for (Player player : players) {
+            ScoreVisitor scoreVisitor= new ScoreVisitor(player.getJest());
+            scoreVisitor.compute();
+            ranking.add(new PlayerScore(player, scoreVisitor.getScore()));
+        }
+
+        ranking.sort((a, b) -> Integer.compare(b.score(), a.score()));
     }
 
     public Deck getGeneralDeck() {
@@ -174,7 +189,7 @@ public class Game implements Serializable { // à quoi sert Serializable ?
             this.players = loadedGame.players;
             this.generalDeck = loadedGame.generalDeck;
             this.restOfCards = loadedGame.restOfCards;
-            this.trophies = loadedGame.trophies;
+            this.trophyCards = loadedGame.trophyCards;
 
             System.out.println("Chargement de la partie > OK");
         } catch (IOException | ClassNotFoundException e) {

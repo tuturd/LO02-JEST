@@ -1,7 +1,6 @@
 package JEST.cards.trophy;
 
 import JEST.Player;
-import JEST.cards.Jest;
 import JEST.cards.Card;
 import JEST.cards.JokerCard;
 
@@ -9,24 +8,30 @@ import java.util.List;
 
 public class BestJestWithoutJokerTrophy implements Trophy {
 
-    public Player getWinner(List<Jest> jests) {
+    @Override
+    public Player getWinner(List<Player> players) {
         Player winner = null;
         int maxValue = Integer.MIN_VALUE;
-        for (Jest jest : jests) {
+
+        for (Player player : players) {
             int total = 0;
-            for (Card card : jest.getCards()) {
+
+            for (Card card : player.getJest().getCards()) {
                 if (!(card instanceof JokerCard)) {
                     total += card.getFaceValue();
                 }
             }
+
             if (total > maxValue) {
                 maxValue = total;
-                winner = jest.getOwner();
+                winner = player;
             }
         }
+
         return winner;
     }
 
+    @Override
     public String getName() {
         return "Best Jest Without Joker Trophy";
     }

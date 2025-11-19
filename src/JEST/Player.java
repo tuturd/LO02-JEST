@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class Player implements Serializable {
     private final String firstName;
     private final String lastName;
-    private Jest jest; //normalement c'est inutile
+    private Jest jest;
     private Offer currentOffer;
 
     public Player(String firstName, String lastName) {

@@ -2,10 +2,16 @@ package JEST.cards.trophy;
 
 import JEST.Player;
 import JEST.cards.Card;
+import JEST.cards.Suit;
 
 import java.util.List;
 
-public class BestJestTrophy implements Trophy {
+public class HighestInSuitTrophy implements Trophy {
+    private final Suit suit;
+
+    public HighestInSuitTrophy(Suit suit) {
+        this.suit = suit;
+    }
 
     @Override
     public Player getWinner(List<Player> players) {
@@ -13,23 +19,18 @@ public class BestJestTrophy implements Trophy {
         int maxValue = Integer.MIN_VALUE;
 
         for (Player player : players) {
-            int total = 0;
-
             for (Card card : player.getJest().getCards()) {
-                total += card.getFaceValue();
-            }
-
-            if (total > maxValue) {
-                maxValue = total;
-                winner = player;
+                if (card.getSuit() == this.suit && card.getFaceValue() > maxValue) {
+                    maxValue = card.getFaceValue();
+                    winner = player;
+                }
             }
         }
-
         return winner;
     }
 
     @Override
     public String getName() {
-        return "Best Jest Trophy";
+        return "Highest " + suit;
     }
 }

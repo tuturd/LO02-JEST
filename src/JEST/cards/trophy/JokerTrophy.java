@@ -1,7 +1,6 @@
 package JEST.cards.trophy;
 
 import JEST.Player;
-import JEST.cards.Jest;
 import JEST.cards.Card;
 import JEST.cards.JokerCard;
 
@@ -9,17 +8,19 @@ import java.util.List;
 
 public class JokerTrophy implements Trophy {
 
-    public Player getWinner(List<Jest> jests) {
-        for (Jest jest : jests) {
-            for (Card card : jest.getCards()) {
+    @Override
+    public Player getWinner(List<Player> players) {
+        for (Player player : players) {
+            for (Card card : player.getJest().getCards()) {
                 if (card instanceof JokerCard) {
-                    return jest.getOwner();
+                    return player;
                 }
             }
         }
         return null;
     }
 
+    @Override
     public String getName() {
         return "Joker Trophy";
     }
