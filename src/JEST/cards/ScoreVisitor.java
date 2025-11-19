@@ -17,7 +17,7 @@ public class ScoreVisitor implements CardVisitor, Serializable {
     }
 
     private int computeBlackPairsBonus(List<SuitCard> spades, List<SuitCard> clubs, Map<Card,Integer> valMap) {
-        return 0;
+        return 1;
     }
 
     public void visit(SuitCard card) {}
