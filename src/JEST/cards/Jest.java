@@ -9,24 +9,22 @@ import java.util.ArrayList;
 
 public class Jest implements Serializable {
     private List<Card> cards;
-    private List<Trophy> trophies;
 
     public Jest() {
-        this.cards = new ArrayList<>();
-        this.trophies = new ArrayList<>();
+        cards = new ArrayList<>();
     }
 
     public void addCard(Card card) {
         this.cards.add(card);
     }
 
-    public Player getOwner() {
-        return null;
-    }
-
     public List<Card> getCards() {
         return this.cards;
     }
 
-
+    public int getScore() {
+        ScoreVisitor scoreVisitor = new ScoreVisitor(this);
+        scoreVisitor.compute();
+        return scoreVisitor.getScore();
+    }
 }

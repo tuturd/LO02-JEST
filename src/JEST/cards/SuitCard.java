@@ -1,22 +1,35 @@
 package JEST.cards;
 
-import java.io.Serializable;
+import JEST.cards.trophy.Trophy;
 
-public class SuitCard implements Card, Serializable {
+public class SuitCard extends Card {
+
     private final Suit suit;
-    private final int faceValue;
+    private int faceValue;
 
-    public SuitCard(Suit suit1, int faceValue1) {
-        this.suit = suit1;
-        this.faceValue = faceValue1;
+    public SuitCard(Suit suit, int faceValue, Trophy trophy) {
+        super(trophy);
+        this.suit = suit;
+        this.faceValue = faceValue;
     }
 
-    public int getFaceValue() { return faceValue; }
-    public Suit getSuit() { return suit; }
-    public void accept(CardVisitor visitor) { visitor.visit(this); }
+    @Override
+    public int getFaceValue() {
+        return faceValue;
+    }
 
-    public String toString() {
-        return suit.toString() + " " + faceValue;
+    @Override
+    public Suit getSuit() {
+        return suit;
+    }
+
+    @Override
+    public void accept(CardVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    public void transformToFive() {
+        this.faceValue = 5;
     }
 }
 

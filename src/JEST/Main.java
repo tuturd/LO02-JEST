@@ -33,8 +33,6 @@ public class Main {
 
             if (nom.equals("1")) {
                 game.setup();
-                game.save();
-                game.load();
                 break;
             } else if (nom.equals("2")) {
                 game.load();
