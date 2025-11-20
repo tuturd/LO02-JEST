@@ -15,11 +15,11 @@ public class Jest implements Serializable {
     }
 
     public void addCard(Card card) {
-        cards.add(card);
+        this.cards.add(card);
     }
 
     public List<Card> getCards() {
-        return cards;
+        return this.cards;
     }
 
     public int getScore() {

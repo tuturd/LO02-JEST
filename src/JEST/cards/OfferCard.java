@@ -12,10 +12,10 @@ public class OfferCard implements Serializable {
     }
 
     public Card getCard() {
-        return card;
+        return this.card;
     }
 
     public boolean isUpside() {
-        return upside;
+        return this.upside;
     }
 }
