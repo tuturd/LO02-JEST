@@ -2,8 +2,6 @@ package JEST.cards;
 
 import JEST.cards.trophy.Trophy;
 
-import java.io.Serializable;
-
 public class SuitCard extends Card {
 
     private final Suit suit;

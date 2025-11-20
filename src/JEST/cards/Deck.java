@@ -54,8 +54,18 @@ public class Deck implements Serializable {
         this.cards = new LinkedList<>(cardsList);
     }
 
-    public Card deal(int numCards) {
+    public Card deal() {
         return this.cards.poll();
+    }
+
+    public List<Card> deal(int numCards) {
+        List<Card> cards = new ArrayList<>(numCards);
+
+        for (int i = 0; i < numCards; i++) {
+            cards.add(this.cards.poll());
+        }
+
+        return cards;
     }
 
     public boolean isEmpty() {

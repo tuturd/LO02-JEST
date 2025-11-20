@@ -22,5 +22,9 @@ public class Jest implements Serializable {
         return cards;
     }
 
-
+    public int getScore() {
+        ScoreVisitor scoreVisitor = new ScoreVisitor(this);
+        scoreVisitor.compute();
+        return scoreVisitor.getScore();
+    }
 }

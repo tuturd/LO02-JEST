@@ -65,11 +65,19 @@ public class Game implements Serializable { // à quoi sert Serializable ?
         this.generalDeck.fill();
         System.out.print("Deck > Mélange...\n");
         this.generalDeck.shuffle();
+        System.out.println("Trophies > Prendre les 2 premières...");
+        this.trophyCards.addAll(this.generalDeck.deal(2));
         System.out.print("Deck > OK\n");
     }
 
     public void playRound() {
         // phases : deal, offer, take
+        if (this.generalDeck.isEmpty() && this.restOfCards.isEmpty()) {
+            for (Player player: this.players) {
+                player.getJest().addCard(player.getCurrentOffer().takeCard());
+            }
+            determineWinner();
+        }
     }
 
     public void awardTrophies() {
@@ -86,10 +94,8 @@ public class Game implements Serializable { // à quoi sert Serializable ?
 
         List<PlayerScore> ranking = new ArrayList<>();
 
-        for (Player player : players) {
-            ScoreVisitor scoreVisitor= new ScoreVisitor(player.getJest());
-            scoreVisitor.compute();
-            ranking.add(new PlayerScore(player, scoreVisitor.getScore()));
+        for (Player player : this.players) {
+            ranking.add(new PlayerScore(player, player.getJest().getScore()));
         }
 
         ranking.sort((a, b) -> Integer.compare(b.score(), a.score()));
