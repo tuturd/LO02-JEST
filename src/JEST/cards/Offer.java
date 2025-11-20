@@ -7,21 +7,30 @@ public class Offer implements Serializable {
     private List<OfferCard> cards;
     private boolean complete;
 
-    public  Offer(OfferCard c1, OfferCard c2) {}
+    public  Offer(OfferCard c1, OfferCard c2) {
+    	this.cards.add(0, c1);
+    	this.cards.add(1, c2);
+    }
 
     public List<OfferCard> getCards() {
-        return cards;
+        return this.cards;
     }
 
     public Card takeCard(boolean chooseFaceUp) {
+        for (OfferCard offerCard : this.cards) {
+        	if (offerCard.isUpside() == chooseFaceUp) {
+        		this.cards.remove(offerCard);
+        		return offerCard.getCard();
+    		}
+        }
         return null;
     }
 
     public Card takeCard() {
-        return null;
+        return this.cards.get(0).getCard();
     }
 
     public boolean isComplete() {
-        return complete;
+        return this.complete;
     }
 }

@@ -12,12 +12,12 @@ public class Jest implements Serializable {
     private List<Trophy> trophies;
 
     public Jest() {
-        cards = new ArrayList<>();
-        trophies = new ArrayList<>();
+        this.cards = new ArrayList<>();
+        this.trophies = new ArrayList<>();
     }
 
     public void addCard(Card card) {
-        cards.add(card);
+        this.cards.add(card);
     }
 
     public Player getOwner() {
@@ -25,7 +25,7 @@ public class Jest implements Serializable {
     }
 
     public List<Card> getCards() {
-        return cards;
+        return this.cards;
     }
 
 
