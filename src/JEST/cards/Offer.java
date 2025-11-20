@@ -7,7 +7,7 @@ public class Offer implements Serializable {
     private List<OfferCard> cards;
     private boolean complete;
 
-    public  Offer(OfferCard c1, OfferCard c2) {
+    public Offer(OfferCard c1, OfferCard c2) {
     	this.cards.add(0, c1);
     	this.cards.add(1, c2);
     }
@@ -27,8 +27,16 @@ public class Offer implements Serializable {
     }
 
     public Card takeCard() {
-        return this.cards.get(0).getCard();
+        OfferCard offerCard = this.cards.get(0);
+        this.cards.remove(offerCard);
+        return offerCard.getCard();
     }
+
+    public OfferCard getFirstOfferCard() {
+        return this.cards.get(0);
+    }
+
+    public void addOfferCard(OfferCard offerCard) { this.cards.add(offerCard); }
 
     public boolean isComplete() {
         return this.complete;

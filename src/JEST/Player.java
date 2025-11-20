@@ -1,9 +1,6 @@
 package JEST;
 
-import JEST.cards.Card;
-import JEST.cards.Jest;
-import JEST.cards.Offer;
-import JEST.cards.OfferCard;
+import JEST.cards.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -38,7 +35,9 @@ public class Player implements Serializable {
 		players.get(n).currentOffer.takeCard(faceUp);
     }
 
-    public void drawCard() {}
+    public void drawCard(Deck deck) {
+        this.currentOffer.addOfferCard(new OfferCard(deck.deal(), !this.currentOffer.getFirstOfferCard().isUpside()));
+    }
 
     public Jest getJest() {
     	return this.jest;
