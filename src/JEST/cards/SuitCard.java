@@ -15,12 +15,12 @@ public class SuitCard extends Card {
 
     @Override
     public int getFaceValue() {
-        return faceValue;
+        return this.faceValue;
     }
 
     @Override
     public Suit getSuit() {
-        return suit;
+        return this.suit;
     }
 
     @Override

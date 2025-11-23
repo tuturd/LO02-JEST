@@ -1,9 +1,11 @@
 package JEST.virtualPlayer;
 
+import JEST.Player;
 import JEST.cards.Card;
 import JEST.cards.Offer;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Random;
 
 public class RandomStrategy implements Strategy, Serializable {
@@ -13,5 +15,5 @@ public class RandomStrategy implements Strategy, Serializable {
     }
 
     @Override
-    public void chooseOffer(Offer offer) {}
+    public void chooseOffer(List<Player> players) {}
 }

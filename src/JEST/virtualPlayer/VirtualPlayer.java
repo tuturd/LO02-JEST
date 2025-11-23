@@ -6,6 +6,7 @@ import JEST.cards.Deck;
 import JEST.cards.Offer;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class VirtualPlayer extends Player implements Serializable {
     private Strategy strategy;
@@ -16,10 +17,10 @@ public class VirtualPlayer extends Player implements Serializable {
     }
 
     public void makeOffer(Card c1, Card c2) {
-        strategy.makeOffer(c1, c2);
+        this.strategy.makeOffer(c1, c2);
     }
 
-    public void chooseOffer(Offer offer) {
-        strategy.chooseOffer(offer);
+    public void chooseOffer(List<Player> players) {
+        this.strategy.chooseOffer(players);
     }
 }

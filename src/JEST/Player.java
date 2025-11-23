@@ -12,8 +12,8 @@ import java.util.Scanner;
 public class Player implements Serializable {
     private final String firstName;
     private final String lastName;
-    private Jest jest;
-    private Offer currentOffer;
+    protected Jest jest;
+    protected Offer currentOffer;
 
     public Player(String firstName, String lastName) {
         this.firstName = firstName;
