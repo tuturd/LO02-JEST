@@ -4,14 +4,13 @@ package JEST;
 import JEST.cards.Card;
 import JEST.cards.Deck;
 import JEST.cards.DeckType;
-import JEST.cards.ScoreVisitor;
 
 import java.io.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Game implements Serializable { // à quoi sert Serializable ?
+public class Game implements Serializable {
     private static Game instance;
     private List<Player> players;
     private Deck generalDeck;
@@ -72,6 +71,8 @@ public class Game implements Serializable { // à quoi sert Serializable ?
 
     public void playRound() {
         // phases : deal, offer, take
+
+        // end of the game: taking last card & counting points
         if (this.generalDeck.isEmpty() && this.restOfCards.isEmpty()) {
             for (Player player: this.players) {
                 player.getJest().addCard(player.getCurrentOffer().takeCard());
@@ -80,16 +81,16 @@ public class Game implements Serializable { // à quoi sert Serializable ?
         }
     }
 
-    public void awardTrophies() {
+    private void awardTrophies() {
         for (Card trophyCard : this.trophyCards) {
             trophyCard.getTrophy().getWinner(this.players).getJest().addCard(trophyCard);
             this.trophyCards.remove(trophyCard);
         }
     }
 
-    public record PlayerScore(Player player, int score) {}
+    private record PlayerScore(Player player, int score) {}
 
-    public void determineWinner() {
+    private void determineWinner() {
         this.awardTrophies();
 
         List<PlayerScore> ranking = new ArrayList<>();
