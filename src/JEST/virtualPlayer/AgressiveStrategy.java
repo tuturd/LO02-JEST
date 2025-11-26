@@ -15,16 +15,16 @@ import java.util.Random;
 public class AgressiveStrategy implements Strategy, Serializable {
 
 	public void makeOffer(VirtualPlayer player, Card c1, Card c2) {
-		
+
 	}
-	
+
 	private int computeAdvantageOnMakingOffer(Card c, long heartCount) {
 		return 0;
 	}
-	
-	
-	
-	
+
+
+
+
 	@Override
     public void chooseOffer(VirtualPlayer player, List<Player> players) {
 		List<Offer> listOtherOffers = new ArrayList<>();
@@ -34,26 +34,31 @@ public class AgressiveStrategy implements Strategy, Serializable {
                 listOtherOffers.add(p.getCurrentOffer());
             }
         }
+
+		for (Player p : players) {
+			listOtherOffers.add(p.getCurrentOffer());
+		}
+
 	}
-	
+
 	private int computeAdvantageOnTakingCard(Card c, long heartCount) {
 		return 0;
 	}
-	
+
 	private Card getBestCard(List<Offer> options, long heartcount) {
 		return null;
 	}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
+
+
+
+
+
 		/*boolean testJestJoker = player.getJest().getCards().stream().anyMatch(card -> card.getSuit() == Suit.JOKER);
 		boolean testJestHeart = player.getJest().getCards().stream().anyMatch(card -> card.getSuit() == Suit.HEART);
 		if (testJestJoker) { // if the player has a Joker in his Jest

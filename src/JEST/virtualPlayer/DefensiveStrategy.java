@@ -14,8 +14,8 @@ import java.util.Random;
 public class DefensiveStrategy implements Strategy, Serializable {
     @Override
     public void makeOffer(VirtualPlayer player, Card c1, Card c2) {
-        int riskCard1 = this.computeRiskOnMakingOffer(c1);
-        int riskCard2 = this.computeRiskOnMakingOffer(c2);
+        int riskCard1 = this.computeRiskOnMakingOffer(player, c1);
+        int riskCard2 = this.computeRiskOnMakingOffer(player, c2);
 
         Card upsideCard;
         Card downsideCard;
@@ -36,16 +36,29 @@ public class DefensiveStrategy implements Strategy, Serializable {
         );
     }
     
-    private int computeRiskOnMakingOffer(Card c) {
-        return switch (c.getSuit()) {
-            case SPADE, CLUB -> c.getFaceValue();
+    private int computeRiskOnMakingOffer(VirtualPlayer player, Card c) {
+    	long heartCount = player.getJest().getCards().stream().filter(card -> card.getSuit() == Suit.HEART).count();
+    	boolean testJestJoker = player.getJest().getCards().stream().anyMatch(card -> card.getSuit() == Suit.JOKER);
+    	switch (c.getSuit()) {
+            case SPADE, CLUB:
+            	return c.getFaceValue();
 
-            case DIAMOND -> -c.getFaceValue();
+            case DIAMOND:
+            	return -c.getFaceValue();
 
-            case HEART -> 1;
+            case HEART:
+            	if (testJestJoker && heartCount == 3) return 10;
+                if (!testJestJoker) return 0;
+                if (testJestJoker && heartCount < 3) return -c.getFaceValue();
+                return c.getFaceValue();
 
-            case JOKER -> 5;
-        };
+            case JOKER:
+            	if (heartCount == 0) return 5;
+                if (heartCount > 0) return -10;
+            	
+            default:
+                return 0;
+        }
     }
 
     
