@@ -46,6 +46,9 @@ public class Player implements Serializable {
     public Offer getCurrentOffer() {
     	return this.currentOffer; 
     }
+    public void setCurrentOffer(Offer currentOffer) {
+        this.currentOffer = currentOffer;
+    }
 
     @Override
     public String toString() { return String.format("%s %s", firstName, lastName); }
