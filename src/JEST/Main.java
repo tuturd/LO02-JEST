@@ -17,10 +17,6 @@ public class Main {
         return instance;
     }
 
-    public Game getGame() {
-        return game;
-    }
-
     public static void main(String[] args) {
         Main main = Main.getInstance();
         Game game = main.getGame();
@@ -50,5 +46,9 @@ public class Main {
                 }
             }
         }
+    }
+
+    public Game getGame() {
+        return game;
     }
 }
