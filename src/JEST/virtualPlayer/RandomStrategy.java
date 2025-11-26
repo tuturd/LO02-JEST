@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class RandomStrategy implements Strategy, Serializable {
     @Override
-    public void makeOffer(Player player, Card c1, Card c2) {
+    public void makeOffer(VirtualPlayer player, Card c1, Card c2) {
         Card upsideCard = new Random().nextBoolean() ? c1 : c2;
         Card downsideCard = upsideCard == c2 ? c1 : c2;
 
@@ -26,7 +26,7 @@ public class RandomStrategy implements Strategy, Serializable {
     }
 
     @Override
-    public void chooseOffer(Player player, List<Player> players) {
+    public void chooseOffer(VirtualPlayer player, List<Player> players) {
         List<Offer> listOtherOffers = new ArrayList<>();
         for (Player p : players) {
             listOtherOffers.add(p.getCurrentOffer());

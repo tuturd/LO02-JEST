@@ -14,15 +14,45 @@ import java.util.Random;
 
 public class AgressiveStrategy implements Strategy, Serializable {
 
-	public void makeOffer(Player player, Card c1, Card c2) {}
-
+	public void makeOffer(VirtualPlayer player, Card c1, Card c2) {
+		
+	}
+	
+	private int computeAdvantageOnMakingOffer(Card c, long heartCount) {
+		return 0;
+	}
+	
+	
+	
+	
 	@Override
-    public void chooseOffer(Player player, List<Player> players) {
+    public void chooseOffer(VirtualPlayer player, List<Player> players) {
 		List<Offer> listOtherOffers = new ArrayList<>();
+		long heartCount = player.getJest().getCards().stream().filter(c -> c.getSuit() == Suit.HEART).count();
 		for (Player p : players) {
 			listOtherOffers.add(p.getCurrentOffer());
 		}
-		boolean testJestJoker = player.getJest().getCards().stream().anyMatch(card -> card.getSuit() == Suit.JOKER);
+	}
+	
+	private int computeAdvantageOnTakingCard(Card c, long heartCount) {
+		return 0;
+	}
+	
+	private Card getBestCard(List<Offer> options, long heartcount) {
+		return null;
+	}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*boolean testJestJoker = player.getJest().getCards().stream().anyMatch(card -> card.getSuit() == Suit.JOKER);
 		boolean testJestHeart = player.getJest().getCards().stream().anyMatch(card -> card.getSuit() == Suit.HEART);
 		if (testJestJoker) { // if the player has a Joker in his Jest
 			if (testJestHeart) { // and if he has at least one Heart in his Jest
@@ -45,6 +75,5 @@ public class AgressiveStrategy implements Strategy, Serializable {
 					}
 				}
 			}
-		}
-	}
+		}*/
 }
