@@ -33,12 +33,21 @@ public class Main {
 
             if (nom.equals("1")) {
                 game.setup();
-                break;
             } else if (nom.equals("2")) {
                 game.load();
                 break;
             } else {
                 System.out.println("Entrée invalide. Veuillez entrer 1 ou 2.");
+            }
+
+            boolean gameIsEnded = false;
+            boolean gameIsSaved = false;
+            while (!gameIsEnded && !gameIsSaved) {
+                game.playRound();
+                gameIsEnded = game.endGameIfNecessary();
+                if (!gameIsEnded) {
+                    gameIsSaved = game.suggestSaving();
+                }
             }
         }
     }

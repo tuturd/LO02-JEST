@@ -71,14 +71,17 @@ public class Game implements Serializable {
 
     public void playRound() {
         // phases : deal, offer, take
+    }
 
-        // end of the game: taking last card & counting points
+    public boolean endGameIfNecessary() {
         if (this.generalDeck.isEmpty() && this.restOfCards.isEmpty()) {
             for (Player player: this.players) {
                 player.getJest().addCard(player.getCurrentOffer().takeCard());
             }
             determineWinner();
+            return true;
         }
+        return false;
     }
 
     private void awardTrophies() {
@@ -117,7 +120,18 @@ public class Game implements Serializable {
         return !name.isEmpty() && name.matches("^[A-Za-z0-9]+$");
     }
 
-    public void save() {
+    public boolean suggestSaving() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Souhaitez-vous passer au tour suivant (1) ou sauvegarder la partie (2) : ");
+        int option = Integer.parseInt(scanner.nextLine());
+        if (option == 2) {
+            this.save();
+            return true;
+        }
+        return false;
+    }
+
+    private void save() {
 
         File savesDir = new File("saves");
         if (!savesDir.exists()) {
