@@ -1,6 +1,7 @@
 package JEST.cards;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Offer implements Serializable {
@@ -8,8 +9,9 @@ public class Offer implements Serializable {
     private boolean complete;
 
     public Offer(OfferCard c1, OfferCard c2) {
+        this.cards = new ArrayList<OfferCard>();
     	this.cards.add(0, c1);
-    	this.cards.add(1, c2);
+        this.cards.add(1, c2);
     }
 
     public List<OfferCard> getCards() {
@@ -18,10 +20,10 @@ public class Offer implements Serializable {
 
     public Card takeCard(boolean chooseFaceUp) {
         for (OfferCard offerCard : this.cards) {
-        	if (offerCard.isUpside() == chooseFaceUp) {
-        		this.cards.remove(offerCard);
-        		return offerCard.getCard();
-    		}
+            if (offerCard.isUpside() == chooseFaceUp) {
+                this.cards.remove(offerCard);
+                return offerCard.getCard();
+            }
         }
         return null;
     }

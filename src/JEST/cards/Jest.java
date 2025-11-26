@@ -11,7 +11,7 @@ public class Jest implements Serializable {
     private List<Card> cards;
 
     public Jest() {
-        cards = new ArrayList<>();
+        this.cards = new ArrayList<>();
     }
 
     public void addCard(Card card) {
