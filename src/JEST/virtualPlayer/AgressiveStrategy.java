@@ -29,9 +29,11 @@ public class AgressiveStrategy implements Strategy, Serializable {
     public void chooseOffer(VirtualPlayer player, List<Player> players) {
 		List<Offer> listOtherOffers = new ArrayList<>();
 		long heartCount = player.getJest().getCards().stream().filter(c -> c.getSuit() == Suit.HEART).count();
-		for (Player p : players) {
-			listOtherOffers.add(p.getCurrentOffer());
-		}
+        for (Player p : players) {
+            if (p.getCurrentOffer().isComplete()) {
+                listOtherOffers.add(p.getCurrentOffer());
+            }
+        }
 	}
 	
 	private int computeAdvantageOnTakingCard(Card c, long heartCount) {

@@ -68,6 +68,10 @@ public class Deck implements Serializable {
         return cards;
     }
 
+    public void add(Card card) {
+        this.cards.add(card);
+    }
+
     public boolean isEmpty() {
         return this.cards.isEmpty();
     }

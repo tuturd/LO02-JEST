@@ -70,7 +70,26 @@ public class Game implements Serializable {
     }
 
     public void playRound() {
-        // phases : deal, offer, take
+        // deal & make offer
+        for (Player player : this.players) {
+            List<Card> cards;
+            if (this.restOfCards.isEmpty()) { // first round
+                cards = this.generalDeck.deal(2);
+            } else { // other rounds
+                cards = this.restOfCards.deal(2);
+            }
+            player.makeOffer(cards.get(0), cards.get(1));
+        }
+
+        // take
+        for (Player player: this.players) {
+            player.chooseOffer(this.players);
+        }
+
+        // re-fill
+        while (!this.generalDeck.isEmpty()) {
+            this.restOfCards.add(this.generalDeck.deal());
+        }
     }
 
     public boolean endGameIfNecessary() {
@@ -91,9 +110,7 @@ public class Game implements Serializable {
         }
     }
 
-    private record PlayerScore(Player player, int score) {}
-
-    private void determineWinner() {
+    void determineWinner() {
         this.awardTrophies();
 
         List<PlayerScore> ranking = new ArrayList<>();
@@ -104,6 +121,10 @@ public class Game implements Serializable {
 
         ranking.sort((a, b) -> Integer.compare(b.score(), a.score()));
     }
+
+    private record PlayerScore(Player player, int score) {}
+
+
 
     public Deck getGeneralDeck() {
         return this.generalDeck;

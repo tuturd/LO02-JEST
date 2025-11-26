@@ -52,6 +52,6 @@ public class Offer implements Serializable {
     }
 
     public boolean isComplete() {
-        return this.complete;
+        return this.cards.size() == 2;
     }
 }
