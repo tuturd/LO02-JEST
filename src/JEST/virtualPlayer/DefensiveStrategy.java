@@ -47,14 +47,13 @@ public class DefensiveStrategy implements Strategy, Serializable {
             	return -c.getFaceValue();
 
             case HEART:
-            	if (testJestJoker && heartCount == 3) return 10;
-                if (!testJestJoker) return 0;
-                if (testJestJoker && heartCount < 3) return -c.getFaceValue();
-                return c.getFaceValue();
+            	if (!testJestJoker) return 0;
+            	if (heartCount == 3) return 10;
+                if (heartCount < 3) return -c.getFaceValue();
 
             case JOKER:
-            	if (heartCount == 0) return 5;
-                if (heartCount > 0) return -10;
+            	if (heartCount == 0 || heartCount == 4) return 5;
+                return -10;
             	
             default:
                 return 0;
@@ -84,14 +83,13 @@ public class DefensiveStrategy implements Strategy, Serializable {
                 return c.getFaceValue();
 
             case HEART:
-            	if (testJestJoker && heartCount == 3) return -10;
-                if (!testJestJoker) return 0;
-                if (testJestJoker && heartCount < 3) return c.getFaceValue();
-                return -c.getFaceValue();
+            	if (!testJestJoker) return 0;
+            	if (heartCount == 3) return -10;
+                if (heartCount < 3) return c.getFaceValue();
 
             case JOKER:
-                if (heartCount == 0) return -5;
-                if (heartCount > 0) return 10;
+                if (heartCount == 0 || heartCount == 4) return -5;
+                return 10;
 
             default:
                 return 0;
