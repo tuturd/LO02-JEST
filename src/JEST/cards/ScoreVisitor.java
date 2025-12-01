@@ -39,7 +39,7 @@ public class ScoreVisitor implements CardVisitor, Serializable {
     public void visit(JokerCard joker) {
         List<Card> heartCards = cards.stream()
                 .filter(card -> card.getSuit() == Suit.HEART)
-                .toList();
+                .collect(Collectors.toList());
 
         int size = heartCards.size();
 

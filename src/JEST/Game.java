@@ -110,7 +110,7 @@ public class Game implements Serializable {
         }
     }
 
-    void determineWinner() {
+    public void determineWinner() {
         this.awardTrophies();
 
         List<PlayerScore> ranking = new ArrayList<>();
