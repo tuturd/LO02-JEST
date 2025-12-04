@@ -1,4 +1,3 @@
-// src/Game.java
 package JEST;
 
 import JEST.cards.Card;
@@ -9,28 +8,37 @@ import java.io.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+/**
+ * The class starts a game, load or save one, play a round, and determines the winner.
+ */
 public class Game implements Serializable {
     private static Game instance;
     private List<Player> players;
     private Deck generalDeck;
     private Deck restOfCards;
     private List<Card> trophyCards;
-
+    
     private Game() {
         this.players = new  ArrayList<>();
         this.generalDeck = Deck.getInstance(DeckType.GENERAL);
         this.restOfCards = Deck.getInstance(DeckType.REST_OF_CARDS);
         this.trophyCards = new ArrayList<>();
     }
-
+    
+    /**
+     * We use the Singleton design pattern, to guarantee that there is only one instance of this class.
+     * @return The only instance of the class.
+     */
     public static Game getInstance() {
         if (instance == null) {
             instance = new Game();
         }
         return instance;
     }
-
+    
+    /**
+     * Prepares the beginning of the game : creates the players, fills the deck, etc.
+     */
     public void setup() {
 
         Scanner scanner = new Scanner(System.in);
@@ -69,6 +77,9 @@ public class Game implements Serializable {
         System.out.print("Deck > OK\n");
     }
 
+    /**
+     * Plays a round in 3 phases, like in the rules : deal cards, make offers, and take cards.
+     */
     public void playRound() {
         // deal & make offer
         for (Player player : this.players) {
@@ -92,6 +103,10 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * If the decks (the general and restOfCards) are empty, we determine the winner. If it is not the case, the game continues.
+     * @return True if the game is over.
+     */
     public boolean endGameIfNecessary() {
         if (this.generalDeck.isEmpty() && this.restOfCards.isEmpty()) {
             for (Player player: this.players) {
@@ -102,15 +117,21 @@ public class Game implements Serializable {
         }
         return false;
     }
-
+    
+    /**
+     * Awards trophies to good players.
+     */
     private void awardTrophies() {
         for (Card trophyCard : this.trophyCards) {
             trophyCard.getTrophy().getWinner(this.players).getJest().addCard(trophyCard);
             this.trophyCards.remove(trophyCard);
         }
     }
-
-    public void determineWinner() {
+    
+    /**
+     * Determines the winner, comparing the scores of the players.
+     */
+    private void determineWinner() {
         this.awardTrophies();
 
         List<PlayerScore> ranking = new ArrayList<>();
@@ -124,8 +145,7 @@ public class Game implements Serializable {
 
     private record PlayerScore(Player player, int score) {}
 
-
-
+    
     public Deck getGeneralDeck() {
         return this.generalDeck;
     }
@@ -134,13 +154,22 @@ public class Game implements Serializable {
         return this.restOfCards;
     }
 
+    /**
+     * Verifies if the file's name is valid.
+     * @param "name" is the file's name.
+     * @return true if the file's name is valid, or false if it is invalid.
+     */
     private static boolean isValidFilename(String name) {
         if (name == null) return false;
         name = name.trim();
         // \p{L} accepte toutes les lettres Unicode (lettres accentuées incluses)
         return !name.isEmpty() && name.matches("^[A-Za-z0-9]+$");
     }
-
+    
+    /**
+     * Suggests to the player if he wants to save his game ("1" to continue, "2" to save).
+     * @return True if the game is saved or false if the game is not saved.
+     */
     public boolean suggestSaving() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Souhaitez-vous passer au tour suivant (1) ou sauvegarder la partie (2) : ");
@@ -151,7 +180,10 @@ public class Game implements Serializable {
         }
         return false;
     }
-
+    
+    /**
+     * Saves the game.
+     */
     private void save() {
 
         File savesDir = new File("saves");
@@ -186,7 +218,10 @@ public class Game implements Serializable {
         }
 
     }
-
+    
+    /**
+     * Loads the game.
+     */
     public void load() {
         System.out.println("Chargement de la partie > En cours...");
 
