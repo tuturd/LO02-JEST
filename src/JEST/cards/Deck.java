@@ -11,19 +11,29 @@ import java.util.Queue;
 import java.util.LinkedList;
 import java.util.Map;
 
+/**
+ * This class defines the decks : we can shuffle it, fill it...
+ */
 public class Deck implements Serializable {
     private Queue<Card> cards;
-    
     private static final Map<DeckType, Deck> instances = new HashMap<>();
     
     private Deck() {
         this.cards = new LinkedList<>();
     }
     
-    public static synchronized Deck getInstance(DeckType type) {
+    /**
+     * Permits to have 2 instances maximum : the general and the restOfCards.
+     * @param type : type of the deck (general or restOfCards).
+     * @return the deck created.
+     */
+    public static Deck getInstance(DeckType type) {
         return instances.computeIfAbsent(type, t -> new Deck());
     }
-
+    
+    /**
+     * Fill the general deck with all the cards of the game. We precise the type of the card (suit or joker), his suit, his value, and the trophy associated to the card.
+     */
     public void fill() {
         try {
             this.cards.add(new JokerCard(new BestJestTrophy()));
@@ -47,17 +57,29 @@ public class Deck implements Serializable {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * Shuffle the deck.
+     */
     public void shuffle() {
         List<Card> cardsList = new ArrayList<>(this.cards);
         Collections.shuffle(cardsList);
         this.cards = new LinkedList<>(cardsList);
     }
-
+    
+    /**
+     * We deal a card and return it.
+     * @return the card dealt.
+     */
     public Card deal() {
         return this.cards.poll();
     }
-
+    
+    /**
+     * Deal the number of cards asked.
+     * @param numCards : the number of cards who have to be dealt.
+     * @return the list of the cards dealt.
+     */
     public List<Card> deal(int numCards) {
         List<Card> cards = new ArrayList<>(numCards);
 
@@ -67,7 +89,7 @@ public class Deck implements Serializable {
 
         return cards;
     }
-
+    
     public void add(Card card) {
         this.cards.add(card);
     }
