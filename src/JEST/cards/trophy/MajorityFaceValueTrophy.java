@@ -3,11 +3,12 @@ package JEST.cards.trophy;
 import JEST.Player;
 import JEST.cards.Card;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MajorityFaceValueTrophy implements Trophy {
+public class MajorityFaceValueTrophy implements Trophy, Serializable {
 
     private final int faceValue;
 

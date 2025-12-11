@@ -26,12 +26,12 @@ public class Main {
         while (true) {
             System.out.print("Voulez-vous commencer une nouvelle partie (1) ou charger une partie existante (2) : ");
             String nom = scanner.nextLine();
+            System.out.println();
 
             if (nom.equals("1")) {
                 game.setup();
             } else if (nom.equals("2")) {
                 game.load();
-                break;
             } else {
                 System.out.println("Entrée invalide. Veuillez entrer 1 ou 2.");
             }

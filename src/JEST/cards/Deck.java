@@ -75,12 +75,20 @@ public class Deck implements Serializable {
     public boolean isEmpty() {
         return this.cards.isEmpty();
     }
-    
+
+    @Override
     public String toString() {
-        System.out.println(this.cards.size());
+        StringBuilder sb = new StringBuilder();
+
+        // Ajouter le nombre de cartes
+        sb.append("Nombre de cartes : ").append(this.cards.size()).append("\n");
+
+        // Ajouter chaque carte
         for (Card card : this.cards) {
-            System.out.println(card);
+            sb.append(card).append("\n");
         }
-        return null;
+
+        return sb.toString();
     }
+
 }

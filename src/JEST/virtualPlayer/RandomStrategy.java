@@ -26,14 +26,29 @@ public class RandomStrategy implements Strategy, Serializable {
     }
 
     @Override
-    public void chooseOffer(VirtualPlayer player, List<Player> players) {
-        List<Offer> listOtherOffers = new ArrayList<>();
+    public Player chooseOffer(VirtualPlayer player, List<Player> players) {
+        List<Player> listOtherOfferPlayers = new ArrayList<>();
         for (Player p : players) {
-            listOtherOffers.add(p.getCurrentOffer());
+            if (p.getCurrentOffer().isComplete()) {
+                listOtherOfferPlayers.add(p);
+            }
         }
         Random randOffer = new Random();
-        Offer offer = listOtherOffers.get(randOffer.nextInt(listOtherOffers.size()));
+        Offer offer = listOtherOfferPlayers.get(randOffer.nextInt(listOtherOfferPlayers.size())).getCurrentOffer();
         boolean b = new Random().nextBoolean();
-        player.getJest().addCard(offer.takeCard(b));
+
+        Card selectedCard = offer.takeCard(b);
+        player.getJest().addCard(selectedCard);
+
+        return listOtherOfferPlayers.stream()
+                .filter(p -> p.getCurrentOffer().getCards().stream()
+                        .anyMatch(oc -> oc.getCard().equals(selectedCard)))
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
+    public String toString() {
+        return "Random";
     }
 }

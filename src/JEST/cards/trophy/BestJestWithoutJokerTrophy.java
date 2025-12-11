@@ -4,9 +4,10 @@ import JEST.Player;
 import JEST.cards.Card;
 import JEST.cards.JokerCard;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class BestJestWithoutJokerTrophy implements Trophy {
+public class BestJestWithoutJokerTrophy implements Trophy, Serializable {
 
     @Override
     public Player getWinner(List<Player> players) {

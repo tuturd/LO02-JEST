@@ -4,9 +4,10 @@ import JEST.Player;
 import JEST.cards.Card;
 import JEST.cards.Suit;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class LowestInSuitTrophy implements Trophy {
+public class LowestInSuitTrophy implements Trophy, Serializable {
     private final Suit suit;
 
     public LowestInSuitTrophy(Suit suit) {

@@ -10,5 +10,6 @@ import JEST.cards.Offer;
 
 public interface Strategy {
     void makeOffer(VirtualPlayer player, Card c1, Card c2);
-	void chooseOffer(VirtualPlayer player, List<Player> players);
+	Player chooseOffer(VirtualPlayer player, List<Player> players);
+    String toString();
 }

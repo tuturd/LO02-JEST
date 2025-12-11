@@ -3,11 +3,15 @@ package JEST;
 import JEST.cards.Card;
 import JEST.cards.Deck;
 import JEST.cards.DeckType;
+import JEST.virtualPlayer.AgressiveStrategy;
+import JEST.virtualPlayer.DefensiveStrategy;
+import JEST.virtualPlayer.RandomStrategy;
+import JEST.virtualPlayer.VirtualPlayer;
 
 import java.io.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
+
 /**
  * The class starts a game, load or save one, play a round, and determines the winner.
  */
@@ -17,16 +21,17 @@ public class Game implements Serializable {
     private Deck generalDeck;
     private Deck restOfCards;
     private List<Card> trophyCards;
-    
+
     private Game() {
-        this.players = new  ArrayList<>();
+        this.players = new ArrayList<>();
         this.generalDeck = Deck.getInstance(DeckType.GENERAL);
         this.restOfCards = Deck.getInstance(DeckType.REST_OF_CARDS);
         this.trophyCards = new ArrayList<>();
     }
-    
+
     /**
      * We use the Singleton design pattern, to guarantee that there is only one instance of this class.
+     *
      * @return The only instance of the class.
      */
     public static Game getInstance() {
@@ -35,7 +40,20 @@ public class Game implements Serializable {
         }
         return instance;
     }
-    
+
+    /**
+     * Verifies if the file's name is valid.
+     *
+     * @param "name" is the file's name.
+     * @return true if the file's name is valid, or false if it is invalid.
+     */
+    private static boolean isValidFilename(String name) {
+        if (name == null) return false;
+        name = name.trim();
+        // \p{L} accepte toutes les lettres Unicode (lettres accentuées incluses)
+        return !name.isEmpty() && name.matches("^[A-Za-z0-9]+$");
+    }
+
     /**
      * Prepares the beginning of the game : creates the players, fills the deck, etc.
      */
@@ -60,12 +78,34 @@ public class Game implements Serializable {
         }
 
         for (int i = 0; i < playerNumber; i++) {
-            System.out.printf("Prénom du joueur %d : ", i+1);
+            System.out.printf("Le joueur %d est-il un joueur virtuel ? (o/n) : ", i + 1);
+            String isVirtual = scanner.nextLine().trim().toLowerCase();
+
+            System.out.printf("Prénom du joueur %d : ", i + 1);
             String firstName = scanner.nextLine();
-            System.out.printf("Nom du joueur %d : ", i+1);
+            System.out.printf("Nom du joueur %d : ", i + 1);
             String lastName = scanner.nextLine();
+
+            if (isVirtual.equals("o")) {
+                System.out.printf("Quelle stratégie pour le joueur virtuel %d ? (1: Aléatoire, 2: Défensive, 3: Agressive) : ", i + 1);
+                String strategyChoice = scanner.nextLine().trim();
+                switch (strategyChoice) {
+                    case "1" -> this.players.add(new VirtualPlayer(firstName, lastName, new RandomStrategy()));
+                    case "2" -> this.players.add(new VirtualPlayer(firstName, lastName, new DefensiveStrategy()));
+                    case "3" -> this.players.add(new VirtualPlayer(firstName, lastName, new AgressiveStrategy()));
+                    default -> {
+                        System.out.println("Choix invalide, stratégie aléatoire par défaut.");
+                        this.players.add(new VirtualPlayer(firstName, lastName, new RandomStrategy()));
+                    }
+                }
+
+                System.out.printf(">>> Joueur virtuel n°%d créé\n", i + 1);
+                continue;
+            }
+
+
             this.players.add(new Player(firstName, lastName));
-            System.out.printf(">>> Joueur n°%d créé : %s %s\n", i+1, firstName, lastName);
+            System.out.printf(">>> Joueur n°%d créé : %s %s\n", i + 1, firstName, lastName);
         }
 
         System.out.print("Deck > Initialisation...\n");
@@ -84,17 +124,41 @@ public class Game implements Serializable {
         // deal & make offer
         for (Player player : this.players) {
             List<Card> cards;
-            if (this.restOfCards.isEmpty()) { // first round
-                cards = this.generalDeck.deal(2);
-            } else { // other rounds
-                cards = this.restOfCards.deal(2);
+            if (player.getCurrentOffer() == null) {
+                if (this.restOfCards.isEmpty()) { // first round
+                    cards = this.generalDeck.deal(2);
+                } else { // other rounds
+                    cards = this.restOfCards.deal(2);
+                }
+                player.makeOffer(cards.get(0), cards.get(1));
+            } else {
+                player.drawCard(this.restOfCards);
+                System.out.println(player + ", ajout de la carte manquante à votre offre.");
             }
-            player.makeOffer(cards.get(0), cards.get(1));
         }
 
         // take
-        for (Player player: this.players) {
-            player.chooseOffer(this.players);
+        Comparator<Player> playerComparator =
+                Comparator.comparingInt((Player p) -> {
+                    var card = p.getCurrentOffer().getCard(true);
+                    return card.getFaceValue();
+                }).thenComparing(p -> p.getCurrentOffer().getCard(true).getSuit());
+
+        LinkedList<Player> playersAwaitingChoice = this.players.stream()
+                .sorted(playerComparator)
+                .collect(Collectors.toCollection(LinkedList::new));
+
+        Player lastPlayerSelected = playersAwaitingChoice.removeFirst();
+
+        while (!playersAwaitingChoice.isEmpty()) {
+
+            Player selection = lastPlayerSelected.chooseOffer(this.players);
+
+            if (playersAwaitingChoice.remove(selection)) {
+                lastPlayerSelected = selection;
+            } else {
+                lastPlayerSelected = playersAwaitingChoice.removeFirst();
+            }
         }
 
         // re-fill
@@ -105,11 +169,12 @@ public class Game implements Serializable {
 
     /**
      * If the decks (the general and restOfCards) are empty, we determine the winner. If it is not the case, the game continues.
+     *
      * @return True if the game is over.
      */
     public boolean endGameIfNecessary() {
         if (this.generalDeck.isEmpty() && this.restOfCards.isEmpty()) {
-            for (Player player: this.players) {
+            for (Player player : this.players) {
                 player.getJest().addCard(player.getCurrentOffer().takeCard());
             }
             determineWinner();
@@ -117,7 +182,7 @@ public class Game implements Serializable {
         }
         return false;
     }
-    
+
     /**
      * Awards trophies to good players.
      */
@@ -127,7 +192,7 @@ public class Game implements Serializable {
             this.trophyCards.remove(trophyCard);
         }
     }
-    
+
     /**
      * Determines the winner, comparing the scores of the players.
      */
@@ -143,31 +208,17 @@ public class Game implements Serializable {
         ranking.sort((a, b) -> Integer.compare(b.score(), a.score()));
     }
 
-    private record PlayerScore(Player player, int score) {}
-
-    
     public Deck getGeneralDeck() {
         return this.generalDeck;
     }
-    
+
     public Deck getRestOfCards() {
         return this.restOfCards;
     }
 
     /**
-     * Verifies if the file's name is valid.
-     * @param "name" is the file's name.
-     * @return true if the file's name is valid, or false if it is invalid.
-     */
-    private static boolean isValidFilename(String name) {
-        if (name == null) return false;
-        name = name.trim();
-        // \p{L} accepte toutes les lettres Unicode (lettres accentuées incluses)
-        return !name.isEmpty() && name.matches("^[A-Za-z0-9]+$");
-    }
-    
-    /**
      * Suggests to the player if he wants to save his game ("1" to continue, "2" to save).
+     *
      * @return True if the game is saved or false if the game is not saved.
      */
     public boolean suggestSaving() {
@@ -180,7 +231,7 @@ public class Game implements Serializable {
         }
         return false;
     }
-    
+
     /**
      * Saves the game.
      */
@@ -190,7 +241,7 @@ public class Game implements Serializable {
         if (!savesDir.exists()) {
             savesDir.mkdirs();
         }
-        
+
         String filename = null;
         while (filename == null) {
             Scanner scanner = new Scanner(System.in);
@@ -218,7 +269,7 @@ public class Game implements Serializable {
         }
 
     }
-    
+
     /**
      * Loads the game.
      */
@@ -262,6 +313,15 @@ public class Game implements Serializable {
              ObjectInputStream ois = new ObjectInputStream(fis)) {
 
             Game loadedGame = (Game) ois.readObject();
+            System.out.println("--------------\nplayers:");
+            System.out.println(loadedGame.players);
+            System.out.println("--------------\ngeneralDeck:");
+            System.out.println(loadedGame.generalDeck);
+            System.out.println("--------------\nrestOfCards:");
+            System.out.println(loadedGame.restOfCards);
+            System.out.println("--------------\ntrophyCards:");
+            System.out.println(loadedGame.trophyCards);
+
             instance = loadedGame;
             this.players = loadedGame.players;
             this.generalDeck = loadedGame.generalDeck;
@@ -273,6 +333,8 @@ public class Game implements Serializable {
             e.printStackTrace();
             System.out.println("Chargement de la partie > ERROR");
         }
+    }
 
+    private record PlayerScore(Player player, int score) {
     }
 }

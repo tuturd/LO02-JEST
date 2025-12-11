@@ -3,6 +3,7 @@ package JEST;
 import JEST.cards.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,24 +16,56 @@ public class Player implements Serializable {
     public Player(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.jest = new Jest();
     }
 
     public void makeOffer(Card c1, Card c2) {
-        OfferCard offerCard1 = new OfferCard(c1, true);
-        OfferCard offerCard2 = new OfferCard(c2, false);
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.printf("\n%s %s, c'est votre tour de faire une offre.\n----------\n", this.firstName, this.lastName);
+        System.out.println("Vos cartes à disposition: ");
+        System.out.println("1: " + c1);
+        System.out.println("2: " + c2);
+        System.out.println("Quelle carte souhaitez-vous laisser visible ? ");
+        String upsideCardIndexString = scanner.nextLine();
+        int upsideCardIndex = Integer.parseInt(upsideCardIndexString);
+
+        OfferCard offerCard1 = new OfferCard(c1, upsideCardIndex == 1);
+        OfferCard offerCard2 = new OfferCard(c2, upsideCardIndex == 2);
         this.currentOffer = new Offer(offerCard1, offerCard2);
     }
 
-    public void chooseOffer(List<Player> players) {
-    	((Player) players).getCurrentOffer();
-    	System.out.println("Choisissez le joueur dont vous voulez récupérer une carte de l'offre");
-		int n;
-		Scanner sc=new Scanner(System.in);
-		n=sc.nextInt();
-		System.out.println("Carte montrée ou cachée");
-		boolean faceUp;
-		faceUp=sc.nextBoolean();
-		players.get(n).currentOffer.takeCard(faceUp);
+    public Player chooseOffer(List<Player> players) {
+        Scanner scanner = new Scanner(System.in);
+
+        List<Player> listOtherOfferPlayers = new ArrayList<>();
+        for (Player p : players) {
+            if (p.getCurrentOffer().isComplete() && p != this) {
+                listOtherOfferPlayers.add(p);
+            }
+        }
+        if (listOtherOfferPlayers.isEmpty()) {
+            listOtherOfferPlayers.add(this);
+        }
+
+        System.out.printf("\n%s %s, c'est votre tour de choisir une offre.\n----------\n", this.firstName, this.lastName);
+        System.out.println("Les cartes à disposition sont:");
+        int i = 0;
+        for (Offer offer : listOtherOfferPlayers.stream().map(Player::getCurrentOffer).toList()) {
+            System.out.printf("%d: %s et une carte cachée\n", i, offer.getCard(true));
+            i++;
+        }
+
+        System.out.println("Choisissez la ligne dont vous voulez récupérer une carte de l'offre: ");
+        int lineIndex = scanner.nextInt();
+        System.out.println("Carte montrée (1) ou cachée (2): ");
+        boolean faceUp = scanner.nextInt() == 1;
+
+        Player selectedPlayer = listOtherOfferPlayers.get(lineIndex);
+
+        this.jest.addCard(selectedPlayer.getCurrentOffer().takeCard(faceUp));
+
+        return selectedPlayer;
     }
 
     public void drawCard(Deck deck) {
@@ -40,16 +73,19 @@ public class Player implements Serializable {
     }
 
     public Jest getJest() {
-    	return this.jest;
+        return this.jest;
     }
-    
+
     public Offer getCurrentOffer() {
-    	return this.currentOffer; 
+        return this.currentOffer;
     }
+
     public void setCurrentOffer(Offer currentOffer) {
         this.currentOffer = currentOffer;
     }
 
     @Override
-    public String toString() { return String.format("%s %s", firstName, lastName); }
+    public String toString() {
+        return String.format("%s %s", firstName, lastName);
+    }
 }

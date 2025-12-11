@@ -3,9 +3,10 @@ package JEST.cards.trophy;
 import JEST.Player;
 import JEST.cards.Card;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class BestJestTrophy implements Trophy {
+public class BestJestTrophy implements Trophy, Serializable {
 
     @Override
     public Player getWinner(List<Player> players) {

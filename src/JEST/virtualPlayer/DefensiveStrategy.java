@@ -35,43 +35,50 @@ public class DefensiveStrategy implements Strategy, Serializable {
                 )
         );
     }
-    
+
     private int computeRiskOnMakingOffer(VirtualPlayer player, Card c) {
-    	long heartCount = player.getJest().getCards().stream().filter(card -> card.getSuit() == Suit.HEART).count();
-    	boolean testJestJoker = player.getJest().getCards().stream().anyMatch(card -> card.getSuit() == Suit.JOKER);
-    	switch (c.getSuit()) {
+        long heartCount = player.getJest().getCards().stream().filter(card -> card.getSuit() == Suit.HEART).count();
+        boolean testJestJoker = player.getJest().getCards().stream().anyMatch(card -> card.getSuit() == Suit.JOKER);
+        switch (c.getSuit()) {
             case SPADE, CLUB:
-            	return c.getFaceValue();
+                return c.getFaceValue();
 
             case DIAMOND:
-            	return -c.getFaceValue();
+                return -c.getFaceValue();
 
             case HEART:
-            	if (!testJestJoker) return 0;
-            	if (heartCount == 3) return 10;
+                if (!testJestJoker) return 0;
+                if (heartCount == 3) return 10;
                 if (heartCount < 3) return -c.getFaceValue();
 
             case JOKER:
-            	if (heartCount == 0 || heartCount == 4) return 5;
+                if (heartCount == 0 || heartCount == 4) return 5;
                 return -10;
-            	
+
             default:
                 return 0;
         }
     }
 
-    
+
     @Override
-    public void chooseOffer(VirtualPlayer player, List<Player> players) {
-        List<Offer> listOtherOffers = new ArrayList<>();
+    public Player chooseOffer(VirtualPlayer player, List<Player> players) {
+        List<Player> listOtherOfferPlayers = new ArrayList<>();
         long heartCount = player.getJest().getCards().stream().filter(c -> c.getSuit() == Suit.HEART).count();
         boolean testJestJoker = player.getJest().getCards().stream().anyMatch(card -> card.getSuit() == Suit.JOKER);
         for (Player p : players) {
-        	  if (p.getCurrentOffer().isComplete()) {
-        	    listOtherOffers.add(p.getCurrentOffer());
-        	  }
+            if (p.getCurrentOffer().isComplete()) {
+                listOtherOfferPlayers.add(p);
+            }
         }
-        player.getJest().addCard(this.getSafestCard(listOtherOffers, heartCount, testJestJoker));
+        Card safestCard = this.getSafestCard(listOtherOfferPlayers.stream().map(Player::getCurrentOffer).toList(), heartCount, testJestJoker);
+        player.getJest().addCard(safestCard);
+
+        return listOtherOfferPlayers.stream()
+                .filter(p -> p.getCurrentOffer().getCards().stream()
+                        .anyMatch(oc -> oc.getCard().equals(safestCard)))
+                .findFirst()
+                .orElse(null);
     }
 
     private int computeRiskOnTakingCard(Card c, long heartCount, boolean testJestJoker) { //the risk increases with the value returned
@@ -83,8 +90,8 @@ public class DefensiveStrategy implements Strategy, Serializable {
                 return c.getFaceValue();
 
             case HEART:
-            	if (!testJestJoker) return 0;
-            	if (heartCount == 3) return -10;
+                if (!testJestJoker) return 0;
+                if (heartCount == 3) return -10;
                 if (heartCount < 3) return c.getFaceValue();
 
             case JOKER:
@@ -110,5 +117,10 @@ public class DefensiveStrategy implements Strategy, Serializable {
         }
         assert safest != null;
         return safest.takeCard(true);
+    }
+
+    @Override
+    public String toString() {
+        return "Defensive";
     }
 }

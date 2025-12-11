@@ -17,10 +17,12 @@ public class VirtualPlayer extends Player implements Serializable {
     }
 
     public void makeOffer(Card c1, Card c2) {
+        System.out.printf("\n%s a fait une offre via une stratégie %s.\n", this, this.strategy);
         this.strategy.makeOffer(this, c1, c2);
     }
 
-    public void chooseOffer(List<Player> players) {
-        this.strategy.chooseOffer(this, players);
+    public Player chooseOffer(List<Player> players) {
+        System.out.printf("\n%s a choisi une offre via une stratégie %s.\n", this, this.strategy);
+        return this.strategy.chooseOffer(this, players);
     }
 }
