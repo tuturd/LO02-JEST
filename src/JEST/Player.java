@@ -68,8 +68,8 @@ public class Player implements Serializable {
         System.out.printf("\n%s %s, c'est votre tour de choisir une offre.\n----------\n", this.firstName, this.lastName);
         System.out.println("Les cartes à disposition sont:");
         int i = 0;
-        for (Offer offer : listOtherOfferPlayers.stream().map(Player::getCurrentOffer).toList()) {
-            System.out.printf("%d: %s et une carte cachée\n", i, offer.getCard(true));
+        for (Player player : listOtherOfferPlayers) {
+        	System.out.printf("%d: %s possède %s et une carte cachée\n", i, player, player.getCurrentOffer().getCard(true));
             i++;
         }
 
