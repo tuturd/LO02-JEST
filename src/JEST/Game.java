@@ -42,6 +42,13 @@ public class Game implements Serializable {
     }
 
     /**
+     * Destroy the only instance of Game, in order to start a new Game.
+     */
+    public static void destroyInstance() {
+        instance = null;
+    }
+
+    /**
      * Verifies if the file's name is valid.
      *
      * @param "name" is the file's name.

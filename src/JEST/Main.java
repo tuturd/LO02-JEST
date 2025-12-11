@@ -15,6 +15,7 @@ public class Main {
 
     /**
      * We use the Singleton design pattern, to guarantee that there is only one instance of this class.
+     *
      * @return The only instance of the class.
      */
     public static Main getInstance() {
@@ -23,7 +24,7 @@ public class Main {
         }
         return instance;
     }
-    
+
     /**
      * This class is one of the most important : it is the one that truly launches the game and allows the player to use the console.
      */
@@ -39,6 +40,7 @@ public class Main {
             System.out.println();
 
             if (nom.equals("1")) {
+                game = main.renewGame();
                 game.setup();
             } else if (nom.equals("2")) {
                 game.load();
@@ -60,5 +62,10 @@ public class Main {
 
     public Game getGame() {
         return this.game;
+    }
+
+    public Game renewGame() {
+        Game.destroyInstance();
+        return Game.getInstance();
     }
 }
