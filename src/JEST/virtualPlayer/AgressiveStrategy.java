@@ -141,16 +141,8 @@ public class AgressiveStrategy implements Strategy, Serializable {
         }
 
         if (maxPoints <= 0) {
-            List<Card> faceDownInOffers = new ArrayList<Card>();
-            for (Offer offer : options) {
-                for (OfferCard offercard : offer.getCards()) {
-                    if (!offercard.isUpside()) {
-                        faceDownInOffers.add(offercard.getCard());
-                    }
-                }
-            }
-            Random randCard = new Random();
-            return faceDownInOffers.get(randCard.nextInt(faceDownInOffers.size()));
+            Random randOffer = new Random();
+            return options.get(randOffer.nextInt(options.size())).takeCard(false);
         } else {
             assert best != null;
             return best.takeCard(true);

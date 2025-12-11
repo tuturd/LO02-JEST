@@ -150,14 +150,15 @@ public class Game implements Serializable {
 
         Player lastPlayerSelected = playersAwaitingChoice.removeFirst();
 
-        while (!playersAwaitingChoice.isEmpty()) {
-
+        while (true) {
             Player selection = lastPlayerSelected.chooseOffer(this.players);
 
             if (playersAwaitingChoice.remove(selection)) {
                 lastPlayerSelected = selection;
-            } else {
+            } else if (!playersAwaitingChoice.isEmpty()) {
                 lastPlayerSelected = playersAwaitingChoice.removeFirst();
+            } else {
+                break;
             }
         }
 
@@ -206,6 +207,8 @@ public class Game implements Serializable {
         }
 
         ranking.sort((a, b) -> Integer.compare(b.score(), a.score()));
+
+        System.out.println("Winner : " + ranking.getLast().toString());
     }
 
     public Deck getGeneralDeck() {
