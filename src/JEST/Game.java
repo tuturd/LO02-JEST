@@ -121,6 +121,7 @@ public class Game implements Serializable {
         this.generalDeck.shuffle();
         System.out.println("Trophies > Prendre les 2 premières...");
         this.trophyCards.addAll(this.generalDeck.deal(2));
+        System.out.println("Les trophées sont : " + this.trophyCards + ".");
         System.out.print("Deck > OK\n");
     }
 
@@ -131,20 +132,16 @@ public class Game implements Serializable {
         // deal & make offer
         for (Player player : this.players) {
             List<Card> cards;
-            if (player.getCurrentOffer() == null) {
-                if (this.restOfCards.isEmpty()) { // first round
-                    cards = this.generalDeck.deal(2);
-                } else { // other rounds
-                    cards = this.restOfCards.deal(2);
-                }
-                player.makeOffer(cards.get(0), cards.get(1));
-            } else {
-                player.drawCard(this.restOfCards);
-                System.out.println(player + ", ajout de la carte manquante à votre offre.");
+            if (player.getCurrentOffer() == null) { //first round
+                cards = this.generalDeck.deal(2);
+            } else { // other rounds
+                cards = this.restOfCards.deal(2);
             }
+            System.out.println(player + " pioche 2 cartes.");    
+            player.makeOffer(cards.get(0), cards.get(1));
         }
 
-        // take
+        // take à modifier
         Comparator<Player> playerComparator =
                 Comparator.comparingInt((Player p) -> {
                     var card = p.getCurrentOffer().getCard(true);
@@ -170,8 +167,12 @@ public class Game implements Serializable {
         }
 
         // re-fill
-        while (!this.generalDeck.isEmpty()) {
-            this.restOfCards.add(this.generalDeck.deal());
+        if (!this.generalDeck.isEmpty()) {
+        	for (Player player : players) {
+            	this.restOfCards.add(player.getCurrentOffer().takeCard());
+            	this.restOfCards.add(this.generalDeck.deal());
+            }
+            this.restOfCards.shuffle();
         }
     }
 

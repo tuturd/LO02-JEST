@@ -34,8 +34,9 @@ public class Player implements Serializable {
      */
     public void makeOffer(Card c1, Card c2) {
         Scanner scanner = new Scanner(System.in);
-
-        System.out.printf("\n%s %s, c'est votre tour de faire une offre.\n----------\n", this.firstName, this.lastName);
+        
+        System.out.printf("%s %s, voici ce que contient votre Jest : %s", this.firstName, this.lastName, this.jest);
+        System.out.println("\nC'est votre tour de faire une offre.\n----------\n");
         System.out.println("Vos cartes à disposition: ");
         System.out.println("1: " + c1);
         System.out.println("2: " + c2);
@@ -64,8 +65,9 @@ public class Player implements Serializable {
         if (listOtherOfferPlayers.isEmpty()) {
             listOtherOfferPlayers.add(this);
         }
-
-        System.out.printf("\n%s %s, c'est votre tour de choisir une offre.\n----------\n", this.firstName, this.lastName);
+        
+        System.out.printf("%s %s, voici ce que contient votre Jest : %s", this.firstName, this.lastName, this.jest);
+        System.out.print("\nC'est votre tour de choisir une offre.\n----------\n");
         System.out.println("Les cartes à disposition sont:");
         int i = 0;
         for (Player player : listOtherOfferPlayers) {
@@ -81,7 +83,7 @@ public class Player implements Serializable {
         Player selectedPlayer = listOtherOfferPlayers.get(lineIndex);
 
         this.jest.addCard(selectedPlayer.getCurrentOffer().takeCard(faceUp));
-
+        System.out.printf("%s %s, vous avez ajouté à votre Jest %s. \n----------\n", this.firstName, this.lastName, this.jest.getCards().get(this.jest.getCards().size() - 1));
         return selectedPlayer;
     }
 

@@ -51,8 +51,8 @@ public class Main {
             boolean gameIsEnded = false;
             boolean gameIsSaved = false;
             while (!gameIsEnded && !gameIsSaved) {
-                game.playRound();
-                gameIsEnded = game.endGameIfNecessary();
+            	game.playRound();
+            	gameIsEnded = game.endGameIfNecessary();
                 if (!gameIsEnded) {
                     gameIsSaved = game.suggestSaving();
                 }

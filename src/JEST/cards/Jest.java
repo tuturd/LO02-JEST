@@ -41,4 +41,8 @@ public class Jest implements Serializable {
         scoreVisitor.compute();
         return scoreVisitor.getScore();
     }
+
+	public String toString() {
+		return "" + cards + "";
+	}
 }

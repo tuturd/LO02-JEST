@@ -36,7 +36,11 @@ public class Offer implements Serializable {
         }
         return null;
     }
-
+    
+    /**
+     * Take the first card of the player's offer.
+     * @return
+     */
     public Card takeCard() {
         OfferCard offerCard = this.cards.get(0);
         this.cards.remove(offerCard);
