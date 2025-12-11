@@ -43,7 +43,9 @@ public class Main {
                 game = main.renewGame();
                 game.setup();
             } else if (nom.equals("2")) {
-                game.load();
+                System.out.println("Chargement de la partie > En cours...");
+                game = Game.load();
+                System.out.println("Chargement de la partie > OK");
             } else {
                 System.out.println("Entrée invalide. Veuillez entrer 1 ou 2.");
             }

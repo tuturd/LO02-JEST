@@ -62,6 +62,57 @@ public class Game implements Serializable {
     }
 
     /**
+     * Loads the game.
+     */
+    public static Game load() {
+        
+        File savesDir = new File("saves");
+        if (!savesDir.exists()) {
+            savesDir.mkdirs();
+        }
+
+        File[] files = savesDir.listFiles((d, name) -> name.toLowerCase().endsWith(".jest"));
+        if (files == null || files.length == 0) {
+            System.out.println("Aucune sauvegarde .jest trouvee dans le dossier saves.");
+            return null;
+        }
+
+        System.out.println("Sauvegardes disponibles :");
+        for (int i = 0; i < files.length; i++) {
+            System.out.printf("%d) %s%n", i + 1, files[i].getName());
+        }
+
+        Scanner scanner = new Scanner(System.in);
+        int choice = -1;
+        while (choice < 1 || choice > files.length) {
+            System.out.print("Entrez le numero du fichier a charger : ");
+            String line = scanner.nextLine();
+            try {
+                choice = Integer.parseInt(line);
+                if (choice < 1 || choice > files.length) {
+                    System.out.println("Numero hors champ, reessayez.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Entree invalide, tapez un nombre.");
+            }
+        }
+
+        File selected = files[choice - 1];
+
+        try (FileInputStream fis = new FileInputStream(selected);
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
+
+            Game loadedGame = (Game) ois.readObject();
+
+            return loadedGame;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Chargement de la partie > ERROR");
+        }
+        return null;
+    }
+
+    /**
      * Prepares the beginning of the game : creates the players, fills the deck, etc.
      */
     public void setup() {
@@ -279,71 +330,6 @@ public class Game implements Serializable {
             System.out.println("Sauvegarde de la partie > ERROR");
         }
 
-    }
-
-    /**
-     * Loads the game.
-     */
-    public void load() {
-        System.out.println("Chargement de la partie > En cours...");
-
-        File savesDir = new File("saves");
-        if (!savesDir.exists()) {
-            savesDir.mkdirs();
-        }
-
-        File[] files = savesDir.listFiles((d, name) -> name.toLowerCase().endsWith(".jest"));
-        if (files == null || files.length == 0) {
-            System.out.println("Aucune sauvegarde .jest trouvee dans le dossier saves.");
-            return;
-        }
-
-        System.out.println("Sauvegardes disponibles :");
-        for (int i = 0; i < files.length; i++) {
-            System.out.printf("%d) %s%n", i + 1, files[i].getName());
-        }
-
-        Scanner scanner = new Scanner(System.in);
-        int choice = -1;
-        while (choice < 1 || choice > files.length) {
-            System.out.print("Entrez le numero du fichier a charger : ");
-            String line = scanner.nextLine();
-            try {
-                choice = Integer.parseInt(line);
-                if (choice < 1 || choice > files.length) {
-                    System.out.println("Numero hors champ, reessayez.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Entree invalide, tapez un nombre.");
-            }
-        }
-
-        File selected = files[choice - 1];
-
-        try (FileInputStream fis = new FileInputStream(selected);
-             ObjectInputStream ois = new ObjectInputStream(fis)) {
-
-            Game loadedGame = (Game) ois.readObject();
-            System.out.println("--------------\nplayers:");
-            System.out.println(loadedGame.players);
-            System.out.println("--------------\ngeneralDeck:");
-            System.out.println(loadedGame.generalDeck);
-            System.out.println("--------------\nrestOfCards:");
-            System.out.println(loadedGame.restOfCards);
-            System.out.println("--------------\ntrophyCards:");
-            System.out.println(loadedGame.trophyCards);
-
-            instance = loadedGame;
-            this.players = loadedGame.players;
-            this.generalDeck = loadedGame.generalDeck;
-            this.restOfCards = loadedGame.restOfCards;
-            this.trophyCards = loadedGame.trophyCards;
-
-            System.out.println("Chargement de la partie > OK");
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            System.out.println("Chargement de la partie > ERROR");
-        }
     }
 
     private record PlayerScore(Player player, int score) {
