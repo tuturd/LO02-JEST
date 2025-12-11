@@ -7,18 +7,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * This class defines a player, real or virtual.
+ */
 public class Player implements Serializable {
     private final String firstName;
     private final String lastName;
     protected Jest jest;
     protected Offer currentOffer;
 
+    /**
+     * The player is defined by his first name and his last name.
+     * @param firstName
+     * @param lastName
+     */
     public Player(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.jest = new Jest();
     }
 
+    /**
+     * The REAL player makes his offer : it retrieves 2 OfferCards (a face-up or face down card) and creates the player's offer.
+     * @param c1 : this is the face-up card of his offer.
+     * @param c2 : this is the face-down card of his offer.
+     */
     public void makeOffer(Card c1, Card c2) {
         Scanner scanner = new Scanner(System.in);
 
@@ -35,6 +48,10 @@ public class Player implements Serializable {
         this.currentOffer = new Offer(offerCard1, offerCard2);
     }
 
+    /**
+     * The REAL player is asked to choose the player whose offer they want to receive, and then which card they want to receive (face down or face up).
+     * @param players : all the players where we can get one card of their offer.
+     */
     public Player chooseOffer(List<Player> players) {
         Scanner scanner = new Scanner(System.in);
 
@@ -68,6 +85,10 @@ public class Player implements Serializable {
         return selectedPlayer;
     }
 
+    /**
+     * The player, virtual or real, draws from the deck selected.
+     * @param deck : the deck selected (the general or the restOfCards {@link Deck}).
+     */
     public void drawCard(Deck deck) {
         this.currentOffer.addOfferCard(new OfferCard(deck.deal(), !this.currentOffer.getFirstOfferCard().isUpside()));
     }
