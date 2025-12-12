@@ -65,7 +65,7 @@ public class Game implements Serializable {
      * Loads the game.
      */
     public static Game load() {
-        
+
         File savesDir = new File("saves");
         if (!savesDir.exists()) {
             savesDir.mkdirs();
@@ -188,16 +188,21 @@ public class Game implements Serializable {
             } else { // other rounds
                 cards = this.restOfCards.deal(2);
             }
-            System.out.println(player + " pioche 2 cartes.");    
+            System.out.println(player + " pioche 2 cartes.");
             player.makeOffer(cards.get(0), cards.get(1));
         }
 
-        // take à modifier
+        // take
         Comparator<Player> playerComparator =
-                Comparator.comparingInt((Player p) -> {
-                    var card = p.getCurrentOffer().getCard(true);
-                    return card.getFaceValue();
-                }).thenComparing(p -> p.getCurrentOffer().getCard(true).getSuit());
+                Comparator.comparingInt((Player p) ->
+                                p.getCurrentOffer().getCard(true).getFaceValue()
+                        )
+                        .reversed()
+                        .thenComparing(
+                                Comparator.comparing((Player p) ->
+                                        p.getCurrentOffer().getCard(true).getSuit()
+                                ).reversed()
+                        );
 
         LinkedList<Player> playersAwaitingChoice = this.players.stream()
                 .sorted(playerComparator)
@@ -219,9 +224,9 @@ public class Game implements Serializable {
 
         // re-fill
         if (!this.generalDeck.isEmpty()) {
-        	for (Player player : players) {
-            	this.restOfCards.add(player.getCurrentOffer().takeCard());
-            	this.restOfCards.add(this.generalDeck.deal());
+            for (Player player : players) {
+                this.restOfCards.add(player.getCurrentOffer().takeCard());
+                this.restOfCards.add(this.generalDeck.deal());
             }
             this.restOfCards.shuffle();
         }
@@ -247,27 +252,38 @@ public class Game implements Serializable {
      * Awards trophies to good players.
      */
     private void awardTrophies() {
-        for (Card trophyCard : this.trophyCards) {
-            trophyCard.getTrophy().getWinner(this.players).getJest().addCard(trophyCard);
-            this.trophyCards.remove(trophyCard);
+        System.out.println("DEBUG > trophies > " + trophyCards);
+        for (Card trophyCard : trophyCards) {
+            System.out.println("DEBUG > trophy > " + trophyCard);
+            var test = trophyCard.getTrophy().getWinner(players);
+            System.out.println("Trophy > " + trophyCard.getTrophy().getName() + " won by " + test);
+            test.getJest().addCard(trophyCard);
         }
+        trophyCards.clear();
     }
 
     /**
      * Determines the winner, comparing the scores of the players.
      */
     private void determineWinner() {
+        System.out.println("DEBUG > Awarding trophies > ...");
         this.awardTrophies();
+        System.out.println("DEBUG > Awarding trophies > OK");
 
         List<PlayerScore> ranking = new ArrayList<>();
 
         for (Player player : this.players) {
-            ranking.add(new PlayerScore(player, player.getJest().getScore()));
+            // DEBUG
+            PlayerScore debugScore = new PlayerScore(player, player.getJest().getScore());
+            System.out.println("DEBUG > Player " + player + " has score " + debugScore.score());
+            ranking.add(debugScore);
         }
 
-        ranking.sort((a, b) -> Integer.compare(b.score(), a.score()));
+        ranking = ranking.stream()
+                .sorted(Comparator.comparingInt(PlayerScore::score).reversed())
+                .collect(Collectors.toList());
 
-        System.out.println("Winner : " + ranking.getLast().toString());
+        System.out.println("Winner : " + ranking.getFirst().toString());
     }
 
     public Deck getGeneralDeck() {

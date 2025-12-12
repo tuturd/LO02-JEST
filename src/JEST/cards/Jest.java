@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * This class defines the list of cards that the player detains during all the game. In each round, he adds an {@link OfferCard} that he chooses to his jest.
  */
 public class Jest implements Serializable {
-    private List<Card> cards;
+    private final List<Card> cards;
     
     /**
      * At the beginning of the game, the player's jest is empty.
@@ -43,6 +43,6 @@ public class Jest implements Serializable {
     }
 
 	public String toString() {
-		return "" + cards + "";
+		return "" + cards;
 	}
 }

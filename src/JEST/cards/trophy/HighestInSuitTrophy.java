@@ -32,6 +32,6 @@ public class HighestInSuitTrophy implements Trophy, Serializable {
 
     @Override
     public String getName() {
-        return "Highest " + suit;
+        return "Highest " + suit + " Trophy";
     }
 }

@@ -32,6 +32,6 @@ public class LowestInSuitTrophy implements Trophy, Serializable {
 
     @Override
     public String getName() {
-        return "Lowest " + suit;
+        return "Lowest " + suit + " Trophy";
     }
 }
