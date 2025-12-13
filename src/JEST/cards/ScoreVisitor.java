@@ -30,7 +30,7 @@ public class ScoreVisitor implements CardVisitor, Serializable {
             case SPADE, CLUB -> {
                 this.score += value + computeBlackPairsBonus();
             }
-            case HEART -> {
+            case DIAMOND -> {
                 this.score -= value;
             }
         }

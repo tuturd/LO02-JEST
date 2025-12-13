@@ -38,18 +38,18 @@ public class Deck implements Serializable {
         try {
             this.cards.add(new JokerCard(new BestJestTrophy()));
             this.cards.add(new SuitCard(Suit.SPADE, 1, new HighestInSuitTrophy(Suit.CLUB)));
-            this.cards.add(new SuitCard(Suit.SPADE, 2, new LowestInSuitTrophy(Suit.HEART)));
-            this.cards.add(new SuitCard(Suit.SPADE, 3, new HighestInSuitTrophy(Suit.HEART)));
+            this.cards.add(new SuitCard(Suit.SPADE, 2, new MajorityFaceValueTrophy(3)));
+            this.cards.add(new SuitCard(Suit.SPADE, 3, new MajorityFaceValueTrophy(2)));
             this.cards.add(new SuitCard(Suit.SPADE, 4, new LowestInSuitTrophy(Suit.CLUB)));
             this.cards.add(new SuitCard(Suit.CLUB, 1, new HighestInSuitTrophy(Suit.SPADE)));
-            this.cards.add(new SuitCard(Suit.CLUB, 2, new MajorityFaceValueTrophy(3)));
-            this.cards.add(new SuitCard(Suit.CLUB, 3, new MajorityFaceValueTrophy(2)));
+            this.cards.add(new SuitCard(Suit.CLUB, 2, new LowestInSuitTrophy(Suit.HEART)));
+            this.cards.add(new SuitCard(Suit.CLUB, 3, new HighestInSuitTrophy(Suit.HEART)));
             this.cards.add(new SuitCard(Suit.CLUB, 4, new LowestInSuitTrophy(Suit.SPADE)));
             this.cards.add(new SuitCard(Suit.HEART, 1, new JokerTrophy()));
             this.cards.add(new SuitCard(Suit.HEART, 2, new JokerTrophy()));
             this.cards.add(new SuitCard(Suit.HEART, 3, new JokerTrophy()));
             this.cards.add(new SuitCard(Suit.HEART, 4, new JokerTrophy()));
-            this.cards.add(new SuitCard(Suit.DIAMOND, 1, new MajorityFaceValueTrophy(3)));
+            this.cards.add(new SuitCard(Suit.DIAMOND, 1, new MajorityFaceValueTrophy(4)));
             this.cards.add(new SuitCard(Suit.DIAMOND, 2, new HighestInSuitTrophy(Suit.DIAMOND)));
             this.cards.add(new SuitCard(Suit.DIAMOND, 3, new LowestInSuitTrophy(Suit.DIAMOND)));
             this.cards.add(new SuitCard(Suit.DIAMOND, 4, new BestJestWithoutJokerTrophy()));

@@ -15,12 +15,13 @@ import java.util.stream.Collectors;
 /**
  * The class starts a game, load or save one, play a round, and determines the winner.
  */
-public class Game implements Serializable {
+public class Game implements Serializable, Runnable {
     private static Game instance;
     private List<Player> players;
     private Deck generalDeck;
     private Deck restOfCards;
     private List<Card> trophyCards;
+    private Thread t, t2;
 
     private Game() {
         this.players = new ArrayList<>();
@@ -170,9 +171,15 @@ public class Game implements Serializable {
         this.generalDeck.fill();
         System.out.print("Deck > Mélange...\n");
         this.generalDeck.shuffle();
-        System.out.println("Trophies > Prendre les 2 premières...");
-        this.trophyCards.addAll(this.generalDeck.deal(2));
-        System.out.println("Les trophées sont : " + this.trophyCards + ".");
+        if (this.players.size() == 3) { //2 trophies when there are 3 players
+        	System.out.println("Trophies > Prendre les 2 premières...");
+            this.trophyCards.addAll(this.generalDeck.deal(2));
+            System.out.println("Les trophées sont : " + this.trophyCards + ".");
+        } else { //1 trophy when there are 4 players
+        	System.out.println("Trophies > Prendre la première...");
+            this.trophyCards.addAll(this.generalDeck.deal(1));
+            System.out.println("Le trophée est : " + this.trophyCards + ".");
+        }
         System.out.print("Deck > OK\n");
     }
 
@@ -201,7 +208,7 @@ public class Game implements Serializable {
                         .thenComparing(
                                 Comparator.comparing((Player p) ->
                                         p.getCurrentOffer().getCard(true).getSuit()
-                                ).reversed()
+                                )
                         );
 
         LinkedList<Player> playersAwaitingChoice = this.players.stream()
@@ -350,4 +357,9 @@ public class Game implements Serializable {
 
     private record PlayerScore(Player player, int score) {
     }
+
+	@Override
+	public void run() {
+		
+	}
 }
