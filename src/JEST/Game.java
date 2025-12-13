@@ -3,6 +3,7 @@ package JEST;
 import JEST.cards.Card;
 import JEST.cards.Deck;
 import JEST.cards.DeckType;
+import JEST.cards.trophy.Trophy;
 import JEST.virtualPlayer.AgressiveStrategy;
 import JEST.virtualPlayer.DefensiveStrategy;
 import JEST.virtualPlayer.RandomStrategy;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 /**
  * The class starts a game, load or save one, play a round, and determines the winner.
  */
-public class Game implements Serializable, Runnable {
+public class Game implements Serializable {
     private static Game instance;
     private List<Player> players;
     private Deck generalDeck;
@@ -259,14 +260,19 @@ public class Game implements Serializable, Runnable {
      * Awards trophies to good players.
      */
     private void awardTrophies() {
+        List<PlayerTrophyCard> trophyCardsToGive = new ArrayList<>();
         System.out.println("DEBUG > trophies > " + trophyCards);
         for (Card trophyCard : trophyCards) {
             System.out.println("DEBUG > trophy > " + trophyCard);
             var test = trophyCard.getTrophy().getWinner(players);
             System.out.println("Trophy > " + trophyCard.getTrophy().getName() + " won by " + test);
-            test.getJest().addCard(trophyCard);
+            trophyCardsToGive.add(new PlayerTrophyCard(test, trophyCard));
         }
         trophyCards.clear();
+        trophyCardsToGive.forEach(trophyToGive -> {
+            trophyToGive.player.getJest().addCard(trophyToGive.card);
+            }
+        );
     }
 
     /**
@@ -357,9 +363,7 @@ public class Game implements Serializable, Runnable {
 
     private record PlayerScore(Player player, int score) {
     }
+    private record PlayerTrophyCard(Player player, Card card) {
+    }
 
-	@Override
-	public void run() {
-		
-	}
 }

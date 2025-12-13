@@ -9,37 +9,55 @@ public class ScoreVisitor implements CardVisitor, Serializable {
     private final List<Card> cards;
     private int score = 0;
     private int jokerScore = 0;
+    private Phase phase = null;
 
     public ScoreVisitor(Jest jest) {
         this.cards = jest.getCards();
     }
 
     public void compute() {
-        for  (Card card : this.cards) {
+        this.phase = Phase.PREPARE;
+        for (Card card : this.cards) {
             card.accept(this);
         }
+
+        this.score += computeBlackPairsBonus();
+
+        this.phase = Phase.SCORE;
+        for (Card card : this.cards) {
+            card.accept(this);
+        }
+
+        this.phase = null;
     }
 
     public void visit(SuitCard card) {
-        acesTransformation(card);
+        if (this.phase == Phase.PREPARE) {
+            acesTransformation(card);
+            return;
+        }
 
-        Suit suit = card.getSuit();
-        int value = card.getFaceValue();
+        if (this.phase == Phase.SCORE) {
+            Suit suit = card.getSuit();
+            int value = card.getFaceValue();
 
-        switch (suit) {
-            case SPADE, CLUB -> {
-                this.score += value + computeBlackPairsBonus();
-            }
-            case DIAMOND -> {
-                this.score -= value;
+            switch (suit) {
+                case SPADE, CLUB -> this.score += value;
+                case DIAMOND -> this.score -= value;
+                default -> {
+                }
             }
         }
     }
 
     public void visit(JokerCard joker) {
+        if (this.phase != Phase.SCORE) {
+            return;
+        }
+
         List<Card> heartCards = cards.stream()
                 .filter(card -> card.getSuit() == Suit.HEART)
-                .collect(Collectors.toList());
+                .toList();
 
         int size = heartCards.size();
 
@@ -60,12 +78,12 @@ public class ScoreVisitor implements CardVisitor, Serializable {
         this.score += this.jokerScore;
     }
 
-    private void acesTransformation(Card card) {
+    private void acesTransformation(SuitCard card) {
         if (card.getFaceValue() == 1) {
             boolean aloneInSuit = this.cards.stream()
                     .noneMatch(element -> element != card && element.getSuit() == card.getSuit());
-            if (aloneInSuit && card instanceof SuitCard suitCard) {
-                suitCard.transformToFive();
+            if (aloneInSuit) {
+                card.transformToFive();
             }
         }
     }
@@ -88,5 +106,6 @@ public class ScoreVisitor implements CardVisitor, Serializable {
     public int getScore() {
         return score;
     }
-}
 
+    private enum Phase {PREPARE, SCORE}
+}
