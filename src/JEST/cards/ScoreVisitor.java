@@ -5,12 +5,19 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Compute the score of each {@link Jest}.
+ */
 public class ScoreVisitor implements CardVisitor, Serializable {
     private final List<Card> cards;
     private int score = 0;
     private int jokerScore = 0;
     private Phase phase = null;
+    private static final long serialVersionUID = 1L;
 
+    /**
+     * Compute the score of the Jest announced.
+     */
     public ScoreVisitor(Jest jest) {
         this.cards = jest.getCards();
     }
@@ -31,6 +38,10 @@ public class ScoreVisitor implements CardVisitor, Serializable {
         this.phase = null;
     }
 
+    /**
+     * Attribute to each suit the score of the card.
+     * @param card is the card which we compute the score.
+     */
     public void visit(SuitCard card) {
         if (this.phase == Phase.PREPARE) {
             acesTransformation(card);
@@ -50,6 +61,11 @@ public class ScoreVisitor implements CardVisitor, Serializable {
         }
     }
 
+    /**
+     * If there is no heart, the joker vaults 4 points.
+     * If there is 1-3 hearts, the joker vaults the sum of each Heart's face value.
+     * @param joker
+     */
     public void visit(JokerCard joker) {
         if (this.phase != Phase.SCORE) {
             return;
@@ -78,6 +94,11 @@ public class ScoreVisitor implements CardVisitor, Serializable {
         this.score += this.jokerScore;
     }
 
+    /**
+     * If the Ace is the only card of that suit in the Jest, the card becomes a 5, with a face value of 5.
+     * Otherwise it remains an Ace, with a face value of 1.
+     * @param card is the card concerned.
+     */
     private void acesTransformation(SuitCard card) {
         if (card.getFaceValue() == 1) {
             boolean aloneInSuit = this.cards.stream()
@@ -88,6 +109,10 @@ public class ScoreVisitor implements CardVisitor, Serializable {
         }
     }
 
+    /**
+     * If there is a Spade and a Club with the same face value, the pair is worth a bonus 2 points in addition to the face values of the cards.
+     * @return the bonus.
+     */
     private int computeBlackPairsBonus() {
         Set<Integer> spadeFaceValues = this.cards.stream()
                 .filter(card -> card.getSuit() == Suit.SPADE)
@@ -107,5 +132,17 @@ public class ScoreVisitor implements CardVisitor, Serializable {
         return score;
     }
 
-    private enum Phase {PREPARE, SCORE}
+    /**
+     * Distinguish 2 phases : preparation and score.
+     */
+    private enum Phase {
+    	/**
+    	 * Do the aces transformation if it is necessary.
+    	 */
+    	PREPARE, 
+    	/**
+    	 * Compute the score of each card.
+    	 */
+    	SCORE
+    	}
 }
