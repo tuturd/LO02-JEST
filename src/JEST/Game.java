@@ -22,7 +22,7 @@ public class Game implements Serializable {
     private Deck generalDeck;
     private Deck restOfCards;
     private List<Card> trophyCards;
-    private Thread t, t2;
+    private static final long serialVersionUID = 1L;
 
     private Game() {
         this.players = new ArrayList<>();
@@ -196,7 +196,7 @@ public class Game implements Serializable {
             } else { // other rounds
                 cards = this.restOfCards.deal(2);
             }
-            System.out.println(player + " pioche 2 cartes.");
+            System.out.println("\n" + player + " pioche 2 cartes.");
             player.makeOffer(cards.get(0), cards.get(1));
         }
 
@@ -281,14 +281,15 @@ public class Game implements Serializable {
     private void determineWinner() {
         System.out.println("DEBUG > Awarding trophies > ...");
         this.awardTrophies();
-        System.out.println("DEBUG > Awarding trophies > OK");
+        System.out.println("DEBUG > Awarding trophies > OK\n----------");
 
         List<PlayerScore> ranking = new ArrayList<>();
 
         for (Player player : this.players) {
             // DEBUG
+        	System.out.println("Jest de " + player + " : " + player.getJest());
             PlayerScore debugScore = new PlayerScore(player, player.getJest().getScore());
-            System.out.println("DEBUG > Player " + player + " has score " + debugScore.score());
+            System.out.println("DEBUG > Player " + player + " has score " + debugScore.score() + "\n----------");
             ranking.add(debugScore);
         }
 
@@ -296,7 +297,7 @@ public class Game implements Serializable {
                 .sorted(Comparator.comparingInt(PlayerScore::score).reversed())
                 .collect(Collectors.toList());
 
-        System.out.println("Winner : " + ranking.getFirst().toString());
+        System.out.println("\n----------\nWinner : " + ranking.getFirst().toString());
     }
 
     public Deck getGeneralDeck() {

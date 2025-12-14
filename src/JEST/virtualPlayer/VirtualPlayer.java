@@ -17,7 +17,7 @@ public class VirtualPlayer extends Player implements Serializable {
     }
 
     public void makeOffer(Card c1, Card c2) {
-        System.out.printf("\n%s a fait une offre via une stratégie %s.\n", this, this.strategy);
+        System.out.printf("%s a fait une offre via une stratégie %s.\n", this, this.strategy);
         this.strategy.makeOffer(this, c1, c2);
     }
 

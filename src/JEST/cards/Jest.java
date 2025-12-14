@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 public class Jest implements Serializable {
     private final List<Card> cards;
+    private static final long serialVersionUID = 1L;
     
     /**
      * At the beginning of the game, the player's jest is empty.

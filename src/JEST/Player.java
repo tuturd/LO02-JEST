@@ -15,6 +15,7 @@ public class Player implements Serializable {
     private final String lastName;
     protected Jest jest;
     protected Offer currentOffer;
+    private static final long serialVersionUID = 1L;
 
     /**
      * The player is defined by his first name and his last name.

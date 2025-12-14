@@ -17,6 +17,7 @@ import java.util.Map;
 public class Deck implements Serializable {
     private Queue<Card> cards;
     private static final Map<DeckType, Deck> instances = new HashMap<>();
+    private static final long serialVersionUID = 1L;
     
     private Deck() {
         this.cards = new LinkedList<>();

@@ -20,7 +20,7 @@ public class AgressiveStrategy implements Strategy, Serializable {
         Card upsideCard;
         Card downsideCard;
 
-        if (bestCard1 <= bestCard2) {
+        if (bestCard1 >= bestCard2) {
             upsideCard = c1;
             downsideCard = c2;
         } else {
