@@ -261,9 +261,7 @@ public class Game implements Serializable {
      */
     private void awardTrophies() {
         List<PlayerTrophyCard> trophyCardsToGive = new ArrayList<>();
-        System.out.println("DEBUG > trophies > " + trophyCards);
         for (Card trophyCard : trophyCards) {
-            System.out.println("DEBUG > trophy > " + trophyCard);
             var test = trophyCard.getTrophy().getWinner(players);
             System.out.println("Trophy > " + trophyCard.getTrophy().getName() + " won by " + test);
             trophyCardsToGive.add(new PlayerTrophyCard(test, trophyCard));
@@ -279,25 +277,28 @@ public class Game implements Serializable {
      * Determines the winner, comparing the scores of the players.
      */
     private void determineWinner() {
-        System.out.println("DEBUG > Awarding trophies > ...");
         this.awardTrophies();
-        System.out.println("DEBUG > Awarding trophies > OK\n----------");
 
         List<PlayerScore> ranking = new ArrayList<>();
 
         for (Player player : this.players) {
-            // DEBUG
         	System.out.println("Jest de " + player + " : " + player.getJest());
-            PlayerScore debugScore = new PlayerScore(player, player.getJest().getScore());
-            System.out.println("DEBUG > Player " + player + " has score " + debugScore.score() + "\n----------");
-            ranking.add(debugScore);
+            PlayerScore playerScore = new PlayerScore(player, player.getJest().getScore());
+            System.out.println("Player " + player + " has score " + playerScore.score() + "\n----------");
+            ranking.add(playerScore);
         }
 
         ranking = ranking.stream()
                 .sorted(Comparator.comparingInt(PlayerScore::score).reversed())
                 .collect(Collectors.toList());
 
-        System.out.println("\n----------\nWinner : " + ranking.getFirst().toString());
+        PlayerScore winner = ranking.getFirst();
+        System.out.println("Winner   : " + winner.player + " with " + winner.score + " points");
+        for (int i = 1; i < ranking.size(); i++) {
+            PlayerScore ps = ranking.get(i);
+            System.out.println("Player " + (i+1) + " : " + ps.player + " with " + ps.score + " points");
+        }
+        System.out.println("----------");
     }
 
     public Deck getGeneralDeck() {
