@@ -7,10 +7,18 @@ import JEST.cards.JokerCard;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * The winner is the player with the Joker.
+ */
 public class JokerTrophy implements Trophy, Serializable {
+	private static final long serialVersionUID = 1L;
 
-    @Override
-    public Player getWinner(List<Player> players) {
+	/**
+     * Returns the winner of the trophy.
+     * @param players all the players of the game.
+     * @return the winner of the trophy.
+     */
+	public Player getWinner(List<Player> players) {
         for (Player player : players) {
             for (Card card : player.getJest().getCards()) {
                 if (card instanceof JokerCard) {
@@ -20,8 +28,7 @@ public class JokerTrophy implements Trophy, Serializable {
         }
         return null;
     }
-
-    @Override
+    
     public String getName() {
         return "Joker Trophy";
     }

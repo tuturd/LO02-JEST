@@ -263,7 +263,7 @@ public class Game implements Serializable {
         List<PlayerTrophyCard> trophyCardsToGive = new ArrayList<>();
         for (Card trophyCard : trophyCards) {
             var test = trophyCard.getTrophy().getWinner(players);
-            System.out.println("Trophy > " + trophyCard.getTrophy().getName() + " won by " + test);
+            System.out.println("Trophy > " + trophyCard.getTrophy().getName() + " won by " + test + "\n----------");
             trophyCardsToGive.add(new PlayerTrophyCard(test, trophyCard));
         }
         trophyCards.clear();

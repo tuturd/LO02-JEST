@@ -6,19 +6,24 @@ import JEST.cards.Card;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * The winner is the player with the highest value Jest.
+ */
 public class BestJestTrophy implements Trophy, Serializable {
-
-    @Override
-    public Player getWinner(List<Player> players) {
+	private static final long serialVersionUID = 1L;
+	
+	
+	public Player getWinner(List<Player> players) {
         Player winner = null;
         int maxValue = Integer.MIN_VALUE;
 
         for (Player player : players) {
-            int total = 0;
+            int total = player.getJest().getScore();
 
-            for (Card card : player.getJest().getCards()) {
-                total += card.getFaceValue();
-            }
+            
+            /*for (Card card : player.getJest().getCards()) {
+                total += card.getFaceValue();	
+            }*/
 
             if (total > maxValue) {
                 maxValue = total;
@@ -29,7 +34,6 @@ public class BestJestTrophy implements Trophy, Serializable {
         return winner;
     }
 
-    @Override
     public String getName() {
         return "Best Jest Trophy";
     }

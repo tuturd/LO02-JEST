@@ -7,14 +7,26 @@ import JEST.cards.Suit;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * The winner is the player with highest face value card in this suit.
+ */
 public class HighestInSuitTrophy implements Trophy, Serializable {
-    private final Suit suit;
+	private static final long serialVersionUID = 1L;
+	private final Suit suit;
 
-    public HighestInSuitTrophy(Suit suit) {
+    /**
+     * We define the suit associated to the trophy.
+     * @param suit suit associated to the trophy.
+     */
+	public HighestInSuitTrophy(Suit suit) {
         this.suit = suit;
     }
 
-    @Override
+    /**
+     * Returns the winner of the trophy.
+     * @param players all the players of the game.
+     * @return the winner of the trophy.
+     */
     public Player getWinner(List<Player> players) {
         Player winner = null;
         int maxValue = Integer.MIN_VALUE;
@@ -30,7 +42,6 @@ public class HighestInSuitTrophy implements Trophy, Serializable {
         return winner;
     }
 
-    @Override
     public String getName() {
         return "Highest " + suit + " Trophy";
     }

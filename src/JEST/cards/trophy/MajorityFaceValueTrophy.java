@@ -8,15 +8,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The winner is the player with most cards of this face value.
+ */
 public class MajorityFaceValueTrophy implements Trophy, Serializable {
-
+	private static final long serialVersionUID = 1L;
     private final int faceValue;
 
+    /**
+     * We define the face value associated to the trophy.
+     * @param faceValue face value associated to the trophy.
+     */
     public MajorityFaceValueTrophy(int faceValue) {
         this.faceValue = faceValue;
     }
 
-    @Override
+    /**
+     * Returns the winner of the trophy.
+     * @param players all the players of the game.
+     * @return the winner of the trophy.
+     */
     public Player getWinner(List<Player> players) {
         Map<Player, Integer> counts = new HashMap<>();
 
@@ -24,7 +35,7 @@ public class MajorityFaceValueTrophy implements Trophy, Serializable {
             int count = 0;
 
             for (Card card : player.getJest().getCards()) {
-                if (card.getFaceValue() == faceValue) {
+                if (card.getFaceValue() == this.faceValue) {
                     count++;
                 }
             }
