@@ -11,8 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * A virtual player with the aggressive strategy takes all risks to have as many points as possible.
+ */
 public class AgressiveStrategy implements Strategy, Serializable {
-
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * We compute the advantage of each card.
+	 * Then, we compare the points computed of each card.
+	 * The card with the fewest points is downside (because it is the best card for the player, compared to the other), and the other is upside.
+	 */
     public void makeOffer(VirtualPlayer player, Card c1, Card c2) {
         int bestCard1 = this.computeAdvantageOnMakingOffer(player, c1);
         int bestCard2 = this.computeAdvantageOnMakingOffer(player, c2);
@@ -68,7 +77,14 @@ public class AgressiveStrategy implements Strategy, Serializable {
         }
     }
 
-    @Override
+    
+    /**
+     * We compute the points of each face-up cards in the other offers.
+     * Then, if the best card in the face-up cards has negative points, we choose randomly a face-down card.
+     * @param player the player who choose the offer.
+     * @param players the list of the players of the game.
+     * @return the player whose virtual player chooses the offer.
+     */
     public Player chooseOffer(VirtualPlayer player, List<Player> players) {
         List<Player> listOtherOfferPlayers = new ArrayList<>();
         for (Player p : players) {
@@ -149,7 +165,6 @@ public class AgressiveStrategy implements Strategy, Serializable {
         }
     }
 
-    @Override
     public String toString() {
         return "Agressive";
     }

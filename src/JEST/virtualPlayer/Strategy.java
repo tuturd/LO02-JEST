@@ -8,8 +8,11 @@ import java.util.List;
 import JEST.Player;
 import JEST.cards.Offer;
 
+/**
+ * The interface creates the methods to make or choose the offer.
+ */
 public interface Strategy {
-    void makeOffer(VirtualPlayer player, Card c1, Card c2);
-	Player chooseOffer(VirtualPlayer player, List<Player> players);
-    String toString();
+    public void makeOffer(VirtualPlayer player, Card c1, Card c2);
+	public Player chooseOffer(VirtualPlayer player, List<Player> players);
+    public String toString();
 }
