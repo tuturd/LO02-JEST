@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class LowestInSuitTrophy implements Trophy, Serializable {
 	private static final long serialVersionUID = 1L;
+	
 	private final Suit suit;
 
 	/**
@@ -23,7 +24,7 @@ public class LowestInSuitTrophy implements Trophy, Serializable {
     }
 
 	/**
-     * Returns the winner of the trophy.
+     * We see who have the lowest face value in the suit of the trophy.
      * @param players all the players of the game.
      * @return the winner of the trophy.
      */

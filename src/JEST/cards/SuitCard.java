@@ -12,10 +12,10 @@ public class SuitCard extends Card {
     private static final long serialVersionUID = 1L;
 
     /**
-     * A suitcard is defined by its {@link Suit}, its faceValue and its {@link Trophy}.
-     * @param suit
-     * @param faceValue
-     * @param trophy
+     * A suitcard is defined by its suit, its faceValue and its {@link Trophy}.
+     * @param suit the suit of the card.
+     * @param faceValue the face value of the card.
+     * @param trophy the trophy associated to the card.
      */
     public SuitCard(Suit suit, int faceValue, Trophy trophy) {
         super(trophy);
@@ -33,6 +33,7 @@ public class SuitCard extends Card {
 
     /**
      * Accept the visitor.
+     * @param visitor get the score.
      */
     public void accept(CardVisitor visitor) {
         visitor.visit(this);

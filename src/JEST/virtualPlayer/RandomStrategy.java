@@ -4,16 +4,21 @@ import JEST.Player;
 import JEST.cards.Card;
 import JEST.cards.Offer;
 import JEST.cards.OfferCard;
-import JEST.cards.Suit;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * A virtual player with the random strategy makes and takes an offer randomly.
+ */
 public class RandomStrategy implements Strategy, Serializable {
-    @Override
-    public void makeOffer(VirtualPlayer player, Card c1, Card c2) {
+	private static final long serialVersionUID = 1L;
+	
+    /**
+     * Among the two cards, he chooses which card will be face-up.
+     */
+	public void makeOffer(VirtualPlayer player, Card c1, Card c2) {
         Card upsideCard = new Random().nextBoolean() ? c1 : c2;
         Card downsideCard = upsideCard == c2 ? c1 : c2;
 
@@ -25,7 +30,12 @@ public class RandomStrategy implements Strategy, Serializable {
         );
     }
 
-    @Override
+    /**
+     * He chooses randomly a card among all the cards available (the face-up and the face-down cards).
+     * @param player the player who choose the offer.
+     * @param players the list of the players of the game.
+     * @return the player whose virtual player chooses the offer.
+     */
     public Player chooseOffer(VirtualPlayer player, List<Player> players) {
         List<Player> listOtherOfferPlayers = new ArrayList<>();
         for (Player p : players) {
@@ -47,7 +57,6 @@ public class RandomStrategy implements Strategy, Serializable {
                 .orElse(null);
     }
 
-    @Override
     public String toString() {
         return "Random";
     }

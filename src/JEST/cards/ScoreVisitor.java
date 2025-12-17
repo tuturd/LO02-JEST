@@ -9,11 +9,12 @@ import java.util.stream.Collectors;
  * Compute the score of each {@link Jest}.
  */
 public class ScoreVisitor implements CardVisitor, Serializable {
-    private final List<Card> cards;
+    private static final long serialVersionUID = 1L;
+	
+	private final List<Card> cards;
     private int score = 0;
     private int jokerScore = 0;
     private Phase phase = null;
-    private static final long serialVersionUID = 1L;
 
     /**
      * Compute the score of the Jest announced.
@@ -39,8 +40,8 @@ public class ScoreVisitor implements CardVisitor, Serializable {
     }
 
     /**
-     * Attribute to each suit the score of the card.
-     * @param card is the card which we compute the score.
+     * Attribute to each {@link Suit} the score of the card.
+     * @param card is the {@link Card} which we compute the score.
      */
     public void visit(SuitCard card) {
         if (this.phase == Phase.PREPARE) {
@@ -62,9 +63,9 @@ public class ScoreVisitor implements CardVisitor, Serializable {
     }
 
     /**
-     * If there is no heart, the joker vaults 4 points.
+     * If there is no heart, the {@link JokerCard} vaults 4 points.
      * If there is 1-3 hearts, the joker vaults the sum of each Heart's face value.
-     * @param joker
+     * @param joker the joker card.
      */
     public void visit(JokerCard joker) {
         if (this.phase != Phase.SCORE) {
@@ -97,7 +98,7 @@ public class ScoreVisitor implements CardVisitor, Serializable {
     /**
      * If the Ace is the only card of that suit in the Jest, the card becomes a 5, with a face value of 5.
      * Otherwise it remains an Ace, with a face value of 1.
-     * @param card is the card concerned.
+     * @param card the card concerned.
      */
     private void acesTransformation(SuitCard card) {
         if (card.getFaceValue() == 1) {

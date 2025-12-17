@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * In each round, each player have to make an offer and choose an other one.
- * An offer is composed by two cards : a face-up and a face-down card.
+ * In each round, each {@link Player} have to make an offer and choose an other one.
+ * An offer is composed by two {@link Card}s : a face-up and a face-down card.
  */
 public class Offer implements Serializable {
-    private List<OfferCard> cards;
-    private boolean complete;
     private static final long serialVersionUID = 1L;
+	
+	private List<OfferCard> cards;
 
     /**
      * The offer is composed by two {@link OfferCard}.
@@ -30,7 +30,7 @@ public class Offer implements Serializable {
 
     /**
      * Get the face-up or the face-down card, as we choose.
-     * @param chooseFaceUp : a boolean to know which card we get.
+     * @param chooseFaceUp a boolean to know which card we get.
      * @return the card chosen.
      */
     public Card getCard(boolean chooseFaceUp) {
@@ -44,7 +44,7 @@ public class Offer implements Serializable {
 
     /**
      * Take the face-up or the face-down card, as we choose and remove it from the offer.
-     * @param chooseFaceUp : a boolean to know which card we take.
+     * @param chooseFaceUp a boolean to know which card we take.
      * @return the card chosen.
      */
     public Card takeCard(boolean chooseFaceUp) {
@@ -59,7 +59,7 @@ public class Offer implements Serializable {
     
     /**
      * Take the first card of the player's offer.
-     * @return
+     * @return the remaining card.
      */
     public Card takeCard() {
         OfferCard offerCard = this.cards.get(0);

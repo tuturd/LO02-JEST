@@ -12,18 +12,17 @@ import java.util.List;
 public class BestJestTrophy implements Trophy, Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	
+	/**
+	 * We compute the Jest's value of each player to know who is the winner.
+	 * @param players all the players of the game.
+	 * @return the winner of the trophy.
+	 */
 	public Player getWinner(List<Player> players) {
         Player winner = null;
         int maxValue = Integer.MIN_VALUE;
 
         for (Player player : players) {
             int total = player.getJest().getScore();
-
-            
-            /*for (Card card : player.getJest().getCards()) {
-                total += card.getFaceValue();	
-            }*/
 
             if (total > maxValue) {
                 maxValue = total;

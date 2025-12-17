@@ -4,10 +4,12 @@ import JEST.cards.trophy.Trophy;
 import java.io.Serializable;
 
 /**
- * This is a general card : we define the trophy of the card, and declare abstract the methods to get the face value and the suit (we define them if it is a suitcard).
+ * This is a general card : we define the {@link Trophy} of the card, and declare abstract the methods to get the face value and the suit (we define them if it is a {@link SuitCard}.
  */
 public abstract class Card implements Serializable {
-    private final Trophy trophy;
+	private static final long serialVersionUID = 1L;
+	
+	private final Trophy trophy;
 
     protected Card(Trophy trophy) {
         this.trophy = trophy;
@@ -18,7 +20,7 @@ public abstract class Card implements Serializable {
 
     /**
      * Accept the visitor.
-     * @param visitor
+     * @param visitor to get the score.
      */
     public abstract void accept(CardVisitor visitor);
 
@@ -26,7 +28,6 @@ public abstract class Card implements Serializable {
         return trophy;
     }
 
-    @Override
     public String toString() {
         return getSuit() + " " + getFaceValue();
     }

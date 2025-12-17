@@ -23,7 +23,7 @@ public class HighestInSuitTrophy implements Trophy, Serializable {
     }
 
     /**
-     * Returns the winner of the trophy.
+     * We see who have the highest face value in the suit of the trophy.
      * @param players all the players of the game.
      * @return the winner of the trophy.
      */

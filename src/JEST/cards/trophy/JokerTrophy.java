@@ -8,13 +8,13 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * The winner is the player with the Joker.
+ * The winner is the {@link Player} with the Joker.
  */
 public class JokerTrophy implements Trophy, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-     * Returns the winner of the trophy.
+     * We see who is the player with the Joker in his Jest.
      * @param players all the players of the game.
      * @return the winner of the trophy.
      */

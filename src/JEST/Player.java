@@ -19,8 +19,9 @@ public class Player implements Serializable {
 
     /**
      * The player is defined by his first name and his last name.
-     * @param firstName
-     * @param lastName
+     * His jest is initially empty.
+     * @param firstName first name of the player.
+     * @param lastName last name of the player.
      */
     public Player(String firstName, String lastName) {
         this.firstName = firstName;
@@ -29,7 +30,7 @@ public class Player implements Serializable {
     }
 
     /**
-     * The REAL player makes his offer : it retrieves 2 OfferCards (a face-up or face down card) and creates the player's offer.
+     * The REAL player makes his {@link Offer} : it retrieves 2 {@link OfferCard} (a face-up or face down {@link Card} and creates the player's offer.
      * @param c1 : this is the face-up card of his offer.
      * @param c2 : this is the face-down card of his offer.
      */
@@ -52,7 +53,8 @@ public class Player implements Serializable {
 
     /**
      * The REAL player is asked to choose the player whose offer they want to receive, and then which card they want to receive (face down or face up).
-     * @param players : all the players where we can get one card of their offer.
+     * @param players all the players where we can get one card of their offer.
+     * @return the player whose player chooses the offer.
      */
     public Player chooseOffer(List<Player> players) {
         Scanner scanner = new Scanner(System.in);
@@ -89,8 +91,8 @@ public class Player implements Serializable {
     }
 
     /**
-     * The player, virtual or real, draws from the deck selected.
-     * @param deck : the deck selected (the general or the restOfCards {@link Deck}).
+     * The player, virtual or real, draws from the {@link Deck} selected.
+     * @param deck : the deck selected (the general or the restOfCards).
      */
     public void drawCard(Deck deck) {
         this.currentOffer.addOfferCard(new OfferCard(deck.deal(), !this.currentOffer.getFirstOfferCard().isUpside()));
@@ -108,7 +110,6 @@ public class Player implements Serializable {
         this.currentOffer = currentOffer;
     }
 
-    @Override
     public String toString() {
         return String.format("%s %s", firstName, lastName);
     }

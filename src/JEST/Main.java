@@ -15,8 +15,7 @@ public class Main {
 
     /**
      * We use the Singleton design pattern, to guarantee that there is only one instance of this class.
-     *
-     * @return The only instance of the class.
+     * @return the only instance of the class.
      */
     public static Main getInstance() {
         if (instance == null) {
@@ -65,7 +64,11 @@ public class Main {
     public Game getGame() {
         return this.game;
     }
-
+    
+    /**
+     * Create a new game, destroying the old one.
+     * @return the new game.
+     */
     public Game renewGame() {
         Game.destroyInstance();
         return Game.getInstance();

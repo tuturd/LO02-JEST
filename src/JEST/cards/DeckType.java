@@ -1,7 +1,7 @@
 package JEST.cards;
 
 /**
- * This enum class permits to define the two types of Deck fixed by the design pattern Multiton : the general and the "restOfCards".
+ * This enum class permits to define the two types of {@link Deck} fixed by the design pattern Multiton : the general and the "restOfCards".
  */
 public enum DeckType {
 	/**

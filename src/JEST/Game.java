@@ -3,7 +3,6 @@ package JEST;
 import JEST.cards.Card;
 import JEST.cards.Deck;
 import JEST.cards.DeckType;
-import JEST.cards.trophy.Trophy;
 import JEST.virtualPlayer.AgressiveStrategy;
 import JEST.virtualPlayer.DefensiveStrategy;
 import JEST.virtualPlayer.RandomStrategy;
@@ -33,8 +32,7 @@ public class Game implements Serializable {
 
     /**
      * We use the Singleton design pattern, to guarantee that there is only one instance of this class.
-     *
-     * @return The only instance of the class.
+     * @return the only instance of the class.
      */
     public static Game getInstance() {
         if (instance == null) {
@@ -51,8 +49,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Verifies if the file's name is valid.
-     *
+     * Verify if the file's name is valid.
      * @param "name" is the file's name.
      * @return true if the file's name is valid, or false if it is invalid.
      */
@@ -64,7 +61,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Loads the game.
+     * Load the game.
      */
     public static Game load() {
 
@@ -115,7 +112,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Prepares the beginning of the game : creates the players, fills the deck, etc.
+     * Prepare the beginning of the game : create the players, fill the deck, etc.
      */
     public void setup() {
 
@@ -185,7 +182,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Plays a round in 3 phases, like in the rules : deal cards, make offers, and take cards.
+     * Play a round in 3 phases, like in the rules : deal cards, make offers, and take cards.
      */
     public void playRound() {
         // deal & make offer
@@ -241,9 +238,9 @@ public class Game implements Serializable {
     }
 
     /**
-     * If the decks (the general and restOfCards) are empty, we determine the winner. If it is not the case, the game continues.
+     * If the {@link Deck}s (the general and restOfCards) are empty, we determine the winner. If it is not the case, the game continues.
      *
-     * @return True if the game is over.
+     * @return true if the game is over.
      */
     public boolean endGameIfNecessary() {
         if (this.generalDeck.isEmpty() && this.restOfCards.isEmpty()) {
@@ -257,13 +254,13 @@ public class Game implements Serializable {
     }
 
     /**
-     * Awards trophies to good players.
+     * Award trophies to good players.
      */
     private void awardTrophies() {
         List<PlayerTrophyCard> trophyCardsToGive = new ArrayList<>();
         for (Card trophyCard : trophyCards) {
             var test = trophyCard.getTrophy().getWinner(players);
-            System.out.println("Trophy > " + trophyCard.getTrophy().getName() + " won by " + test + "\n----------");
+            System.out.println("Trophy > " + trophyCard + ", " + trophyCard.getTrophy().getName() + " won by " + test + "\n----------");
             trophyCardsToGive.add(new PlayerTrophyCard(test, trophyCard));
         }
         trophyCards.clear();
@@ -274,7 +271,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Determines the winner, comparing the scores of the players.
+     * Determine the winner, comparing the scores of the players.
      */
     private void determineWinner() {
         this.awardTrophies();
@@ -310,9 +307,8 @@ public class Game implements Serializable {
     }
 
     /**
-     * Suggests to the player if he wants to save his game ("1" to continue, "2" to save).
-     *
-     * @return True if the game is saved or false if the game is not saved.
+     * Suggest the player if he wants to save his game ("1" to continue, "2" to save).
+     * @return true if the game is saved or false if the game is not saved.
      */
     public boolean suggestSaving() {
         Scanner scanner = new Scanner(System.in);
@@ -326,7 +322,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Saves the game.
+     * Save the game.
      */
     private void save() {
 
@@ -363,9 +359,8 @@ public class Game implements Serializable {
 
     }
 
-    private record PlayerScore(Player player, int score) {
-    }
-    private record PlayerTrophyCard(Player player, Card card) {
-    }
+    private record PlayerScore(Player player, int score) {}
+    
+    private record PlayerTrophyCard(Player player, Card card) {}
 
 }

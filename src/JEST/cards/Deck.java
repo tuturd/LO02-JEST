@@ -15,17 +15,18 @@ import java.util.Map;
  * This class defines the decks : we can shuffle it, fill it...
  */
 public class Deck implements Serializable {
-    private Queue<Card> cards;
+	private static final long serialVersionUID = 1L;
+	
+	private Queue<Card> cards;
     private static final Map<DeckType, Deck> instances = new HashMap<>();
-    private static final long serialVersionUID = 1L;
     
     private Deck() {
         this.cards = new LinkedList<>();
     }
     
     /**
-     * Permits to have 2 instances maximum : the general and the restOfCards.
-     * @param type : type of the deck (general or restOfCards).
+     * Permit to have 2 instances maximum : the general and the restOfCards.
+     * @param type the type of the deck (general or restOfCards).
      * @return the deck created.
      */
     public static Deck getInstance(DeckType type) {
@@ -33,7 +34,7 @@ public class Deck implements Serializable {
     }
     
     /**
-     * Fill the general deck with all the cards of the game. We precise the type of the card (suit or joker), his suit, his value, and the trophy associated to the card.
+     * Fill the general deck with all the {@link Card}s of the game. We precise the type of the card (suit or joker), his suit, his value, and the {@link Trophy} associated to the card.
      */
     public void fill() {
         try {
@@ -69,7 +70,7 @@ public class Deck implements Serializable {
     }
     
     /**
-     * We deal a card and return it.
+     * Deal a card and return it.
      * @return the card dealt.
      */
     public Card deal() {
@@ -78,7 +79,7 @@ public class Deck implements Serializable {
     
     /**
      * Deal the number of cards asked.
-     * @param numCards : the number of cards who have to be dealt.
+     * @param numCards the number of cards who have to be dealt.
      * @return the list of the cards dealt.
      */
     public List<Card> deal(int numCards) {
@@ -99,7 +100,6 @@ public class Deck implements Serializable {
         return this.cards.isEmpty();
     }
 
-    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
