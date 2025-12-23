@@ -45,5 +45,9 @@ public class SuitCard extends Card {
     public void transformToFive() {
         this.faceValue = 5;
     }
+    
+    public String getPicture() {
+    	return "/pictures/" + this.suit + this.faceValue + ".png";
+    }
 }
 
