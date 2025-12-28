@@ -87,7 +87,7 @@ loadScripts(document, 'script');</script>
 <h1 title="Class Player" class="title">Class Player</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">JEST.Player</div>
+<div class="inheritance">JEST.model.Player</div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
@@ -96,7 +96,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <dl class="notes">
 <dt>Direct Known Subclasses:</dt>
-<dd><code><a href="virtualPlayer/VirtualPlayer.html" title="class in JEST.virtualPlayer">VirtualPlayer</a></code></dd>
+<dd><code><a href="virtualPlayer/VirtualPlayer.html" title="class in JEST.model.virtualPlayer">VirtualPlayer</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Player</span>
@@ -147,24 +147,24 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <div class="block">The REAL player is asked to choose the player whose offer they want to receive, and then which card they want to receive (face down or face up).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drawCard(JEST.cards.Deck)" class="member-name-link">drawCard</a><wbr>(<a href="cards/Deck.html" title="class in JEST.cards">Deck</a>&nbsp;deck)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drawCard(JEST.cards.Deck)" class="member-name-link">drawCard</a><wbr>(<a href="cards/Deck.html" title="class in JEST.model.cards">Deck</a>&nbsp;deck)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">The player, virtual or real, draws from the <a href="cards/Deck.html" title="class in JEST.cards"><code>Deck</code></a> selected.</div>
+<div class="block">The player, virtual or real, draws from the <a href="cards/Deck.html" title="class in JEST.model.cards"><code>Deck</code></a> selected.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="cards/Offer.html" title="class in JEST.cards">Offer</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="cards/Offer.html" title="class in JEST.model.cards">Offer</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCurrentOffer()" class="member-name-link">getCurrentOffer</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="cards/Jest.html" title="class in JEST.cards">Jest</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="cards/Jest.html" title="class in JEST.model.cards">Jest</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getJest()" class="member-name-link">getJest</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#makeOffer(JEST.cards.Card,JEST.cards.Card)" class="member-name-link">makeOffer</a><wbr>(<a href="cards/Card.html" title="class in JEST.cards">Card</a>&nbsp;c1,
- <a href="cards/Card.html" title="class in JEST.cards">Card</a>&nbsp;c2)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#makeOffer(JEST.cards.Card,JEST.cards.Card)" class="member-name-link">makeOffer</a><wbr>(<a href="cards/Card.html" title="class in JEST.model.cards">Card</a>&nbsp;c1,
+ <a href="cards/Card.html" title="class in JEST.model.cards">Card</a>&nbsp;c2)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">The REAL player makes his <a href="cards/Offer.html" title="class in JEST.cards"><code>Offer</code></a> : it retrieves 2 <a href="cards/OfferCard.html" title="class in JEST.cards"><code>OfferCard</code></a> (a face-up or face down <a href="cards/Card.html" title="class in JEST.cards"><code>Card</code></a> and creates the player's offer.</div>
+<div class="block">The REAL player makes his <a href="cards/Offer.html" title="class in JEST.model.cards"><code>Offer</code></a> : it retrieves 2 <a href="cards/OfferCard.html" title="class in JEST.model.cards"><code>OfferCard</code></a> (a face-up or face down <a href="cards/Card.html" title="class in JEST.model.cards"><code>Card</code></a> and creates the player's offer.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCurrentOffer(JEST.cards.Offer)" class="member-name-link">setCurrentOffer</a><wbr>(<a href="cards/Offer.html" title="class in JEST.cards">Offer</a>&nbsp;currentOffer)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCurrentOffer(JEST.cards.Offer)" class="member-name-link">setCurrentOffer</a><wbr>(<a href="cards/Offer.html" title="class in JEST.model.cards">Offer</a>&nbsp;currentOffer)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
@@ -211,9 +211,9 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <li>
 <section class="detail" id="makeOffer(JEST.cards.Card,JEST.cards.Card)">
 <h3>makeOffer</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">makeOffer</span><wbr><span class="parameters">(<a href="cards/Card.html" title="class in JEST.cards">Card</a>&nbsp;c1,
- <a href="cards/Card.html" title="class in JEST.cards">Card</a>&nbsp;c2)</span></div>
-<div class="block">The REAL player makes his <a href="cards/Offer.html" title="class in JEST.cards"><code>Offer</code></a> : it retrieves 2 <a href="cards/OfferCard.html" title="class in JEST.cards"><code>OfferCard</code></a> (a face-up or face down <a href="cards/Card.html" title="class in JEST.cards"><code>Card</code></a> and creates the player's offer.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">makeOffer</span><wbr><span class="parameters">(<a href="cards/Card.html" title="class in JEST.model.cards">Card</a>&nbsp;c1,
+ <a href="cards/Card.html" title="class in JEST.model.cards">Card</a>&nbsp;c2)</span></div>
+<div class="block">The REAL player makes his <a href="cards/Offer.html" title="class in JEST.model.cards"><code>Offer</code></a> : it retrieves 2 <a href="cards/OfferCard.html" title="class in JEST.model.cards"><code>OfferCard</code></a> (a face-up or face down <a href="cards/Card.html" title="class in JEST.model.cards"><code>Card</code></a> and creates the player's offer.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>c1</code> - : this is the face-up card of his offer.</dd>
@@ -237,8 +237,8 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <li>
 <section class="detail" id="drawCard(JEST.cards.Deck)">
 <h3>drawCard</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">drawCard</span><wbr><span class="parameters">(<a href="cards/Deck.html" title="class in JEST.cards">Deck</a>&nbsp;deck)</span></div>
-<div class="block">The player, virtual or real, draws from the <a href="cards/Deck.html" title="class in JEST.cards"><code>Deck</code></a> selected.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">drawCard</span><wbr><span class="parameters">(<a href="cards/Deck.html" title="class in JEST.model.cards">Deck</a>&nbsp;deck)</span></div>
+<div class="block">The player, virtual or real, draws from the <a href="cards/Deck.html" title="class in JEST.model.cards"><code>Deck</code></a> selected.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>deck</code> - : the deck selected (the general or the restOfCards).</dd>
@@ -248,19 +248,19 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <li>
 <section class="detail" id="getJest()">
 <h3>getJest</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="cards/Jest.html" title="class in JEST.cards">Jest</a></span>&nbsp;<span class="element-name">getJest</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="cards/Jest.html" title="class in JEST.model.cards">Jest</a></span>&nbsp;<span class="element-name">getJest</span>()</div>
 </section>
 </li>
 <li>
 <section class="detail" id="getCurrentOffer()">
 <h3>getCurrentOffer</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="cards/Offer.html" title="class in JEST.cards">Offer</a></span>&nbsp;<span class="element-name">getCurrentOffer</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="cards/Offer.html" title="class in JEST.model.cards">Offer</a></span>&nbsp;<span class="element-name">getCurrentOffer</span>()</div>
 </section>
 </li>
 <li>
 <section class="detail" id="setCurrentOffer(JEST.cards.Offer)">
 <h3>setCurrentOffer</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setCurrentOffer</span><wbr><span class="parameters">(<a href="cards/Offer.html" title="class in JEST.cards">Offer</a>&nbsp;currentOffer)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setCurrentOffer</span><wbr><span class="parameters">(<a href="cards/Offer.html" title="class in JEST.model.cards">Offer</a>&nbsp;currentOffer)</span></div>
 </section>
 </li>
 <li>

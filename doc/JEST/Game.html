@@ -87,7 +87,7 @@ loadScripts(document, 'script');</script>
 <h1 title="Class Game" class="title">Class Game</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">JEST.Game</div>
+<div class="inheritance">JEST.model.Game</div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
@@ -129,9 +129,9 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#endGameIfNecessary()" class="member-name-link">endGameIfNecessary</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">If the <a href="cards/Deck.html" title="class in JEST.cards"><code>Deck</code></a>s (the general and restOfCards) are empty, we determine the winner.</div>
+<div class="block">If the <a href="cards/Deck.html" title="class in JEST.model.cards"><code>Deck</code></a>s (the general and restOfCards) are empty, we determine the winner.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="cards/Deck.html" title="class in JEST.cards">Deck</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="cards/Deck.html" title="class in JEST.model.cards">Deck</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getGeneralDeck()" class="member-name-link">getGeneralDeck</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Game.html" title="class in JEST">Game</a></code></div>
@@ -139,7 +139,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">We use the Singleton design pattern, to guarantee that there is only one instance of this class.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="cards/Deck.html" title="class in JEST.cards">Deck</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="cards/Deck.html" title="class in JEST.model.cards">Deck</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRestOfCards()" class="member-name-link">getRestOfCards</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Game.html" title="class in JEST">Game</a></code></div>
@@ -222,7 +222,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="endGameIfNecessary()">
 <h3>endGameIfNecessary</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">endGameIfNecessary</span>()</div>
-<div class="block">If the <a href="cards/Deck.html" title="class in JEST.cards"><code>Deck</code></a>s (the general and restOfCards) are empty, we determine the winner. If it is not the case, the game continues.</div>
+<div class="block">If the <a href="cards/Deck.html" title="class in JEST.model.cards"><code>Deck</code></a>s (the general and restOfCards) are empty, we determine the winner. If it is not the case, the game continues.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>true if the game is over.</dd>
@@ -232,13 +232,13 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <li>
 <section class="detail" id="getGeneralDeck()">
 <h3>getGeneralDeck</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="cards/Deck.html" title="class in JEST.cards">Deck</a></span>&nbsp;<span class="element-name">getGeneralDeck</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="cards/Deck.html" title="class in JEST.model.cards">Deck</a></span>&nbsp;<span class="element-name">getGeneralDeck</span>()</div>
 </section>
 </li>
 <li>
 <section class="detail" id="getRestOfCards()">
 <h3>getRestOfCards</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="cards/Deck.html" title="class in JEST.cards">Deck</a></span>&nbsp;<span class="element-name">getRestOfCards</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="cards/Deck.html" title="class in JEST.model.cards">Deck</a></span>&nbsp;<span class="element-name">getRestOfCards</span>()</div>
 </section>
 </li>
 <li>

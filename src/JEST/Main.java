@@ -1,76 +1,24 @@
 package JEST;
 
-import java.util.Scanner;
+import JEST.model.Game;
+import JEST.view.GraphicalInterface;
+import JEST.controller.GameController;
 
-/**
- * The class allows the game to run and the player to use the console.
- */
 public class Main {
-    private static Main instance;
-    private Game game;
 
-    private Main() {
-        this.game = Game.getInstance();
-    }
-
-    /**
-     * We use the Singleton design pattern, to guarantee that there is only one instance of this class.
-     * @return the only instance of the class.
-     */
-    public static Main getInstance() {
-        if (instance == null) {
-            instance = new Main();
-        }
-        return instance;
-    }
-
-    /**
-     * This class is one of the most important : it is the one that truly launches the game and allows the player to use the console.
-     */
     public static void main(String[] args) {
-        Main main = Main.getInstance();
-        Game game = main.getGame();
 
-        Scanner scanner = new Scanner(System.in);
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            Game game = Game.getInstance();
+            GraphicalInterface view = new GraphicalInterface();
+            GameController controller = new GameController(game, view);
+            view.setVisible(true);
+        });
 
-        while (true) {
-            System.out.print("Voulez-vous commencer une nouvelle partie (1) ou charger une partie existante (2) : ");
-            String nom = scanner.nextLine();
-            System.out.println();
+        Thread consoleThread = new Thread(() -> {
+            MainConsole.main(args);
+        });
 
-            if (nom.equals("1")) {
-                game = main.renewGame();
-                game.setup();
-            } else if (nom.equals("2")) {
-                System.out.println("Chargement de la partie > En cours...");
-                game = Game.load();
-                System.out.println("Chargement de la partie > OK");
-            } else {
-                System.out.println("Entrée invalide. Veuillez entrer 1 ou 2.");
-            }
-
-            boolean gameIsEnded = false;
-            boolean gameIsSaved = false;
-            while (!gameIsEnded && !gameIsSaved) {
-            	game.playRound();
-            	gameIsEnded = game.endGameIfNecessary();
-                if (!gameIsEnded) {
-                    gameIsSaved = game.suggestSaving();
-                }
-            }
-        }
-    }
-
-    public Game getGame() {
-        return this.game;
-    }
-    
-    /**
-     * Create a new game, destroying the old one.
-     * @return the new game.
-     */
-    public Game renewGame() {
-        Game.destroyInstance();
-        return Game.getInstance();
+        consoleThread.start();
     }
 }

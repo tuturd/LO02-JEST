@@ -1,4 +1,4 @@
 JEST
-JEST.cards
-JEST.cards.trophy
-JEST.virtualPlayer
+JEST.model.cards
+JEST.model.cards.trophy
+JEST.model.virtualPlayer
