@@ -39,7 +39,7 @@ public class JokerCard extends Card {
         return "Joker";
     }
     
-    public String getPicture() {
+    public String getPicturePath() {
     	return "/JEST/static/joker.png";
     }
 }

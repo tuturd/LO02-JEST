@@ -1,14 +1,14 @@
 package JEST.controller;
 
 import JEST.model.Game;
-import JEST.view.GraphicalInterface;
+import JEST.view.PartyStartInterface;
 
 public class GameController {
 
     private final Game model;
-    private final GraphicalInterface view;
+    private final PartyStartInterface view;
 
-    public GameController(Game model, GraphicalInterface view) {
+    public GameController(Game model, PartyStartInterface view) {
         this.model = model;
         this.view = view;
 

@@ -31,4 +31,6 @@ public abstract class Card implements Serializable {
     public String toString() {
         return getSuit() + " " + getFaceValue();
     }
+    
+    public abstract String getPicturePath();
 }

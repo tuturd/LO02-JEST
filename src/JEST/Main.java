@@ -1,7 +1,8 @@
 package JEST;
 
 import JEST.model.Game;
-import JEST.view.GraphicalInterface;
+import JEST.view.NewGameCreation;
+import JEST.view.PartyStartInterface;
 import JEST.controller.GameController;
 
 public class Main {
@@ -10,9 +11,9 @@ public class Main {
 
         javax.swing.SwingUtilities.invokeLater(() -> {
             Game game = Game.getInstance();
-            GraphicalInterface view = new GraphicalInterface();
-            GameController controller = new GameController(game, view);
-            view.setVisible(true);
+            PartyStartInterface partyStartView = new PartyStartInterface();
+            GameController controller = new GameController(game, partyStartView);
+            partyStartView.setVisible(true);
         });
 
         Thread consoleThread = new Thread(() -> {
