@@ -22,7 +22,7 @@ public class GraphicalInterface extends JFrame {
         referenceCardOriginal.setIcon(
                 new ImageIcon(
                         Objects.requireNonNull(
-                                getClass().getResource("/JEST/static/reference_card.png")
+                        		getClass().getResource("/JEST/static/reference_card.png")
                         )
                 )
         );

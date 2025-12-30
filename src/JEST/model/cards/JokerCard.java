@@ -38,6 +38,10 @@ public class JokerCard extends Card {
     public String toString() {
         return "Joker";
     }
+    
+    public String getPicture() {
+    	return "/JEST/static/joker.png";
+    }
 }
 
 

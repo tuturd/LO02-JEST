@@ -47,7 +47,7 @@ public class SuitCard extends Card {
     }
     
     public String getPicture() {
-    	return "/pictures/" + this.suit + this.faceValue + ".png";
+    	return "/JEST/static/" + this.suit + "_" + this.faceValue + ".png";
     }
 }
 
