@@ -10,19 +10,7 @@ import javax.swing.JFrame;
 
 public class MakeOffer {
 
-	private JButton referenceCardOriginal;
 	private JFrame frame;
-	
-	/*referenceCardOriginal = new JButton("");
-	referenceCardOriginal.setIcon(
-			new ImageIcon(Objects.requireNonNull(getClass().getResource("/JEST/static/reference_card.png"))));
-	referenceCardOriginal.setBounds(25, 32, 127, 181);
-	referenceCardOriginal.setVisible(false);
-	add(this.referenceCardOriginal);
-	
-		public void addReferenceCardListener(ActionListener listener) {
-		referenceCardOriginal.addActionListener(listener);
-	}
 
 	/**
 	 * Launch the application.

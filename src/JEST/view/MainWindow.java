@@ -16,8 +16,9 @@ public class MainWindow {
 			"START",
 			"CONFIG_NEW",
 			"LOAD",
-			"CHOOSE_OFFER",
+			"TROPHY_INITIALIZATION",
 			"MAKE_OFFER",
+			"CHOOSE_OFFER",
 			"RESULT"
 	};
 
@@ -31,6 +32,8 @@ public class MainWindow {
 
 		this.container.add(new PartyStartInterface(this), STEPS[0]);
 		this.container.add(new NewGameCreation(this), STEPS[1]);
+		this.container.add(new TrophyInitialization(this), STEPS[3]);
+		
 
 		this.frame.setContentPane(container);
 		this.frame.setVisible(true);

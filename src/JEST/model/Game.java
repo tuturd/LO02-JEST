@@ -21,6 +21,7 @@ public class Game implements Serializable {
     private Deck generalDeck;
     private Deck restOfCards;
     private List<Card> trophyCards;
+    
     private static final long serialVersionUID = 1L;
 
     private Game() {
@@ -110,6 +111,23 @@ public class Game implements Serializable {
         }
         return null;
     }
+    
+    public void addHumanPlayer(String firstName, String lastName) {
+        this.players.add(new Player(firstName, lastName));
+    }
+    
+    public void addVirtualPlayer(String firstName, String lastName, String strategy) {
+        switch (strategy) {
+            case "1" -> this.players.add(
+                    new VirtualPlayer(firstName, lastName, new RandomStrategy()));
+            case "2" -> this.players.add(
+                    new VirtualPlayer(firstName, lastName, new DefensiveStrategy()));
+            case "3" -> this.players.add(
+                    new VirtualPlayer(firstName, lastName, new AgressiveStrategy()));
+            default -> this.players.add(
+                    new VirtualPlayer(firstName, lastName, new RandomStrategy()));
+        }
+    }
 
     /**
      * Prepare the beginning of the game : create the players, fill the deck, etc.
@@ -146,22 +164,17 @@ public class Game implements Serializable {
             if (isVirtual.equals("o")) {
                 System.out.printf("Quelle stratégie pour le joueur virtuel %d ? (1: Aléatoire, 2: Défensive, 3: Agressive) : ", i + 1);
                 String strategyChoice = scanner.nextLine().trim();
-                switch (strategyChoice) {
-                    case "1" -> this.players.add(new VirtualPlayer(firstName, lastName, new RandomStrategy()));
-                    case "2" -> this.players.add(new VirtualPlayer(firstName, lastName, new DefensiveStrategy()));
-                    case "3" -> this.players.add(new VirtualPlayer(firstName, lastName, new AgressiveStrategy()));
-                    default -> {
-                        System.out.println("Choix invalide, stratégie aléatoire par défaut.");
-                        this.players.add(new VirtualPlayer(firstName, lastName, new RandomStrategy()));
-                    }
+                if (!strategyChoice.equals("1") && !strategyChoice.equals("2")  && !strategyChoice.equals("3")) {
+                	System.out.println("Choix invalide, stratégie aléatoire par défaut.");
                 }
+                this.addVirtualPlayer(firstName, lastName, strategyChoice);
 
                 System.out.printf(">>> Joueur virtuel n°%d créé\n", i + 1);
                 continue;
             }
 
 
-            this.players.add(new Player(firstName, lastName));
+            this.addHumanPlayer(firstName, lastName);
             System.out.printf(">>> Joueur n°%d créé : %s %s\n", i + 1, firstName, lastName);
         }
 
@@ -237,7 +250,11 @@ public class Game implements Serializable {
         }
     }
 
-    /**
+    public List<Card> getTrophyCards() {
+		return trophyCards;
+	}
+
+	/**
      * If the {@link Deck}s (the general and restOfCards) are empty, we determine the winner. If it is not the case, the game continues.
      *
      * @return true if the game is over.
@@ -359,7 +376,11 @@ public class Game implements Serializable {
 
     }
 
-    private record PlayerScore(Player player, int score) {}
+    public List<Player> getPlayers() {
+		return players;
+	}
+
+	private record PlayerScore(Player player, int score) {}
     
     private record PlayerTrophyCard(Player player, Card card) {}
 
