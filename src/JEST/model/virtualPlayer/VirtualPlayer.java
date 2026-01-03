@@ -1,5 +1,7 @@
 package JEST.model.virtualPlayer;
 
+import JEST.controller.GameController;
+import JEST.controller.PlayerRouter;
 import JEST.model.Player;
 import JEST.model.cards.Card;
 import JEST.model.cards.Offer;
@@ -30,19 +32,27 @@ public class VirtualPlayer extends Player implements Serializable {
 	 * The virtual player makes an offer under his strategy.
 	 * @param c1 the first card of the offer.
 	 * @param c2 the second card of the offer.
+	 * @param router the player router to use for interaction
 	 */
-    public void makeOffer(Card c1, Card c2) {
-        System.out.printf("%s a fait une offre via une stratégie %s.\n", this, this.strategy);
+    public void makeOffer(Card c1, Card c2, PlayerRouter router) {
         this.strategy.makeOffer(this, c1, c2);
     }
 
     /**
      * The virtual player chooses an offer under his strategy.
      * @param players the list of all players.
+     * @param router the player router to use for interaction
      * @return the player whose virtual player chooses the offer.
      */
-    public Player chooseOffer(List<Player> players) {
-        System.out.printf("\n%s a choisi une offre via une stratégie %s.\n", this, this.strategy);
+    public Player chooseOffer(List<Player> players, PlayerRouter router) {
         return this.strategy.chooseOffer(this, players);
+    }
+    
+    /**
+     * Get the strategy of this virtual player.
+     * @return the strategy
+     */
+    public Strategy getStrategy() {
+        return this.strategy;
     }
 }

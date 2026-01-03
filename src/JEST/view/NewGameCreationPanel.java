@@ -1,55 +1,48 @@
 package JEST.view;
 
+import JEST.controller.GUIController;
+import JEST.model.Player;
+
 import javax.swing.*;
+import java.awt.*;
 
-import JEST.model.Game;
-
-import java.awt.Font;
-
-public class NewGameCreation extends JPanel {
+public class NewGameCreationPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
-
+    // ===== Etats =====
+    private static final int STEP_FIRSTNAME = 0;
+    private static final int STEP_LASTNAME = 1;
+    private static final int STEP_STRATEGY = 2;
+    private static final int STEP_INTERFACE = 3;
     // ===== UI =====
     private JLabel lblNombreDeJoueurs;
     private JLabel nomJoueur;
-
     private JButton btn3Players;
     private JButton btn4Players;
-
     private JButton btnOui;
     private JButton btnNon;
-
     private JButton btnSuivant;
-
     private JButton btnRandom;
     private JButton btnDefensive;
     private JButton btnAggressive;
-
     private JTextField txtPrenomNom;
-
-    // ===== Game =====
-    private final Game game = Game.getInstance();
-
     // ===== Gestion joueurs =====
     private int totalPlayers;
     private int currentPlayer = 1;
     private boolean isVirtualPlayer;
-
-    // ===== Etats =====
-    private static final int STEP_FIRSTNAME = 0;
-    private static final int STEP_LASTNAME  = 1;
-    private static final int STEP_STRATEGY  = 2;
-
     private int step;
     private String firstName;
     private String lastName;
     private MainWindow main;
+    private GUIController gameController;
 
-    public NewGameCreation(MainWindow main) {
+    private JButton btnGUI;
+    private JButton btnConsole;
 
-    	this.main = main;
-    	
+    public NewGameCreationPanel(MainWindow main) {
+
+        this.main = main;
+
         setLayout(null);
 
         // ===== Choix nombre joueurs =====
@@ -135,6 +128,21 @@ public class NewGameCreation extends JPanel {
         btnAggressive.setVisible(false);
         btnAggressive.addActionListener(e -> selectStrategy("3"));
         add(btnAggressive);
+
+        // ===== Boutons choix interface =====
+        btnGUI = new JButton("Interface Graphique");
+        btnGUI.setFont(new Font("Comic Sans MS", Font.PLAIN, 17));
+        btnGUI.setBounds(140, 117, 200, 31);
+        btnGUI.setVisible(false);
+        btnGUI.addActionListener(e -> selectInterface("GUI"));
+        add(btnGUI);
+
+        btnConsole = new JButton("Console");
+        btnConsole.setFont(new Font("Comic Sans MS", Font.PLAIN, 17));
+        btnConsole.setBounds(413, 117, 200, 31);
+        btnConsole.setVisible(false);
+        btnConsole.addActionListener(e -> selectInterface("CONSOLE"));
+        add(btnConsole);
     }
 
     // =====================================================
@@ -182,8 +190,7 @@ public class NewGameCreation extends JPanel {
             txtPrenomNom.setText("");
             nomJoueur.setText("Nom du joueur " + currentPlayer + " :");
             step = STEP_LASTNAME;
-        }
-        else if (step == STEP_LASTNAME) {
+        } else if (step == STEP_LASTNAME) {
 
             lastName = txtPrenomNom.getText().trim();
             if (lastName.isEmpty()) {
@@ -198,10 +205,11 @@ public class NewGameCreation extends JPanel {
                 showStrategyButtons();
                 step = STEP_STRATEGY;
             } else {
-                game.addHumanPlayer(firstName, lastName);
-                showPlayerCreatedMessage();
-                delayBeforeNextPlayer();
+                showInterfaceButtons();
+                step = STEP_INTERFACE;
             }
+        } else if (step == STEP_INTERFACE) {
+            selectInterface("GUI");
         }
     }
 
@@ -223,7 +231,31 @@ public class NewGameCreation extends JPanel {
 
         hideStrategyButtons();
 
-        game.addVirtualPlayer(firstName, lastName, strategy);
+        main.getGame().addVirtualPlayer(firstName, lastName, strategy);
+
+        showPlayerCreatedMessage();
+        delayBeforeNextPlayer();
+    }
+
+    private void showInterfaceButtons() {
+        nomJoueur.setText("Choisissez l'interface pour le joueur " + currentPlayer + " :");
+
+        btnGUI.setVisible(true);
+        btnConsole.setVisible(true);
+    }
+
+    private void hideInterfaceButtons() {
+        btnGUI.setVisible(false);
+        btnConsole.setVisible(false);
+    }
+
+    private void selectInterface(String interfaceType) {
+        hideInterfaceButtons();
+
+        Player.InterfaceType type = interfaceType.equals("GUI") ?
+                Player.InterfaceType.GUI : Player.InterfaceType.CONSOLE;
+
+        main.getGame().addHumanPlayer(firstName, lastName, type);
 
         showPlayerCreatedMessage();
         delayBeforeNextPlayer();
@@ -250,18 +282,24 @@ public class NewGameCreation extends JPanel {
         btnSuivant.setVisible(false);
         btnOui.setVisible(false);
         btnNon.setVisible(false);
-        
-        Timer timer = new Timer(1500, e -> {
-            ((Timer) e.getSource()).stop();
-            this.main.show(3);
-        });
-        timer.setRepeats(false); // ne pas répéter
-        timer.start();
+
+        if (main.getGame().getGameController() != null) {
+            main.getGame().initializeDeckAndTrophies();
+        } else {
+            main.getGame().getGeneralDeck().fill();
+            main.getGame().getGeneralDeck().shuffle();
+
+            if (main.getGame().getPlayers().size() == 3) {
+                main.getGame().getTrophyCards().addAll(main.getGame().getGeneralDeck().deal(2));
+            } else {
+                main.getGame().getTrophyCards().addAll(main.getGame().getGeneralDeck().deal(1));
+            }
+        }
     }
 
     private void showPlayerCreatedMessage() {
         nomJoueur.setText(
-            "Joueur " + currentPlayer + " créé : " + firstName + " " + lastName
+                "Joueur " + currentPlayer + " créé : " + firstName + " " + lastName
         );
     }
 
@@ -272,5 +310,9 @@ public class NewGameCreation extends JPanel {
         });
         timer.setRepeats(false);
         timer.start();
+    }
+
+    public void setGameController(GUIController gameController) {
+        this.gameController = gameController;
     }
 }

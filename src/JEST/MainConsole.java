@@ -1,8 +1,9 @@
 package JEST;
 
+import JEST.controller.ConsoleController;
+import JEST.controller.GameController;
+import JEST.controller.PlayerRouter;
 import JEST.model.Game;
-
-import java.util.Scanner;
 
 /**
  * The class allows the game to run and the player to use the console.
@@ -10,13 +11,21 @@ import java.util.Scanner;
 public class MainConsole {
     private static MainConsole instance;
     private Game game;
+    private GameController gameController;
 
     private MainConsole() {
         this.game = Game.getInstance();
+        this.gameController = new ConsoleController();
+        this.game.setGameController(this.gameController);
+
+        // In console-only mode, all players use console, so router points always to console
+        PlayerRouter playerRouter = new PlayerRouter(this.gameController, this.gameController);
+        this.game.setPlayerRouter(playerRouter);
     }
 
     /**
      * We use the Singleton design pattern, to guarantee that there is only one instance of this class.
+     *
      * @return the only instance of the class.
      */
     public static MainConsole getInstance() {
@@ -32,30 +41,32 @@ public class MainConsole {
     public static void main(String[] args) {
         MainConsole main = MainConsole.getInstance();
         Game game = main.getGame();
-
-        Scanner scanner = new Scanner(System.in);
+        GameController gameController = main.gameController;
 
         while (true) {
-            System.out.print("Voulez-vous commencer une nouvelle partie (1) ou charger une partie existante (2) : ");
-            String nom = scanner.nextLine();
-            System.out.println();
+            int choice = gameController.askNewOrLoadGame();
 
-            if (nom.equals("1")) {
+            if (choice == 1) {
                 game = main.renewGame();
+                game.setGameController(gameController);
                 game.setup();
-            } else if (nom.equals("2")) {
-                System.out.println("Chargement de la partie > En cours...");
-                game = Game.load();
-                System.out.println("Chargement de la partie > OK");
-            } else {
-                System.out.println("Entrée invalide. Veuillez entrer 1 ou 2.");
+            } else if (choice == 2) {
+                gameController.displayMessage("Chargement de la partie > En cours...", GameController.MessageType.NORMAL);
+                game = Game.load(gameController);
+                if (game == null) {
+                    continue; // retry
+                }
+                main.game = game;
+                PlayerRouter playerRouter = new PlayerRouter(gameController, gameController);
+                game.setPlayerRouter(playerRouter);
+                gameController.displayMessage("Chargement de la partie > OK", GameController.MessageType.INFORMATION);
             }
 
             boolean gameIsEnded = false;
             boolean gameIsSaved = false;
             while (!gameIsEnded && !gameIsSaved) {
-            	game.playRound();
-            	gameIsEnded = game.endGameIfNecessary();
+                game.playRound();
+                gameIsEnded = game.endGameIfNecessary();
                 if (!gameIsEnded) {
                     gameIsSaved = game.suggestSaving();
                 }
@@ -66,13 +77,18 @@ public class MainConsole {
     public Game getGame() {
         return this.game;
     }
-    
+
     /**
      * Create a new game, destroying the old one.
+     *
      * @return the new game.
      */
     public Game renewGame() {
         Game.destroyInstance();
-        return Game.getInstance();
+        this.game = Game.getInstance();
+        this.game.setGameController(this.gameController);
+        PlayerRouter playerRouter = new PlayerRouter(this.gameController, this.gameController);
+        this.game.setPlayerRouter(playerRouter);
+        return this.game;
     }
 }

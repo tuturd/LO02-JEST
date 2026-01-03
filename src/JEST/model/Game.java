@@ -1,5 +1,7 @@
 package JEST.model;
 
+import JEST.controller.GameController;
+import JEST.controller.PlayerRouter;
 import JEST.model.cards.Card;
 import JEST.model.cards.Deck;
 import JEST.model.cards.DeckType;
@@ -9,20 +11,24 @@ import JEST.model.virtualPlayer.RandomStrategy;
 import JEST.model.virtualPlayer.VirtualPlayer;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * The class starts a game, load or save one, play a round, and determines the winner.
  */
 public class Game implements Serializable {
+    private static final long serialVersionUID = 1L;
     private static Game instance;
     private List<Player> players;
     private Deck generalDeck;
     private Deck restOfCards;
     private List<Card> trophyCards;
-    
-    private static final long serialVersionUID = 1L;
+    private transient GameController gameController;
+    private transient PlayerRouter playerRouter;
 
     private Game() {
         this.players = new ArrayList<>();
@@ -33,6 +39,7 @@ public class Game implements Serializable {
 
     /**
      * We use the Singleton design pattern, to guarantee that there is only one instance of this class.
+     *
      * @return the only instance of the class.
      */
     public static synchronized Game getInstance() {
@@ -51,6 +58,7 @@ public class Game implements Serializable {
 
     /**
      * Verify if the file's name is valid.
+     *
      * @param "name" is the file's name.
      * @return true if the file's name is valid, or false if it is invalid.
      */
@@ -64,7 +72,7 @@ public class Game implements Serializable {
     /**
      * Load the game.
      */
-    public static Game load() {
+    public static Game load(GameController gameController) {
 
         File savesDir = new File("saves");
         if (!savesDir.exists()) {
@@ -73,60 +81,87 @@ public class Game implements Serializable {
 
         File[] files = savesDir.listFiles((d, name) -> name.toLowerCase().endsWith(".jest"));
         if (files == null || files.length == 0) {
-            System.out.println("Aucune sauvegarde .jest trouvee dans le dossier saves.");
+            gameController.displayMessage("Aucune sauvegarde .jest trouvée dans le dossier saves.", GameController.MessageType.ERROR);
             return null;
         }
 
-        System.out.println("Sauvegardes disponibles :");
-        for (int i = 0; i < files.length; i++) {
-            System.out.printf("%d) %s%n", i + 1, files[i].getName());
+        List<String> fileNames = new ArrayList<>();
+        for (File f : files) {
+            fileNames.add(f.getName());
         }
 
-        Scanner scanner = new Scanner(System.in);
-        int choice = -1;
-        while (choice < 1 || choice > files.length) {
-            System.out.print("Entrez le numero du fichier a charger : ");
-            String line = scanner.nextLine();
-            try {
-                choice = Integer.parseInt(line);
-                if (choice < 1 || choice > files.length) {
-                    System.out.println("Numero hors champ, reessayez.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Entree invalide, tapez un nombre.");
-            }
-        }
-
-        File selected = files[choice - 1];
+        int choice = gameController.askSelectFileToLoad(fileNames);
+        File selected = files[choice];
 
         try (FileInputStream fis = new FileInputStream(selected);
              ObjectInputStream ois = new ObjectInputStream(fis)) {
 
             Game loadedGame = (Game) ois.readObject();
+            loadedGame.setGameController(gameController);
 
             return loadedGame;
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-            System.out.println("Chargement de la partie > ERROR");
+            gameController.displayMessage("Chargement de la partie > ERROR", GameController.MessageType.ERROR);
         }
         return null;
     }
-    
-    public void addHumanPlayer(String firstName, String lastName) {
-        this.players.add(new Player(firstName, lastName));
+
+    /**
+     * Get the current game interface.
+     *
+     * @return the game interface
+     */
+    public GameController getGameController() {
+        return this.gameController;
     }
-    
+
+    /**
+     * Set the game interface (console or GUI).
+     *
+     * @param gameController the interface to use
+     */
+    public void setGameController(GameController gameController) {
+        this.gameController = gameController;
+
+    }
+
+    /**
+     * Get the player router.
+     *
+     * @return the player router
+     */
+    public PlayerRouter getPlayerRouter() {
+        return this.playerRouter;
+    }
+
+    /**
+     * Set the player router for player-specific operations.
+     *
+     * @param playerRouter the router to use for player-specific interactions
+     */
+    public void setPlayerRouter(PlayerRouter playerRouter) {
+        this.playerRouter = playerRouter;
+    }
+
+    public void addHumanPlayer(String firstName, String lastName) {
+        this.addHumanPlayer(firstName, lastName, Player.InterfaceType.CONSOLE);
+    }
+
+    public void addHumanPlayer(String firstName, String lastName, Player.InterfaceType interfaceType) {
+        Player player = new Player(firstName, lastName, interfaceType);
+        this.players.add(player);
+    }
+
     public void addVirtualPlayer(String firstName, String lastName, String strategy) {
+        VirtualPlayer player;
         switch (strategy) {
-            case "1" -> this.players.add(
-                    new VirtualPlayer(firstName, lastName, new RandomStrategy()));
-            case "2" -> this.players.add(
-                    new VirtualPlayer(firstName, lastName, new DefensiveStrategy()));
-            case "3" -> this.players.add(
-                    new VirtualPlayer(firstName, lastName, new AgressiveStrategy()));
-            default -> this.players.add(
-                    new VirtualPlayer(firstName, lastName, new RandomStrategy()));
+            case "1" -> player = new VirtualPlayer(firstName, lastName, new RandomStrategy());
+            case "2" -> player = new VirtualPlayer(firstName, lastName, new DefensiveStrategy());
+            case "3" -> player = new VirtualPlayer(firstName, lastName, new AgressiveStrategy());
+            default -> player = new VirtualPlayer(firstName, lastName, new RandomStrategy());
         }
+        this.players.add(player);
     }
 
     /**
@@ -134,64 +169,51 @@ public class Game implements Serializable {
      */
     public void setup() {
 
-        Scanner scanner = new Scanner(System.in);
-
-        int playerNumber = 0;
-        while (playerNumber == 0) {
-            System.out.print("Nombre de joueurs : ");
-            try {
-                String playerNumberString = scanner.nextLine();
-                int playerNumberTmp = Integer.parseInt(playerNumberString);
-                if ((playerNumberTmp > 2) && (playerNumberTmp < 5)) {
-                    playerNumber = playerNumberTmp;
-                } else {
-                    System.out.println("Le nombre de joueurs doit être de 3 ou 4 ! (3 conseillé)");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Entrée invalide, veuillez entrer un nombre !");
-            }
+        if (this.gameController == null) {
+            throw new IllegalStateException("GameController must be set before calling setup()");
         }
+
+        int playerNumber = this.gameController.askNumberOfPlayers();
 
         for (int i = 0; i < playerNumber; i++) {
-            System.out.printf("Le joueur %d est-il un joueur virtuel ? (o/n) : ", i + 1);
-            String isVirtual = scanner.nextLine().trim().toLowerCase();
+            boolean isVirtual = this.gameController.askIsVirtualPlayer(i + 1);
 
-            System.out.printf("Prénom du joueur %d : ", i + 1);
-            String firstName = scanner.nextLine();
-            System.out.printf("Nom du joueur %d : ", i + 1);
-            String lastName = scanner.nextLine();
+            String firstName = this.gameController.askFirstName(i + 1);
+            String lastName = this.gameController.askLastName(i + 1);
 
-            if (isVirtual.equals("o")) {
-                System.out.printf("Quelle stratégie pour le joueur virtuel %d ? (1: Aléatoire, 2: Défensive, 3: Agressive) : ", i + 1);
-                String strategyChoice = scanner.nextLine().trim();
-                if (!strategyChoice.equals("1") && !strategyChoice.equals("2")  && !strategyChoice.equals("3")) {
-                	System.out.println("Choix invalide, stratégie aléatoire par défaut.");
-                }
+            if (isVirtual) {
+                String strategyChoice = this.gameController.askStrategy(i + 1);
                 this.addVirtualPlayer(firstName, lastName, strategyChoice);
-
-                System.out.printf(">>> Joueur virtuel n°%d créé\n", i + 1);
-                continue;
+            } else {
+                this.addHumanPlayer(firstName, lastName);
             }
 
-
-            this.addHumanPlayer(firstName, lastName);
-            System.out.printf(">>> Joueur n°%d créé : %s %s\n", i + 1, firstName, lastName);
+            this.gameController.displayPlayerCreated(i + 1, firstName, lastName, isVirtual);
         }
 
-        System.out.print("Deck > Initialisation...\n");
+        this.initializeDeckAndTrophies();
+    }
+
+    /**
+     * Initialize deck and trophies only (players are already added).
+     * Used when players are configured through GUI.
+     */
+    public void initializeDeckAndTrophies() {
+        if (this.gameController == null) {
+            throw new IllegalStateException("GameController must be set before calling initializeDeckAndTrophies()");
+        }
+
+        this.gameController.displayMessage("Deck > Initialisation...", GameController.MessageType.NORMAL);
         this.generalDeck.fill();
-        System.out.print("Deck > Mélange...\n");
+        this.gameController.displayMessage("Deck > Mélange...", GameController.MessageType.NORMAL);
         this.generalDeck.shuffle();
         if (this.players.size() == 3) { //2 trophies when there are 3 players
-        	System.out.println("Trophies > Prendre les 2 premières...");
             this.trophyCards.addAll(this.generalDeck.deal(2));
-            System.out.println("Les trophées sont : " + this.trophyCards + ".");
         } else { //1 trophy when there are 4 players
-        	System.out.println("Trophies > Prendre la première...");
             this.trophyCards.addAll(this.generalDeck.deal(1));
-            System.out.println("Le trophée est : " + this.trophyCards + ".");
         }
-        System.out.print("Deck > OK\n");
+        this.gameController.displayTrophyCards(this.trophyCards);
+        this.gameController.displayMessage("Deck > OK", GameController.MessageType.NORMAL);
     }
 
     /**
@@ -206,8 +228,14 @@ public class Game implements Serializable {
             } else { // other rounds
                 cards = this.restOfCards.deal(2);
             }
-            System.out.println("\n" + player + " pioche 2 cartes.");
-            player.makeOffer(cards.get(0), cards.get(1));
+            this.gameController.displayMessage("\n" + player + " pioche 2 cartes.", GameController.MessageType.NORMAL);
+
+            // Display strategy message for virtual players
+            if (player instanceof VirtualPlayer) {
+                this.gameController.displayMessage(String.format("%s a fait une offre via une stratégie %s.", player, ((VirtualPlayer) player).getStrategy()), GameController.MessageType.NORMAL);
+            }
+
+            player.makeOffer(cards.get(0), cards.get(1), this.playerRouter);
         }
 
         // take
@@ -229,7 +257,12 @@ public class Game implements Serializable {
         Player lastPlayerSelected = playersAwaitingChoice.removeFirst();
 
         while (true) {
-            Player selection = lastPlayerSelected.chooseOffer(this.players);
+            // Display strategy message for virtual players
+            if (lastPlayerSelected instanceof VirtualPlayer) {
+                this.gameController.displayMessage(String.format("\n%s a choisi une offre via une stratégie %s.", lastPlayerSelected, ((VirtualPlayer) lastPlayerSelected).getStrategy()), GameController.MessageType.NORMAL);
+            }
+
+            Player selection = lastPlayerSelected.chooseOffer(this.players, this.playerRouter);
 
             if (playersAwaitingChoice.remove(selection)) {
                 lastPlayerSelected = selection;
@@ -251,10 +284,10 @@ public class Game implements Serializable {
     }
 
     public List<Card> getTrophyCards() {
-		return trophyCards;
-	}
+        return trophyCards;
+    }
 
-	/**
+    /**
      * If the {@link Deck}s (the general and restOfCards) are empty, we determine the winner. If it is not the case, the game continues.
      *
      * @return true if the game is over.
@@ -277,13 +310,13 @@ public class Game implements Serializable {
         List<PlayerTrophyCard> trophyCardsToGive = new ArrayList<>();
         for (Card trophyCard : trophyCards) {
             var test = trophyCard.getTrophy().getWinner(players);
-            System.out.println("Trophy > " + trophyCard + ", " + trophyCard.getTrophy().getName() + " won by " + test + "\n----------");
+            this.gameController.displayMessage("Trophy > " + trophyCard + ", " + trophyCard.getTrophy().getName() + " won by " + test + "\n----------", GameController.MessageType.NORMAL);
             trophyCardsToGive.add(new PlayerTrophyCard(test, trophyCard));
         }
         trophyCards.clear();
         trophyCardsToGive.forEach(trophyToGive -> {
-            trophyToGive.player.getJest().addCard(trophyToGive.card);
-            }
+                    trophyToGive.player.getJest().addCard(trophyToGive.card);
+                }
         );
     }
 
@@ -296,9 +329,9 @@ public class Game implements Serializable {
         List<PlayerScore> ranking = new ArrayList<>();
 
         for (Player player : this.players) {
-        	System.out.println("Jest de " + player + " : " + player.getJest());
+            this.gameController.displayMessage("Jest de " + player + " : " + player.getJest(), GameController.MessageType.NORMAL);
             PlayerScore playerScore = new PlayerScore(player, player.getJest().getScore());
-            System.out.println("Player " + player + " has score " + playerScore.score() + "\n----------");
+            this.gameController.displayMessage("Player " + player + " has score " + playerScore.score() + "\n----------", GameController.MessageType.NORMAL);
             ranking.add(playerScore);
         }
 
@@ -306,13 +339,16 @@ public class Game implements Serializable {
                 .sorted(Comparator.comparingInt(PlayerScore::score).reversed())
                 .collect(Collectors.toList());
 
+        StringBuilder rankingText = new StringBuilder();
         PlayerScore winner = ranking.getFirst();
-        System.out.println("Winner   : " + winner.player + " with " + winner.score + " points");
+        rankingText.append("Winner   : ").append(winner.player).append(" with ").append(winner.score).append(" points\n");
         for (int i = 1; i < ranking.size(); i++) {
             PlayerScore ps = ranking.get(i);
-            System.out.println("Player " + (i+1) + " : " + ps.player + " with " + ps.score + " points");
+            rankingText.append("Player ").append(i + 1).append(" : ").append(ps.player).append(" with ").append(ps.score).append(" points\n");
         }
-        System.out.println("----------");
+        rankingText.append("----------");
+
+        this.gameController.displayWinner(rankingText.toString());
     }
 
     public Deck getGeneralDeck() {
@@ -325,13 +361,12 @@ public class Game implements Serializable {
 
     /**
      * Suggest the player if he wants to save his game ("1" to continue, "2" to save).
+     *
      * @return true if the game is saved or false if the game is not saved.
      */
     public boolean suggestSaving() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Souhaitez-vous passer au tour suivant (1) ou sauvegarder la partie (2) : ");
-        int option = Integer.parseInt(scanner.nextLine());
-        if (option == 2) {
+        boolean wantsSave = this.gameController.askSaveGame();
+        if (wantsSave) {
             this.save();
             return true;
         }
@@ -350,38 +385,38 @@ public class Game implements Serializable {
 
         String filename = null;
         while (filename == null) {
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("Nom de la sauvegarde : ");
-            String filenameInput = scanner.nextLine();
+            String filenameInput = this.gameController.askSaveFileName();
             if (isValidFilename(filenameInput)) {
                 filename = filenameInput;
             } else {
-                System.out.println("Nom de fichier invalide. Veuillez utiliser uniquement des lettres.");
+                this.gameController.displayMessage("Nom de fichier invalide. Veuillez utiliser uniquement des lettres et des chiffres.", GameController.MessageType.ERROR);
             }
         }
 
         File outFile = new File(savesDir, filename + ".jest");
 
-        System.out.println("Sauvegarde de la partie > En cours...");
+        this.gameController.displayMessage("Sauvegarde de la partie > En cours...", GameController.MessageType.NORMAL);
         try (FileOutputStream fos = new FileOutputStream(outFile);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 
             oos.writeObject(this);
 
-            System.out.println("Sauvegarde de la partie > OK");
+            this.gameController.displayMessage("Sauvegarde de la partie > OK", GameController.MessageType.INFORMATION);
         } catch (IOException ex) {
             ex.printStackTrace();
-            System.out.println("Sauvegarde de la partie > ERROR");
+            this.gameController.displayMessage("Sauvegarde de la partie > ERROR", GameController.MessageType.ERROR);
         }
 
     }
 
     public List<Player> getPlayers() {
-		return players;
-	}
+        return players;
+    }
 
-	private record PlayerScore(Player player, int score) {}
-    
-    private record PlayerTrophyCard(Player player, Card card) {}
+    private record PlayerScore(Player player, int score) {
+    }
+
+    private record PlayerTrophyCard(Player player, Card card) {
+    }
 
 }
