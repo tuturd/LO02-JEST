@@ -1,0 +1,476 @@
+classDiagram
+    direction BT
+    class AgressiveStrategy {
+        + AgressiveStrategy()
+        - computeAdvantageOnTakingCard(VirtualPlayer, Card) int
+        - computeAdvantageOnMakingOffer(VirtualPlayer, Card) int
+        + toString() String
+        - isAnyCardInSuit(VirtualPlayer, Suit) boolean
+        + makeOffer(VirtualPlayer, Card, Card) void
+        + chooseOffer(VirtualPlayer, List~Player~) Player
+        - getBestCard(VirtualPlayer, List~Offer~) Card
+    }
+    class BestJestTrophy {
+        + BestJestTrophy()
+        + getWinner(List~Player~) Player
+        String name
+    }
+    class BestJestWithoutJokerTrophy {
+        + BestJestWithoutJokerTrophy()
+        + getWinner(List~Player~) Player
+        String name
+    }
+    class Card {
+        # Card(Trophy)
+        + accept(CardVisitor) void
+        + toString() String
+        int faceValue
+        String picturePath
+        Suit suit
+        Trophy trophy
+    }
+    class CardVisitor {
+        <<Interface>>
+        + visit(SuitCard) void
+        + visit(JokerCard) void
+    }
+    class ChooseOfferPanel {
+        + ChooseOfferPanel(MainWindow)
+        + setupChooseOffer(Player, String, List~Player~) void
+        - createHiddenCardPanel(Player, int, int) JPanel
+        - createCardPanel(Player, Card, boolean, int, int) JPanel
+        + clear() void
+        - selectOffer(int, int) void
+        GUIController gameController
+    }
+    class ConsoleController {
+        + ConsoleController()
+        + displayPlayerCreated(int, String, String, boolean) void
+        + displayTrophyCards(List~Card~) void
+        + askSaveFileName() String
+        + displayCardAddedToJest(Player, Card) void
+        + displayWinner(String) void
+        + askSaveGame() boolean
+        + displayMessage(String, MessageType) void
+        + askSelectFileToLoad(List~String~) int
+        - isValidFilename(String) boolean
+        + askIsVirtualPlayer(int) boolean
+        + askNewOrLoadGame() int
+        + askMakeOffer(Player, String, Card, Card) int
+        + askNumberOfPlayers() int
+        + askFirstName(int) String
+        + askStrategy(int) String
+        + askLastName(int) String
+        + askChooseOffer(Player, String, List~Player~) int[]
+    }
+    class Deck {
+        - Deck()
+        + toString() String
+        + add(Card) void
+        + shuffle() void
+        + getInstance(DeckType) Deck
+        + deal() Card
+        + deal(int) List~Card~
+        + fill() void
+        boolean empty
+    }
+    class DeckType {
+        <<enumeration>>
+        + DeckType()
+        + values() DeckType[]
+        + valueOf(String) DeckType
+    }
+    class DefensiveStrategy {
+        + DefensiveStrategy()
+        - computeRiskOnTakingCard(Card, long, boolean) int
+        - getSafestCard(List~Offer~, long, boolean) Card
+        - computeRiskOnMakingOffer(VirtualPlayer, Card) int
+        + chooseOffer(VirtualPlayer, List~Player~) Player
+        + toString() String
+        + makeOffer(VirtualPlayer, Card, Card) void
+    }
+    class GUIController {
+        + GUIController(MainWindow)
+        + askSaveGame() boolean
+        + completeStringResponse(String) void
+        + askStrategy(int) String
+        + completeIntArrayResponse(int[]) void
+        + askChooseOffer(Player, String, List~Player~) int[]
+        + askNewOrLoadGame() int
+        + askIsVirtualPlayer(int) boolean
+        + askNumberOfPlayers() int
+        + askLastName(int) String
+        + displayMessage(String, MessageType) void
+        + completeIntResponse(int) void
+        + displayTrophyCards(List~Card~) void
+        + askSelectFileToLoad(List~String~) int
+        + completeBooleanResponse(boolean) void
+        + askFirstName(int) String
+        + displayPlayerCreated(int, String, String, boolean) void
+        + displayCardAddedToJest(Player, Card) void
+        + askSaveFileName() String
+        + askMakeOffer(Player, String, Card, Card) int
+        + displayWinner(String) void
+        MainWindow mainWindow
+    }
+    class Game {
+        - Game()
+        + destroyInstance() void
+        - determineWinner() void
+        - save() void
+        + addVirtualPlayer(String, String, String) void
+        + setup() void
+        - awardTrophies() void
+        + load(GameController) Game?
+        + playRound() void
+        + initializeDeckAndTrophies() void
+        - isValidFilename(String) boolean
+        + endGameIfNecessary() boolean
+        + addHumanPlayer(String, String, InterfaceType) void
+        + suggestSaving() boolean
+        + addHumanPlayer(String, String) void
+        Game instance
+        PlayerRouter playerRouter
+        Deck restOfCards
+        Deck generalDeck
+        List~Card~ trophyCards
+        List~Player~ players
+        GameController gameController
+    }
+    class GameController {
+        <<Interface>>
+        + askChooseOffer(Player, String, List~Player~) int[]
+        + displayWinner(String) void
+        + askIsVirtualPlayer(int) boolean
+        + askStrategy(int) String
+        + displayPlayerCreated(int, String, String, boolean) void
+        + askMakeOffer(Player, String, Card, Card) int
+        + askNewOrLoadGame() int
+        + askNumberOfPlayers() int
+        + askSelectFileToLoad(List~String~) int
+        + askSaveGame() boolean
+        + displayTrophyCards(List~Card~) void
+        + askFirstName(int) String
+        + askLastName(int) String
+        + displayMessage(String, MessageType) void
+        + displayCardAddedToJest(Player, Card) void
+        + askSaveFileName() String
+    }
+    class HighestInSuitTrophy {
+        + HighestInSuitTrophy(Suit)
+        + getWinner(List~Player~) Player
+        String name
+    }
+    class InterfaceType {
+        <<enumeration>>
+        + InterfaceType()
+        + valueOf(String) InterfaceType
+        + values() InterfaceType[]
+    }
+    class Jest {
+        + Jest()
+        + toString() String
+        + addCard(Card) void
+        int score
+        List~Card~ cards
+    }
+    class JokerCard {
+        + JokerCard(Trophy)
+        + accept(CardVisitor) void
+        + toString() String
+        int faceValue
+        String picturePath
+        Suit suit
+    }
+    class JokerTrophy {
+        + JokerTrophy()
+        + getWinner(List~Player~) Player
+        String name
+    }
+    class LowestInSuitTrophy {
+        + LowestInSuitTrophy(Suit)
+        + getWinner(List~Player~) Player
+        String name
+    }
+    class Main {
+        + Main()
+        + main(String[]) void
+        - startConsoleMode() void
+        - startGUIMode() void
+    }
+    class MainConsole {
+        - MainConsole()
+        + main(String[]) void
+        + renewGame() Game
+        Game game
+        MainConsole instance
+    }
+    class MainWindow {
+        + MainWindow()
+        + main(String[]) void
+        + clearLogs() void
+        + show(int) void
+        + addLog(String) void
+        ChooseOfferPanel chooseAnOffer
+        MakeOfferPanel makeOffer
+        Game game
+        GUIController gameController
+        TrophyInitializationPanel trophyInitialization
+        JFrame frame
+    }
+    class MajorityFaceValueTrophy {
+        + MajorityFaceValueTrophy(int)
+        + getWinner(List~Player~) Player
+        String name
+    }
+    class MakeOfferPanel {
+        + MakeOfferPanel(MainWindow)
+        - selectCard(int) void
+        + setupOffer(Player, String, Card, Card) void
+        + clear() void
+        GUIController gameController
+    }
+    class MessageType {
+        <<enumeration>>
+        + MessageType()
+        + valueOf(String) MessageType
+        + values() MessageType[]
+    }
+    class NewGameCreationPanel {
+        + NewGameCreationPanel(MainWindow)
+        - handleNext() void
+        - nextPlayer() void
+        - hideInterfaceButtons() void
+        - showPlayerCreatedMessage() void
+        - hideStrategyButtons() void
+        - selectInterface(String) void
+        - startPlayerCreation() void
+        - selectStrategy(String) void
+        - delayBeforeNextPlayer() void
+        - showStrategyButtons() void
+        - finishPlayersCreation() void
+        - showInterfaceButtons() void
+        int players
+        GUIController gameController
+    }
+    class Offer {
+        + Offer(OfferCard, OfferCard)
+        + takeCard() Card
+        + takeCard(boolean) Card
+        + addOfferCard(OfferCard) void
+        + getCard(boolean) Card
+        OfferCard firstOfferCard
+        boolean complete
+        List~OfferCard~ cards
+    }
+    class OfferCard {
+        + OfferCard(Card, boolean)
+        Card card
+        boolean upside
+    }
+    class PartyStartPanel {
+        + PartyStartPanel(MainWindow)
+        GUIController gameController
+    }
+    class Phase {
+        <<enumeration>>
+        + Phase()
+        + valueOf(String) Phase
+        + values() Phase[]
+    }
+    class Player {
+        + Player(String, String, InterfaceType)
+        + Player(String, String)
+        + drawCard(Deck) void
+        + makeOffer(Card, Card, PlayerRouter) void
+        + chooseOffer(List~Player~, PlayerRouter) Player
+        + toString() String
+        Offer currentOffer
+        Jest jest
+        InterfaceType preferredInterface
+    }
+    class PlayerRouter {
+        + PlayerRouter(GameController, GameController)
+        + askMakeOffer(Player, String, Card, Card) int
+        + displayCardAddedToJest(Player, Card) void
+        - getControllerForPlayer(Player) GameController
+        + askChooseOffer(Player, String, List~Player~) int[]
+    }
+    class PlayerScore {
+        - PlayerScore(Player, int)
+        + player() Player
+        + score() int
+    }
+    class PlayerTrophyCard {
+        - PlayerTrophyCard(Player, Card)
+        + card() Card
+        + player() Player
+    }
+    class RandomStrategy {
+        + RandomStrategy()
+        + toString() String
+        + makeOffer(VirtualPlayer, Card, Card) void
+        + chooseOffer(VirtualPlayer, List~Player~) Player
+    }
+    class ScoreVisitor {
+        + ScoreVisitor(Jest)
+        - computeBlackPairsBonus() int
+        + visit(JokerCard) void
+        + compute() void
+        + visit(SuitCard) void
+        - acesTransformation(SuitCard) void
+        int score
+    }
+    class Strategy {
+        <<Interface>>
+        + chooseOffer(VirtualPlayer, List~Player~) Player
+        + toString() String
+        + makeOffer(VirtualPlayer, Card, Card) void
+    }
+    class Suit {
+        <<enumeration>>
+        - Suit(int)
+        + valueOf(String) Suit
+        + values() Suit[]
+        int strength
+    }
+    class SuitCard {
+        + SuitCard(Suit, int, Trophy)
+        + transformToFive() void
+        + accept(CardVisitor) void
+        int faceValue
+        String picturePath
+        Suit suit
+    }
+    class Trophy {
+        <<Interface>>
+        + getWinner(List~Player~) Player
+        String name
+    }
+    class TrophyInitializationPanel {
+        + TrophyInitializationPanel(MainWindow)
+        + displayTrophies(List~Card~) void
+        + addReferenceCardListener(ActionListener) void
+    }
+    class VirtualPlayer {
+        + VirtualPlayer(String, String, Strategy)
+        + chooseOffer(List~Player~, PlayerRouter) Player
+        + makeOffer(Card, Card, PlayerRouter) void
+        Strategy strategy
+    }
+    class node8 {
+        <<Interface>>
+
+    }
+    class node25 {
+        <<Interface>>
+
+    }
+    class node36 {
+        <<Interface>>
+
+    }
+    class node38 {
+        <<Interface>>
+
+    }
+
+    AgressiveStrategy  ..>  Offer : «create»
+    AgressiveStrategy  ..>  OfferCard : «create»
+    AgressiveStrategy  ..>  Strategy
+    BestJestTrophy  ..>  Trophy
+    BestJestWithoutJokerTrophy  ..>  Trophy
+    Card "1" *--> "trophy 1" Trophy
+    ChooseOfferPanel "1" *--> "gameController 1" GUIController
+    ChooseOfferPanel "1" *--> "main 1" MainWindow
+    ChooseOfferPanel "1" *--> "availablePlayers *" Player
+    ConsoleController  ..>  GameController
+    Deck  ..>  BestJestTrophy : «create»
+    Deck  ..>  BestJestWithoutJokerTrophy : «create»
+    Deck "1" *--> "cards *" Card
+    Deck "1" *--> "instances *" DeckType
+    Deck  ..>  HighestInSuitTrophy : «create»
+    Deck  ..>  JokerCard : «create»
+    Deck  ..>  JokerTrophy : «create»
+    Deck  ..>  LowestInSuitTrophy : «create»
+    Deck  ..>  MajorityFaceValueTrophy : «create»
+    Deck  ..>  SuitCard : «create»
+    DefensiveStrategy  ..>  Offer : «create»
+    DefensiveStrategy  ..>  OfferCard : «create»
+    DefensiveStrategy  ..>  Strategy
+    GUIController  ..>  GameController
+    GUIController "1" *--> "mainWindow 1" MainWindow
+    Game  ..>  AgressiveStrategy : «create»
+    Game "1" *--> "trophyCards *" Card
+    Game "1" *--> "generalDeck 1" Deck
+    Game  ..>  DefensiveStrategy : «create»
+    Game "1" *--> "gameController 1" GameController
+    Game "1" *--> "players *" Player
+    Game  ..>  Player : «create»
+    Game "1" *--> "playerRouter 1" PlayerRouter
+    Game  ..>  PlayerScore : «create»
+    Game  ..>  PlayerTrophyCard : «create»
+    Game  ..>  RandomStrategy : «create»
+    Game  ..>  VirtualPlayer : «create»
+    HighestInSuitTrophy "1" *--> "suit 1" Suit
+    HighestInSuitTrophy  ..>  Trophy
+    Player  -->  InterfaceType
+    Jest "1" *--> "cards *" Card
+    Jest  ..>  ScoreVisitor : «create»
+    JokerCard  -->  Card
+    JokerTrophy  ..>  Trophy
+    LowestInSuitTrophy "1" *--> "suit 1" Suit
+    LowestInSuitTrophy  ..>  Trophy
+    Main  ..>  ConsoleController : «create»
+    Main  ..>  MainWindow : «create»
+    Main  ..>  PlayerRouter : «create»
+    MainConsole  ..>  ConsoleController : «create»
+    MainConsole "1" *--> "game 1" Game
+    MainConsole "1" *--> "gameController 1" GameController
+    MainConsole  ..>  PlayerRouter : «create»
+    MainWindow "1" *--> "chooseOfferPanel 1" ChooseOfferPanel
+    MainWindow  ..>  ChooseOfferPanel : «create»
+    MainWindow "1" *--> "gameController 1" GUIController
+    MainWindow  ..>  GUIController : «create»
+    MainWindow "1" *--> "makeOfferPanel 1" MakeOfferPanel
+    MainWindow  ..>  MakeOfferPanel : «create»
+    MainWindow  ..>  NewGameCreationPanel : «create»
+    MainWindow "1" *--> "newGameCreationPanel 1" NewGameCreationPanel
+    MainWindow  ..>  PartyStartPanel : «create»
+    MainWindow "1" *--> "partyStartPanel 1" PartyStartPanel
+    MainWindow "1" *--> "trophyInitializationPanel 1" TrophyInitializationPanel
+    MainWindow  ..>  TrophyInitializationPanel : «create»
+    MajorityFaceValueTrophy  ..>  Trophy
+    MakeOfferPanel "1" *--> "card1 1" Card
+    MakeOfferPanel "1" *--> "gameController 1" GUIController
+    MakeOfferPanel "1" *--> "main 1" MainWindow
+    MakeOfferPanel "1" *--> "player 1" Player
+    GameController  -->  MessageType
+    NewGameCreationPanel "1" *--> "gameController 1" GUIController
+    NewGameCreationPanel "1" *--> "main 1" MainWindow
+    Offer "1" *--> "cards *" OfferCard
+    OfferCard "1" *--> "card 1" Card
+    PartyStartPanel "1" *--> "gameController 1" GUIController
+    ScoreVisitor  -->  Phase
+    Player "1" *--> "preferredInterface 1" InterfaceType
+    Player  ..>  Jest : «create»
+    Player "1" *--> "jest 1" Jest
+    Player  ..>  Offer : «create»
+    Player "1" *--> "currentOffer 1" Offer
+    Player  ..>  OfferCard : «create»
+    PlayerRouter "1" *--> "guiController 1" GameController
+    Game  -->  PlayerScore
+    PlayerScore "1" *--> "player 1" Player
+    Game  -->  PlayerTrophyCard
+    PlayerTrophyCard "1" *--> "player 1" Player
+    RandomStrategy  ..>  Offer : «create»
+    RandomStrategy  ..>  OfferCard : «create»
+    RandomStrategy  ..>  Strategy
+    ScoreVisitor "1" *--> "cards *" Card
+    ScoreVisitor  ..>  CardVisitor
+    ScoreVisitor "1" *--> "phase 1" Phase
+    SuitCard  -->  Card
+    SuitCard "1" *--> "suit 1" Suit
+    TrophyInitializationPanel "1" *--> "main 1" MainWindow
+    VirtualPlayer  -->  Player
+    VirtualPlayer "1" *--> "strategy 1" Strategy
