@@ -6,13 +6,14 @@ import JEST.model.cards.trophy.Trophy;
  * There is one joker among the cards. It is a special {@link Card} because it can add or remove points in your {@link Jest}.
  */
 public class JokerCard extends Card {
-	private static final long serialVersionUID = 1L;
-	
+    private static final long serialVersionUID = 1L;
+
     /**
      * The joker card is associated to a {@link Trophy}.
+     *
      * @param trophy is the trophy associated to the card.
      */
-	public JokerCard(Trophy trophy) {
+    public JokerCard(Trophy trophy) {
         super(trophy);
     }
 
@@ -29,6 +30,7 @@ public class JokerCard extends Card {
 
     /**
      * Accept the visitor.
+     *
      * @param visitor to get the score.
      */
     public void accept(CardVisitor visitor) {
@@ -38,9 +40,9 @@ public class JokerCard extends Card {
     public String toString() {
         return "Joker";
     }
-    
+
     public String getPicturePath() {
-    	return "/JEST/static/joker.png";
+        return "/JEST/static/joker.png";
     }
 }
 

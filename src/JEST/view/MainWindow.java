@@ -58,7 +58,7 @@ public class MainWindow {
         this.container.add(trophyInitializationPanel, STEPS[3]);
         this.container.add(makeOfferPanel, STEPS[4]);
         this.container.add(chooseOfferPanel, STEPS[5]);
-		
+
         this.logArea = new JTextArea(8, 50);
         this.logArea.setEditable(false);
         this.logArea.setFont(new Font("Monospaced", Font.PLAIN, 12));

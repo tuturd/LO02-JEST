@@ -3,36 +3,30 @@ package JEST.model.cards;
 import JEST.model.cards.trophy.*;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Queue;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class defines the decks : we can shuffle it, fill it...
  */
 public class Deck implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	private Queue<Card> cards;
+    private static final long serialVersionUID = 1L;
     private static final Map<DeckType, Deck> instances = new HashMap<>();
-    
+    private Queue<Card> cards;
+
     private Deck() {
         this.cards = new LinkedList<>();
     }
-    
+
     /**
      * Permit to have 2 instances maximum : the general and the restOfCards.
+     *
      * @param type the type of the deck (general or restOfCards).
      * @return the deck created.
      */
     public static Deck getInstance(DeckType type) {
         return instances.computeIfAbsent(type, t -> new Deck());
     }
-    
+
     /**
      * Fill the general deck with all the {@link Card}s of the game. We precise the type of the card (suit or joker), his suit, his value, and the {@link Trophy} associated to the card.
      */
@@ -59,7 +53,7 @@ public class Deck implements Serializable {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Shuffle the deck.
      */
@@ -68,17 +62,19 @@ public class Deck implements Serializable {
         Collections.shuffle(cardsList);
         this.cards = new LinkedList<>(cardsList);
     }
-    
+
     /**
      * Deal a card and return it.
+     *
      * @return the card dealt.
      */
     public Card deal() {
         return this.cards.poll();
     }
-    
+
     /**
      * Deal the number of cards asked.
+     *
      * @param numCards the number of cards who have to be dealt.
      * @return the list of the cards dealt.
      */
@@ -91,7 +87,7 @@ public class Deck implements Serializable {
 
         return cards;
     }
-    
+
     public void add(Card card) {
         this.cards.add(card);
     }

@@ -11,19 +11,21 @@ import java.util.List;
  * The winner is the player with highest face value card in this suit.
  */
 public class HighestInSuitTrophy implements Trophy, Serializable {
-	private static final long serialVersionUID = 1L;
-	private final Suit suit;
+    private static final long serialVersionUID = 1L;
+    private final Suit suit;
 
     /**
      * We define the suit associated to the trophy.
+     *
      * @param suit suit associated to the trophy.
      */
-	public HighestInSuitTrophy(Suit suit) {
+    public HighestInSuitTrophy(Suit suit) {
         this.suit = suit;
     }
 
     /**
      * We see who have the highest face value in the suit of the trophy.
+     *
      * @param players all the players of the game.
      * @return the winner of the trophy.
      */

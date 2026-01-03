@@ -4,6 +4,7 @@ import JEST.model.Player;
 import JEST.model.cards.Card;
 import JEST.model.cards.Offer;
 import JEST.model.cards.OfferCard;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +14,12 @@ import java.util.Random;
  * A virtual player with the random strategy makes and takes an offer randomly.
  */
 public class RandomStrategy implements Strategy, Serializable {
-	private static final long serialVersionUID = 1L;
-	
+    private static final long serialVersionUID = 1L;
+
     /**
      * Among the two cards, he chooses which card will be face-up.
      */
-	public void makeOffer(VirtualPlayer player, Card c1, Card c2) {
+    public void makeOffer(VirtualPlayer player, Card c1, Card c2) {
         Card upsideCard = new Random().nextBoolean() ? c1 : c2;
         Card downsideCard = upsideCard == c2 ? c1 : c2;
 
@@ -32,7 +33,8 @@ public class RandomStrategy implements Strategy, Serializable {
 
     /**
      * He chooses randomly a card among all the cards available (the face-up and the face-down cards).
-     * @param player the player who choose the offer.
+     *
+     * @param player  the player who choose the offer.
      * @param players the list of the players of the game.
      * @return the player whose virtual player chooses the offer.
      */

@@ -9,14 +9,15 @@ import java.util.List;
  * The winner is the player with the highest value Jest.
  */
 public class BestJestTrophy implements Trophy, Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	/**
-	 * We compute the Jest's value of each player to know who is the winner.
-	 * @param players all the players of the game.
-	 * @return the winner of the trophy.
-	 */
-	public Player getWinner(List<Player> players) {
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * We compute the Jest's value of each player to know who is the winner.
+     *
+     * @param players all the players of the game.
+     * @return the winner of the trophy.
+     */
+    public Player getWinner(List<Player> players) {
         Player winner = null;
         int maxValue = Integer.MIN_VALUE;
 

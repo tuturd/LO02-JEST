@@ -14,13 +14,13 @@ import java.util.List;
  * A virtual player with the defensive strategy takes as few risks as possible.
  */
 public class DefensiveStrategy implements Strategy, Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	/**
-	 * We compute the risk of each card.
-	 * Then, we compare the points computed of each card.
-	 * The card with the most points is upside (because it is the riskiest card), and the other is downside.
-	 */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * We compute the risk of each card.
+     * Then, we compare the points computed of each card.
+     * The card with the most points is upside (because it is the riskiest card), and the other is downside.
+     */
     public void makeOffer(VirtualPlayer player, Card c1, Card c2) {
         int riskCard1 = this.computeRiskOnMakingOffer(player, c1);
         int riskCard2 = this.computeRiskOnMakingOffer(player, c2);
@@ -71,7 +71,8 @@ public class DefensiveStrategy implements Strategy, Serializable {
     /**
      * We compute the points of each face-up cards in the other offers.
      * The virtual player chooses the safest card among the face-up cards.
-     * @param player the player who choose the offer.
+     *
+     * @param player  the player who choose the offer.
      * @param players the list of the players of the game.
      * @return the player whose virtual player chooses the offer.
      */

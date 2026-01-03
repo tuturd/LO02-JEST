@@ -11,20 +11,22 @@ import java.util.List;
  * The winner is the player with the lowest face value card in this suit.
  */
 public class LowestInSuitTrophy implements Trophy, Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	private final Suit suit;
+    private static final long serialVersionUID = 1L;
 
-	/**
+    private final Suit suit;
+
+    /**
      * We define the suit associated to the trophy.
+     *
      * @param suit suit associated to the trophy.
      */
-	public LowestInSuitTrophy(Suit suit) {
+    public LowestInSuitTrophy(Suit suit) {
         this.suit = suit;
     }
 
-	/**
+    /**
      * We see who have the lowest face value in the suit of the trophy.
+     *
      * @param players all the players of the game.
      * @return the winner of the trophy.
      */

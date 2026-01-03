@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
  */
 public class ScoreVisitor implements CardVisitor, Serializable {
     private static final long serialVersionUID = 1L;
-	
-	private final List<Card> cards;
+
+    private final List<Card> cards;
     private int score = 0;
     private int jokerScore = 0;
     private Phase phase = null;
@@ -41,6 +41,7 @@ public class ScoreVisitor implements CardVisitor, Serializable {
 
     /**
      * Attribute to each {@link Suit} the score of the card.
+     *
      * @param card is the {@link Card} which we compute the score.
      */
     public void visit(SuitCard card) {
@@ -65,6 +66,7 @@ public class ScoreVisitor implements CardVisitor, Serializable {
     /**
      * If there is no heart, the {@link JokerCard} vaults 4 points.
      * If there is 1-3 hearts, the joker vaults the sum of each Heart's face value.
+     *
      * @param joker the joker card.
      */
     public void visit(JokerCard joker) {
@@ -98,6 +100,7 @@ public class ScoreVisitor implements CardVisitor, Serializable {
     /**
      * If the Ace is the only card of that suit in the Jest, the card becomes a 5, with a face value of 5.
      * Otherwise it remains an Ace, with a face value of 1.
+     *
      * @param card the card concerned.
      */
     private void acesTransformation(SuitCard card) {
@@ -112,6 +115,7 @@ public class ScoreVisitor implements CardVisitor, Serializable {
 
     /**
      * If there is a Spade and a Club with the same face value, the pair is worth a bonus 2 points in addition to the face values of the cards.
+     *
      * @return the bonus.
      */
     private int computeBlackPairsBonus() {
@@ -137,13 +141,13 @@ public class ScoreVisitor implements CardVisitor, Serializable {
      * Distinguish 2 phases : preparation and score.
      */
     private enum Phase {
-    	/**
-    	 * Do the aces transformation if it is necessary.
-    	 */
-    	PREPARE, 
-    	/**
-    	 * Compute the score of each card.
-    	 */
-    	SCORE
-    	}
+        /**
+         * Do the aces transformation if it is necessary.
+         */
+        PREPARE,
+        /**
+         * Compute the score of each card.
+         */
+        SCORE
+    }
 }

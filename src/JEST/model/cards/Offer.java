@@ -10,11 +10,12 @@ import java.util.List;
  */
 public class Offer implements Serializable {
     private static final long serialVersionUID = 1L;
-	
-	private List<OfferCard> cards;
+
+    private List<OfferCard> cards;
 
     /**
      * The offer is composed by two {@link OfferCard}.
+     *
      * @param c1 is the first OfferCard.
      * @param c2 is the second OfferCard.
      */
@@ -30,6 +31,7 @@ public class Offer implements Serializable {
 
     /**
      * Get the face-up or the face-down card, as we choose.
+     *
      * @param chooseFaceUp a boolean to know which card we get.
      * @return the card chosen.
      */
@@ -44,6 +46,7 @@ public class Offer implements Serializable {
 
     /**
      * Take the face-up or the face-down card, as we choose and remove it from the offer.
+     *
      * @param chooseFaceUp a boolean to know which card we take.
      * @return the card chosen.
      */
@@ -56,9 +59,10 @@ public class Offer implements Serializable {
         }
         return null;
     }
-    
+
     /**
      * Take the first card of the player's offer.
+     *
      * @return the remaining card.
      */
     public Card takeCard() {
@@ -77,6 +81,7 @@ public class Offer implements Serializable {
 
     /**
      * If there are 2 cards in the offer, it is complete.
+     *
      * @return true if the offer is complete.
      */
     public boolean isComplete() {

@@ -18,6 +18,7 @@ public class Player implements Serializable {
     protected Jest jest;
     protected Offer currentOffer;
     protected InterfaceType preferredInterface;
+
     /**
      * The player is defined by his first name and his last name.
      * His jest is initially empty.

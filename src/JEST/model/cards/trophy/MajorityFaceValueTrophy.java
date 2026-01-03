@@ -12,12 +12,13 @@ import java.util.Map;
  * The winner is the {@link Player} with most cards of this face value.
  */
 public class MajorityFaceValueTrophy implements Trophy, Serializable {
-	private static final long serialVersionUID = 1L;
-    
-	private final int faceValue;
+    private static final long serialVersionUID = 1L;
+
+    private final int faceValue;
 
     /**
      * We define the face value associated to the {@link Trophy}.
+     *
      * @param faceValue face value associated to the trophy.
      */
     public MajorityFaceValueTrophy(int faceValue) {
@@ -26,6 +27,7 @@ public class MajorityFaceValueTrophy implements Trophy, Serializable {
 
     /**
      * We add one to the the counter if the card has the same face value as the trophy.
+     *
      * @param players all the players of the game.
      * @return the winner of the trophy.
      */

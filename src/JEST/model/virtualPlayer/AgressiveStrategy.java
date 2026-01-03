@@ -15,16 +15,17 @@ import java.util.Random;
  * A virtual player with the aggressive strategy takes all risks to have as many points as possible.
  */
 public class AgressiveStrategy implements Strategy, Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	/**
-	 * We compute the advantage of each card.
-	 * Then, we compare the points computed of each card.
-	 * The card with the fewest points is downside (because it is the best card for the player, compared to the other), and the other is upside.
-	 * @param player player the player who chooses the offer.
-	 * @param c1 the first card of the offer.
-	 * @param c2 the second card of the offer.
-	 */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * We compute the advantage of each card.
+     * Then, we compare the points computed of each card.
+     * The card with the fewest points is downside (because it is the best card for the player, compared to the other), and the other is upside.
+     *
+     * @param player player the player who chooses the offer.
+     * @param c1     the first card of the offer.
+     * @param c2     the second card of the offer.
+     */
     public void makeOffer(VirtualPlayer player, Card c1, Card c2) {
         int bestCard1 = this.computeAdvantageOnMakingOffer(player, c1);
         int bestCard2 = this.computeAdvantageOnMakingOffer(player, c2);
@@ -84,7 +85,8 @@ public class AgressiveStrategy implements Strategy, Serializable {
      * We compute the points of each face-up cards in the other offers.
      * By default, the virtual player chooses the best card (with most points).
      * But, if the best card in the face-up cards has negative points, he chooses randomly a face-down card.
-     * @param player the player who choose the offer.
+     *
+     * @param player  the player who choose the offer.
      * @param players the list of the players of the game.
      * @return the player whose virtual player chooses the offer.
      */
