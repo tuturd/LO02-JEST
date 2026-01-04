@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class defines the list of {@link Card}s that the {@link Player} detains during all the game. In each round, he adds an {@link OfferCard} that he chooses to his jest.
+ * This class defines the list of {@link Card}s that the {@link JEST.model.Player} detains during all the game. In each round, he adds an {@link OfferCard} that he chooses to his jest.
  */
 public class Jest implements Serializable {
     private static final long serialVersionUID = 1L;

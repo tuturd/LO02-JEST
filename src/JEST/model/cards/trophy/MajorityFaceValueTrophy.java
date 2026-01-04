@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The winner is the {@link Player} with most cards of this face value.
+ * The winner is the {@link JEST.model.Player} with most cards of this face value.
  */
 public class MajorityFaceValueTrophy implements Trophy, Serializable {
     private static final long serialVersionUID = 1L;

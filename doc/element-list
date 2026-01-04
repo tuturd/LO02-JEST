@@ -1,4 +1,7 @@
 JEST
+JEST.controller
+JEST.model
 JEST.model.cards
 JEST.model.cards.trophy
 JEST.model.virtualPlayer
+JEST.view

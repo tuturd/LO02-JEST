@@ -44,6 +44,14 @@ public class AgressiveStrategy implements Strategy, Serializable {
         player.setCurrentOffer(new Offer(new OfferCard(upsideCard, true), new OfferCard(downsideCard, false)));
     }
 
+    /**
+     * We compute the advantage of each card.
+     * The card with the most points is chosen by the virtual player.
+     *
+     * @param player the player who chooses the card.
+     * @param c      the card to evaluate.
+     * @return the points of the card.
+     */
     private int computeAdvantageOnMakingOffer(VirtualPlayer player, Card c) {
         long heartCount = player.getJest().getCards().stream().filter(card -> card.getSuit() == Suit.HEART).count();
         boolean testJestJoker = player.getJest().getCards().stream().anyMatch(card -> card.getSuit() == Suit.JOKER);
@@ -107,10 +115,25 @@ public class AgressiveStrategy implements Strategy, Serializable {
                 .orElse(null);
     }
 
+    /**
+     * Check if the player has at least one card in the given suit.
+     *
+     * @param player the player to check.
+     * @param suit   the suit to check.
+     * @return true if the player has at least one card in the given suit, false otherwise.
+     */
     private boolean isAnyCardInSuit(VirtualPlayer player, Suit suit) {
         return player.getJest().getCards().stream().anyMatch(c -> c.getSuit() == suit);
     }
 
+    /**
+     * We compute the advantage of each card.
+     * The card with the most points is chosen by the virtual player.
+     *
+     * @param player the player who chooses the card.
+     * @param c      the card to evaluate.
+     * @return the points of the card.
+     */
     private int computeAdvantageOnTakingCard(VirtualPlayer player, Card c) {
         long heartCount = player.getJest().getCards().stream().filter(card -> card.getSuit() == Suit.HEART).count();
         boolean testJestJoker = player.getJest().getCards().stream().anyMatch(card -> card.getSuit() == Suit.JOKER);
@@ -148,6 +171,15 @@ public class AgressiveStrategy implements Strategy, Serializable {
         }
     }
 
+    /**
+     * We compute the points of each face-up cards in the other offers.
+     * By default, the virtual player chooses the best card (with most points).
+     * But, if the best card in the face-up cards has negative points, he chooses randomly a face-down card.
+     *
+     * @param player  the player who choose the offer.
+     * @param options the list of the offers of the game.
+     * @return the card chosen by the virtual player.
+     */
     private Card getBestCard(VirtualPlayer player, List<Offer> options) {
         Offer best = null;
         int maxPoints = Integer.MIN_VALUE;

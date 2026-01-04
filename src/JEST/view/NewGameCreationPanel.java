@@ -6,13 +6,28 @@ import JEST.model.Player;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel for creating a new game with player configuration.
+ * <p>
+ * This panel guides the user through the game creation process:
+ * selecting the number of players, configuring each player (name, type),
+ * and choosing strategies for virtual players or interfaces for human players.
+ * </p>
+ *
+ * @author JEST Project
+ * @version 1.0
+ */
 public class NewGameCreationPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    // ===== Etats =====
+    // ===== States =====
+    /** State for entering first name */
     private static final int STEP_FIRSTNAME = 0;
+    /** State for entering last name */
     private static final int STEP_LASTNAME = 1;
+    /** State for choosing strategy (virtual players) */
     private static final int STEP_STRATEGY = 2;
+    /** State for choosing interface (human players) */
     private static final int STEP_INTERFACE = 3;
     // ===== UI =====
     private JLabel lblNombreDeJoueurs;
@@ -39,6 +54,15 @@ public class NewGameCreationPanel extends JPanel {
     private JButton btnGUI;
     private JButton btnConsole;
 
+    /**
+     * Constructor for the new game creation panel.
+     * <p>
+     * Initializes all UI components and sets up action listeners
+     * for the game creation workflow.
+     * </p>
+     *
+     * @param main the main window of the application
+     */
     public NewGameCreationPanel(MainWindow main) {
 
         this.main = main;
@@ -146,9 +170,14 @@ public class NewGameCreationPanel extends JPanel {
     }
 
     // =====================================================
-    // =================== LOGIQUE =========================
+    // =================== LOGIC ===========================
     // =====================================================
 
+    /**
+     * Sets the number of players and starts player configuration.
+     *
+     * @param number the total number of players (3 or 4)
+     */
     private void setPlayers(int number) {
         totalPlayers = number;
         currentPlayer = 1;
@@ -164,6 +193,9 @@ public class NewGameCreationPanel extends JPanel {
         nomJoueur.setText("Le joueur " + currentPlayer + " est-il virtuel ?");
     }
 
+    /**
+     * Starts the player creation process after determining if virtual or human.
+     */
     private void startPlayerCreation() {
 
         btnOui.setVisible(false);
@@ -177,6 +209,9 @@ public class NewGameCreationPanel extends JPanel {
         nomJoueur.setText("Prénom du joueur " + currentPlayer + " :");
     }
 
+    /**
+     * Handles the "Next" button click to progress through player creation steps.
+     */
     private void handleNext() {
 
         if (step == STEP_FIRSTNAME) {
@@ -213,6 +248,9 @@ public class NewGameCreationPanel extends JPanel {
         }
     }
 
+    /**
+     * Shows strategy selection buttons for virtual players.
+     */
     private void showStrategyButtons() {
         nomJoueur.setText("Choisissez la stratégie du joueur " + currentPlayer + " :");
 
@@ -221,12 +259,20 @@ public class NewGameCreationPanel extends JPanel {
         btnAggressive.setVisible(true);
     }
 
+    /**
+     * Hides strategy selection buttons.
+     */
     private void hideStrategyButtons() {
         btnRandom.setVisible(false);
         btnDefensive.setVisible(false);
         btnAggressive.setVisible(false);
     }
 
+    /**
+     * Handles strategy selection for a virtual player.
+     *
+     * @param strategy the selected strategy ("1" for Random, "2" for Defensive, "3" for Aggressive)
+     */
     private void selectStrategy(String strategy) {
 
         hideStrategyButtons();
@@ -237,6 +283,9 @@ public class NewGameCreationPanel extends JPanel {
         delayBeforeNextPlayer();
     }
 
+    /**
+     * Shows interface selection buttons for human players.
+     */
     private void showInterfaceButtons() {
         nomJoueur.setText("Choisissez l'interface pour le joueur " + currentPlayer + " :");
 
@@ -244,11 +293,19 @@ public class NewGameCreationPanel extends JPanel {
         btnConsole.setVisible(true);
     }
 
+    /**
+     * Hides interface selection buttons.
+     */
     private void hideInterfaceButtons() {
         btnGUI.setVisible(false);
         btnConsole.setVisible(false);
     }
 
+    /**
+     * Handles interface selection for a human player.
+     *
+     * @param interfaceType the selected interface type ("GUI" or "CONSOLE")
+     */
     private void selectInterface(String interfaceType) {
         hideInterfaceButtons();
 
@@ -261,6 +318,9 @@ public class NewGameCreationPanel extends JPanel {
         delayBeforeNextPlayer();
     }
 
+    /**
+     * Moves to the next player configuration or finishes if all players are created.
+     */
     private void nextPlayer() {
 
         currentPlayer++;
@@ -276,6 +336,9 @@ public class NewGameCreationPanel extends JPanel {
         nomJoueur.setText("Le joueur " + currentPlayer + " est-il virtuel ?");
     }
 
+    /**
+     * Completes the player creation process and initializes the game deck and trophies.
+     */
     private void finishPlayersCreation() {
         nomJoueur.setText("Tous les joueurs sont créés !");
         txtPrenomNom.setVisible(false);
@@ -297,12 +360,18 @@ public class NewGameCreationPanel extends JPanel {
         }
     }
 
+    /**
+     * Displays a message confirming the player has been created.
+     */
     private void showPlayerCreatedMessage() {
         nomJoueur.setText(
                 "Joueur " + currentPlayer + " créé : " + firstName + " " + lastName
         );
     }
 
+    /**
+     * Adds a delay before moving to the next player configuration.
+     */
     private void delayBeforeNextPlayer() {
         Timer timer = new Timer(1200, e -> {
             ((Timer) e.getSource()).stop();
@@ -312,6 +381,11 @@ public class NewGameCreationPanel extends JPanel {
         timer.start();
     }
 
+    /**
+     * Sets the game controller for this panel.
+     *
+     * @param gameController the GUI game controller
+     */
     public void setGameController(GUIController gameController) {
         this.gameController = gameController;
     }

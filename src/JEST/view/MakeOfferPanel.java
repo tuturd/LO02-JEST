@@ -8,6 +8,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
+/**
+ * Panel allowing a player to make an offer by choosing which card to leave visible.
+ * <p>
+ * This panel displays two cards dealt to the player and allows them to choose
+ * which one will be visible in their offer, while the other remains hidden.
+ * </p>
+ *
+ * @author JEST Project
+ * @version 1.0
+ */
 public class MakeOfferPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
@@ -26,6 +36,11 @@ public class MakeOfferPanel extends JPanel {
     private Card card2;
     private Player player;
 
+    /**
+     * Constructor for the make offer panel.
+     *
+     * @param main the main window of the application
+     */
     public MakeOfferPanel(MainWindow main) {
         this.main = main;
 
@@ -67,7 +82,12 @@ public class MakeOfferPanel extends JPanel {
     }
 
     /**
-     * Set up the panel with player and cards information.
+     * Sets up the panel with player and cards information.
+     *
+     * @param player the player making the offer
+     * @param jestContent the content of the player's Jest
+     * @param card1 the first card dealt to the player
+     * @param card2 the second card dealt to the player
      */
     public void setupOffer(Player player, String jestContent, Card card1, Card card2) {
         this.player = player;
@@ -104,7 +124,9 @@ public class MakeOfferPanel extends JPanel {
     }
 
     /**
-     * Handle card selection.
+     * Handles the selection of a card by the player.
+     *
+     * @param cardNumber the number of the selected card (1 or 2)
      */
     private void selectCard(int cardNumber) {
         if (this.gameController != null) {
@@ -114,7 +136,11 @@ public class MakeOfferPanel extends JPanel {
     }
 
     /**
-     * Clear the panel after selection.
+     * Resets the panel after a card selection.
+     * <p>
+     * Clears all labels and card icons, disables buttons,
+     * and transitions to the next panel.
+     * </p>
      */
     public void clear() {
         lblPlayerInfo.setText("");
@@ -129,6 +155,11 @@ public class MakeOfferPanel extends JPanel {
         main.show(3);
     }
 
+    /**
+     * Sets the game controller for this panel.
+     *
+     * @param gameController the GUI game controller
+     */
     public void setGameController(GUIController gameController) {
         this.gameController = gameController;
     }

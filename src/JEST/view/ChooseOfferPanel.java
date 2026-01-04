@@ -8,6 +8,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * Panel allowing a player to choose a card from available offers.
+ * <p>
+ * This panel displays all players' offers with their visible card and hidden card,
+ * allowing the active player to select one of them.
+ * </p>
+ *
+ * @author JEST Project
+ * @version 1.0
+ */
 public class ChooseOfferPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
@@ -23,6 +33,11 @@ public class ChooseOfferPanel extends JPanel {
     private Player currentPlayer;
     private List<Player> availablePlayers;
 
+    /**
+     * Constructor for the offer selection panel.
+     *
+     * @param main the main window of the application
+     */
     public ChooseOfferPanel(MainWindow main) {
         this.main = main;
 
@@ -62,7 +77,11 @@ public class ChooseOfferPanel extends JPanel {
     }
 
     /**
-     * Set up the panel with player and available offers.
+     * Sets up the panel with player information and available offers.
+     *
+     * @param player the player who must choose an offer
+     * @param jestContent the content of the player's Jest
+     * @param availablePlayers the list of players whose offers are available
      */
     public void setupChooseOffer(Player player, String jestContent, List<Player> availablePlayers) {
         this.currentPlayer = player;
@@ -92,7 +111,14 @@ public class ChooseOfferPanel extends JPanel {
     }
 
     /**
-     * Create a panel for a visible card with player name.
+     * Creates a panel to display a visible card with the player's name.
+     *
+     * @param offerPlayer the player who owns the offer
+     * @param card the card to display
+     * @param isVisible indicates if the card is visible (currently unused)
+     * @param playerIndex the player's index in the list
+     * @param cardChoice the card choice (1 for visible, 2 for hidden)
+     * @return the panel containing the card and player information
      */
     private JPanel createCardPanel(Player offerPlayer, Card card, boolean isVisible, int playerIndex, int cardChoice) {
         JPanel panel = new JPanel();
@@ -128,7 +154,12 @@ public class ChooseOfferPanel extends JPanel {
     }
 
     /**
-     * Create a panel for the hidden card with player name.
+     * Creates a panel to display a hidden card with the player's name.
+     *
+     * @param offerPlayer the player who owns the offer
+     * @param playerIndex the player's index in the list
+     * @param cardChoice the card choice (1 for visible, 2 for hidden)
+     * @return the panel containing the hidden card and player information
      */
     private JPanel createHiddenCardPanel(Player offerPlayer, int playerIndex, int cardChoice) {
         JPanel panel = new JPanel();
@@ -164,7 +195,10 @@ public class ChooseOfferPanel extends JPanel {
     }
 
     /**
-     * Handle offer selection.
+     * Handles the selection of an offer by the player.
+     *
+     * @param playerIndex the index of the player whose offer is chosen
+     * @param cardChoice the card choice (1 for visible, 2 for hidden)
      */
     private void selectOffer(int playerIndex, int cardChoice) {
         if (gameController != null) {
@@ -174,7 +208,11 @@ public class ChooseOfferPanel extends JPanel {
     }
 
     /**
-     * Clear the panel after selection.
+     * Resets the panel after a selection.
+     * <p>
+     * Clears all labels and removes all displayed cards,
+     * then shows the next panel.
+     * </p>
      */
     public void clear() {
         lblPlayerInfo.setText("");
@@ -186,6 +224,11 @@ public class ChooseOfferPanel extends JPanel {
         main.show(3);
     }
 
+    /**
+     * Sets the game controller for this panel.
+     *
+     * @param gameController the GUI game controller
+     */
     public void setGameController(GUIController gameController) {
         this.gameController = gameController;
     }

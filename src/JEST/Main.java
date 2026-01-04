@@ -11,6 +11,12 @@ import java.util.Scanner;
 
 public class Main {
 
+    /**
+     * Main method to start the JEST game application.
+     * It prompts the user to choose between GUI mode and console mode.
+     *
+     * @param args command-line arguments (not used)
+     */
     public static void main(String[] args) {
 
         // Ask in console if user wants to start GUI

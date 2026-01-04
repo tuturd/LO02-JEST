@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * The winner is the {@link Player} with the Joker.
+ * The winner is the {@link JEST.model.Player} with the Joker.
  */
 public class JokerTrophy implements Trophy, Serializable {
     private static final long serialVersionUID = 1L;

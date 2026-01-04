@@ -7,11 +7,30 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Initial panel displayed when starting the application.
+ * <p>
+ * This panel allows the user to choose between starting a new game
+ * or loading an existing saved game.
+ * </p>
+ *
+ * @author JEST Project
+ * @version 1.0
+ */
 public class PartyStartPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
     private GUIController gameController;
 
+    /**
+     * Constructor for the party start panel.
+     * <p>
+     * Initializes UI components including buttons for starting a new game
+     * or loading an existing game.
+     * </p>
+     *
+     * @param main the main window of the application
+     */
     public PartyStartPanel(MainWindow main) {
         setLayout(null);
 
@@ -50,6 +69,11 @@ public class PartyStartPanel extends JPanel {
         add(btnCharger);
     }
 
+    /**
+     * Sets the game controller for this panel.
+     *
+     * @param gameController the GUI game controller
+     */
     public void setGameController(GUIController gameController) {
         this.gameController = gameController;
     }
