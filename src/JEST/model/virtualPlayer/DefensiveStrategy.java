@@ -44,6 +44,14 @@ public class DefensiveStrategy implements Strategy, Serializable {
         );
     }
 
+    /**
+     * We compute the risk of each card.
+     * The card with the fewest points is chosen by the virtual player.
+     *
+     * @param player the player who chooses the card.
+     * @param c      the card to evaluate.
+     * @return the points of the card.
+     */
     private int computeRiskOnMakingOffer(VirtualPlayer player, Card c) {
         long heartCount = player.getJest().getCards().stream().filter(card -> card.getSuit() == Suit.HEART).count();
         boolean testJestJoker = player.getJest().getCards().stream().anyMatch(card -> card.getSuit() == Suit.JOKER);
@@ -95,6 +103,14 @@ public class DefensiveStrategy implements Strategy, Serializable {
                 .orElse(null);
     }
 
+    /**
+     * We compute the risk of each card.
+     * The card with the fewest points is chosen by the virtual player.
+     *
+     * @param player the player who chooses the card.
+     * @param c      the card to evaluate.
+     * @return the points of the card.
+     */
     private int computeRiskOnTakingCard(Card c, long heartCount, boolean testJestJoker) { //the risk increases with the value returned
         switch (c.getSuit()) {
             case CLUB, SPADE:
@@ -117,6 +133,15 @@ public class DefensiveStrategy implements Strategy, Serializable {
         }
     }
 
+    /**
+     * We compute the points of each face-up cards in the other offers.
+     * The virtual player chooses the safest card among the face-up cards.
+     *
+     * @param options    the list of the offers of the game.
+     * @param heartCount the number of hearts in the virtual player's jest.
+     * @param testJestJoker whether the virtual player's jest contains a joker.
+     * @return the card chosen by the virtual player.
+     */
     private Card getSafestCard(List<Offer> options, long heartCount, boolean testJestJoker) {
         Offer safest = null;
         int minRisk = Integer.MAX_VALUE;

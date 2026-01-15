@@ -24,6 +24,9 @@ public class JokerCard extends Card {
         return 0;
     }
 
+    /**
+     * The suit of the joker is JOKER.
+     */
     public Suit getSuit() {
         return Suit.JOKER;
     }
@@ -42,8 +45,9 @@ public class JokerCard extends Card {
     }
 
     /**
-     * Provide the path to access the image.
-     * @return the path.
+     * Get the picture path of the joker card.
+     *
+     * @return the picture path
      */
     public String getPicturePath() {
         return "/JEST/static/joker.png";

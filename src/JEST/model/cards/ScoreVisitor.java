@@ -23,6 +23,9 @@ public class ScoreVisitor implements CardVisitor, Serializable {
         this.cards = jest.getCards();
     }
 
+    /**
+     * Compute the score of the Jest in two phases : preparation and score.
+     */
     public void compute() {
         this.phase = Phase.PREPARE;
         for (Card card : this.cards) {

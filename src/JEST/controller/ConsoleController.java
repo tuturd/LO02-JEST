@@ -13,10 +13,19 @@ import java.util.Scanner;
 public class ConsoleController implements GameController {
     private final Scanner scanner;
 
+    /**
+     * Constructor for the console controller.
+     * Initializes the Scanner for reading console input.
+     */
     public ConsoleController() {
         this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * Ask the user to start a new game or load an existing one via console input.
+     *
+     * @return 1 for new game, 2 for load game
+     */
     public int askNewOrLoadGame() {
         while (true) {
             System.out.print("Voulez-vous commencer une nouvelle partie (1) ou charger une partie existante (2) : ");
@@ -33,6 +42,12 @@ public class ConsoleController implements GameController {
         }
     }
 
+    /**
+     * Ask for the number of players via console input.
+     * The number must be 3 or 4.
+     *
+     * @return the number of players (3 or 4)
+     */
     public int askNumberOfPlayers() {
         int playerNumber = 0;
         while (playerNumber == 0) {
@@ -52,22 +67,48 @@ public class ConsoleController implements GameController {
         return playerNumber;
     }
 
+    /**
+     * Ask if a player is virtual via console input.
+     *
+     * @param playerNumber the player number
+     * @return true if virtual (user enters "o"), false otherwise
+     */
     public boolean askIsVirtualPlayer(int playerNumber) {
         System.out.printf("Le joueur %d est-il un joueur virtuel ? (o/n) : ", playerNumber);
         String isVirtual = scanner.nextLine().trim().toLowerCase();
         return isVirtual.equals("o");
     }
 
+
+    /**
+     * Ask for the first name of a player via console input.
+     *
+     * @param playerNumber the player number
+     * @return the first name entered by the user
+     */
     public String askFirstName(int playerNumber) {
         System.out.printf("Prénom du joueur %d : ", playerNumber);
         return scanner.nextLine();
     }
 
+
+    /**
+     * Ask for the last name of a player via console input.
+     *
+     * @param playerNumber the player number
+     * @return the last name entered by the user
+     */
     public String askLastName(int playerNumber) {
         System.out.printf("Nom du joueur %d : ", playerNumber);
         return scanner.nextLine();
     }
 
+    /**
+     * Ask for the strategy of a virtual player via console input.
+     *
+     * @param playerNumber the player number
+     * @return "1" for random, "2" for defensive, "3" for aggressive
+     */
     public String askStrategy(int playerNumber) {
         System.out.printf("Quelle stratégie pour le joueur virtuel %d ? (1: Aléatoire, 2: Défensive, 3: Agressive) : ", playerNumber);
         String strategyChoice = scanner.nextLine().trim();
@@ -78,6 +119,14 @@ public class ConsoleController implements GameController {
         return strategyChoice;
     }
 
+    /**
+     * Display a message about player creation to the console.
+     *
+     * @param playerNumber the player number
+     * @param firstName    the first name
+     * @param lastName     the last name
+     * @param isVirtual    true if virtual player
+     */
     public void displayPlayerCreated(int playerNumber, String firstName, String lastName, boolean isVirtual) {
         if (isVirtual) {
             System.out.printf(">>> Joueur virtuel n°%d créé\n", playerNumber);
@@ -86,6 +135,11 @@ public class ConsoleController implements GameController {
         }
     }
 
+    /**
+     * Display the trophy cards to the console.
+     *
+     * @param trophyCards the trophy cards to display
+     */
     @Override
     public void displayTrophyCards(List<Card> trophyCards) {
         if (trophyCards.size() == 1) {
@@ -97,6 +151,16 @@ public class ConsoleController implements GameController {
         }
     }
 
+    /**
+     * Ask a player to make an offer via console input.
+     * The player chooses which card to show face up.
+     *
+     * @param player the player making the offer
+     * @param jest   the player's current jest
+     * @param c1     first card
+     * @param c2     second card
+     * @return the index of the card to show face up (1 or 2)
+     */
     @Override
     public int askMakeOffer(Player player, String jest, Card c1, Card c2) {
         System.out.printf("%s, voici ce que contient votre Jest : %s", player, jest);
@@ -109,6 +173,15 @@ public class ConsoleController implements GameController {
         return Integer.parseInt(upsideCardIndexString);
     }
 
+    /**
+     * Ask a player to choose an offer via console input.
+     * The player selects which player's offer to take and which card (face up or face down).
+     *
+     * @param player           the player choosing
+     * @param jest             the player's current jest
+     * @param availablePlayers the list of players with available offers
+     * @return an array with [playerIndex, cardChoice] where cardChoice is 1 for face-up, 2 for face-down
+     */
     @Override
     public int[] askChooseOffer(Player player, String jest, List<Player> availablePlayers) {
         System.out.printf("%s, voici ce que contient votre Jest : %s", player, jest);
@@ -129,16 +202,32 @@ public class ConsoleController implements GameController {
         return new int[]{lineIndex, cardChoice};
     }
 
+    /**
+     * Display the card added to a player's jest to the console.
+     *
+     * @param player the player who received the card
+     * @param card   the card that was added
+     */
     @Override
     public void displayCardAddedToJest(Player player, Card card) {
         System.out.printf("%s, vous avez ajouté à votre Jest %s. \n----------\n", player, card);
     }
 
+    /**
+     * Display the final ranking and winner to the console.
+     *
+     * @param ranking the ranking as a string
+     */
     @Override
     public void displayWinner(String ranking) {
         System.out.println(ranking);
     }
 
+    /**
+     * Ask if the user wants to save the game via console input.
+     *
+     * @return true if the user wants to save (enters "o"), false otherwise
+     */
     @Override
     public boolean askSaveGame() {
         System.out.print("Voulez-vous sauvegarder la partie ? (o/n) : ");
@@ -146,6 +235,12 @@ public class ConsoleController implements GameController {
         return response.equals("o");
     }
 
+    /**
+     * Ask for the save file name via console input.
+     * The file name must contain only letters and numbers.
+     *
+     * @return the file name without extension
+     */
     @Override
     public String askSaveFileName() {
         while (true) {
@@ -159,11 +254,24 @@ public class ConsoleController implements GameController {
         }
     }
 
+    /**
+     * Display a message to the console.
+     *
+     * @param message the message to display
+     * @param type    the type of message (not used in console implementation)
+     */
     @Override
     public void displayMessage(String message, MessageType type) {
         System.out.println(message);
     }
 
+    /**
+     * Ask the user to select a file to load via console input.
+     * Displays a numbered list of available save files.
+     *
+     * @param fileNames the list of available save files
+     * @return the index of the selected file
+     */
     @Override
     public int askSelectFileToLoad(List<String> fileNames) {
         System.out.println("Sauvegardes disponibles :");
@@ -189,9 +297,11 @@ public class ConsoleController implements GameController {
     }
 
     /**
-     * Check if the filename is valid.
-     * @param name name of the file.
-     * @return true is the filename is valid.
+     * Verify if the file name is valid.
+     * A valid file name contains only letters and numbers.
+     *
+     * @param name the file name to check
+     * @return true if the file name is valid, false otherwise
      */
     private boolean isValidFilename(String name) {
         if (name == null) return false;

@@ -9,7 +9,15 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * This is the panel with the initialization if the trophies and the display of these.
+ * Panel for displaying trophy cards and the reference card.
+ * <p>
+ * This panel shows the reference card that helps players understand card values,
+ * and displays one or two trophy cards depending on the number of players.
+ * </p>
+ *
+ * @author JEST Project
+ * @version 1.0
+>>>>>>> branch 'master' of https://github.com/tuturd/LO02-JEST
  */
 public class TrophyInitializationPanel extends JPanel {
 
@@ -19,6 +27,15 @@ public class TrophyInitializationPanel extends JPanel {
     private JButton referenceCardOriginal, trophy1, trophy2;
     private JLabel referenceLabel, trophiesLabel;
 
+    /**
+     * Constructor for the trophy initialization panel.
+     * <p>
+     * Initializes the reference card button and trophy card buttons.
+     * Trophy buttons are hidden by default until trophies are displayed.
+     * </p>
+     *
+     * @param main the main window of the application
+     */
     public TrophyInitializationPanel(MainWindow main) {
         this.main = main;
 
@@ -52,9 +69,13 @@ public class TrophyInitializationPanel extends JPanel {
     }
 
     /**
-     * Display trophy cards dynamically.
+     * Displays trophy cards dynamically.
+     * <p>
+     * Shows one or two trophy cards depending on the number of players in the game.
+     * For 3 players, two trophies are displayed; for 4 players, one trophy is displayed.
+     * </p>
      *
-     * @param trophyCards the list of trophy cards to display
+     * @param trophyCards the list of trophy cards to display (1 or 2 cards)
      */
     public void displayTrophies(List<Card> trophyCards) {
         if (trophyCards == null || trophyCards.isEmpty()) {
@@ -74,6 +95,11 @@ public class TrophyInitializationPanel extends JPanel {
         }
     }
 
+    /**
+     * Adds an action listener to the reference card button.
+     *
+     * @param listener the action listener to add
+     */
     public void addReferenceCardListener(ActionListener listener) {
         referenceCardOriginal.addActionListener(listener);
     }

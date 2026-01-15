@@ -132,6 +132,9 @@ public class Player implements Serializable {
         return String.format("%s %s", firstName, lastName);
     }
 
+    /**
+     * Enumeration for player interface types.
+     */
     public enum InterfaceType {
         GUI, CONSOLE
     }

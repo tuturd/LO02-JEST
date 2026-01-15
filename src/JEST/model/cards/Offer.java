@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * In each round, each {@link Player} have to make an offer and choose an other one.
+ * In each round, each {@link JEST.model.Player} have to make an offer and choose an other one.
  * An offer is composed by two {@link Card}s : a face-up and a face-down card.
  */
 public class Offer implements Serializable {
@@ -71,10 +71,20 @@ public class Offer implements Serializable {
         return offerCard.getCard();
     }
 
+    /**
+     * Get the first offer card.
+     *
+     * @return the first offer card.
+     */
     public OfferCard getFirstOfferCard() {
         return this.cards.get(0);
     }
 
+    /**
+     * Add an offer card to the offer.
+     *
+     * @param offerCard the offer card to add.
+     */
     public void addOfferCard(OfferCard offerCard) {
         this.cards.add(offerCard);
     }

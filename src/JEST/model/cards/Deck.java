@@ -13,6 +13,9 @@ public class Deck implements Serializable {
     private static final Map<DeckType, Deck> instances = new HashMap<>();
     private Queue<Card> cards;
 
+    /**
+     * Private constructor for the multiton (one instance per type) pattern.
+     */
     private Deck() {
         this.cards = new LinkedList<>();
     }
@@ -88,10 +91,20 @@ public class Deck implements Serializable {
         return cards;
     }
 
+    /**
+     * Add a card to the deck.
+     *
+     * @param card the card to add.
+     */
     public void add(Card card) {
         this.cards.add(card);
     }
 
+    /**
+     * Check if the deck is empty.
+     *
+     * @return true if the deck is empty, false otherwise.
+     */
     public boolean isEmpty() {
         return this.cards.isEmpty();
     }

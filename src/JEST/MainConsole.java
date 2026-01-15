@@ -13,6 +13,9 @@ public class MainConsole {
     private Game game;
     private GameController gameController;
 
+    /**
+     * Private constructor for Singleton pattern.
+     */
     private MainConsole() {
         this.game = Game.getInstance();
         this.gameController = new ConsoleController();

@@ -13,11 +13,14 @@ import java.util.Scanner;
  * This class creates the first display of the game : it allows the player to choose whether they want to play on the console or with the GUI.
  */
 public class Main {
-
-    /**
-     * Ask to the player if he wants to play on the console or with the GUI.
-     */
-	public static void main(String[] args) {
+	
+	/**
+	 * Main method to start the JEST game application.
+     * It prompts the user to choose between GUI mode and console mode.
+     *
+     * @param args command-line arguments (not used)
+	 */
+    public static void main(String[] args) {
 
         // Ask in console if user wants to start GUI
         Scanner scanner = new Scanner(System.in);

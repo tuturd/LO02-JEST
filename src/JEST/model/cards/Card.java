@@ -12,12 +12,27 @@ public abstract class Card implements Serializable {
 
     private final Trophy trophy;
 
+    /**
+     * A card is defined by its {@link Trophy}.
+     *
+     * @param trophy the trophy associated to the card.
+     */
     protected Card(Trophy trophy) {
         this.trophy = trophy;
     }
 
+    /**
+     * Get the face value of the card.
+     *
+     * @return the face value
+     */
     public abstract int getFaceValue();
 
+    /**
+     * Get the suit of the card.
+     *
+     * @return the suit
+     */
     public abstract Suit getSuit();
 
     /**
@@ -35,5 +50,10 @@ public abstract class Card implements Serializable {
         return getSuit() + " " + getFaceValue();
     }
 
+    /**
+     * Get the picture path of the card.
+     *
+     * @return the picture path
+     */
     public abstract String getPicturePath();
 }

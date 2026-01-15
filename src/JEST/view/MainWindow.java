@@ -7,7 +7,15 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 /**
- * It creates the window where we add the panel adapted to the game' situation.
+ * Main window of the JEST game application.
+ * <p>
+ * This class manages the main frame of the game and coordinates
+ * the different panels (start, game creation, trophy initialization, etc.).
+ * It uses a CardLayout to switch between different views.
+ * </p>
+ *
+ * @author JEST Project
+ * @version 1.0
  */
 public class MainWindow {
 
@@ -32,7 +40,11 @@ public class MainWindow {
     private GUIController gameController;
 
     /**
-     * Create the window and initialize all the panels.
+     * Constructor for the main window.
+     * <p>
+     * Initializes the frame, creates all panels, sets up the controller,
+     * and displays the window.
+     * </p>
      */
     public MainWindow() {
         this.frame = new JFrame("JEST");
@@ -78,32 +90,67 @@ public class MainWindow {
         this.frame.setVisible(true);
     }
 
+    /**
+     * Main entry point for the application.
+     *
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(MainWindow::new);
     }
 
+    /**
+     * Gets the game controller.
+     *
+     * @return the GUI game controller
+     */
     public GUIController getGameController() {
         return this.gameController;
     }
 
+    /**
+     * Gets the game instance.
+     *
+     * @return the singleton game instance
+     */
     public JEST.model.Game getGame() {
         return JEST.model.Game.getInstance();
     }
 
+    /**
+     * Gets the offer selection panel.
+     *
+     * @return the ChooseOfferPanel instance
+     */
     public ChooseOfferPanel getChooseAnOffer() {
         return this.chooseOfferPanel;
     }
 
+    /**
+     * Gets the trophy initialization panel.
+     *
+     * @return the TrophyInitializationPanel instance
+     */
     public TrophyInitializationPanel getTrophyInitialization() {
         return this.trophyInitializationPanel;
     }
 
+    /**
+     * Gets the make offer panel.
+     *
+     * @return the MakeOfferPanel instance
+     */
     public MakeOfferPanel getMakeOffer() {
         return this.makeOfferPanel;
     }
 
     /**
-     * Add a log message to the log area.
+     * Adds a log message to the log area.
+     * <p>
+     * This method is thread-safe and can be called from any thread.
+     * </p>
+     *
+     * @param message the message to add to the log
      */
     public void addLog(String message) {
         SwingUtilities.invokeLater(() -> {
@@ -113,7 +160,10 @@ public class MainWindow {
     }
 
     /**
-     * Clear all logs.
+     * Clears all log messages from the log area.
+     * <p>
+     * This method is thread-safe and can be called from any thread.
+     * </p>
      */
     public void clearLogs() {
         SwingUtilities.invokeLater(() -> {
@@ -121,10 +171,20 @@ public class MainWindow {
         });
     }
 
+    /**
+     * Shows a specific panel by its step index.
+     *
+     * @param step the index of the step to show (0=START, 1=CONFIG_NEW, 3=TROPHY_INITIALIZATION, 4=MAKE_OFFER, 5=CHOOSE_OFFER)
+     */
     public void show(int step) {
         layout.show(container, STEPS[step]);
     }
 
+    /**
+     * Gets the main JFrame.
+     *
+     * @return the main frame of the application
+     */
     public JFrame getFrame() {
         return this.frame;
     }

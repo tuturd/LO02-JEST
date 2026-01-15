@@ -31,6 +31,9 @@ public class Game implements Serializable {
     private transient GameController gameController;
     private transient PlayerRouter playerRouter;
 
+    /**
+     * Private constructor for Singleton pattern.
+     */
     private Game() {
         this.players = new ArrayList<>();
         this.generalDeck = Deck.getInstance(DeckType.GENERAL);
@@ -145,21 +148,35 @@ public class Game implements Serializable {
         this.playerRouter = playerRouter;
     }
 
+    /**
+     * Add a human player with console interface by default.
+     *
+     * @param firstName the player's first name
+     * @param lastName  the player's last name
+     */
     public void addHumanPlayer(String firstName, String lastName) {
         this.addHumanPlayer(firstName, lastName, Player.InterfaceType.CONSOLE);
     }
 
     /**
-     * Add a human player, with his interface type.
-     * @param firstName player's first name.
-     * @param lastName player's last name.
-     * @param interfaceType the interface (console or GUI) chosen by the player.
+     * Add a human player with specified interface type.
+     *
+     * @param firstName     the player's first name
+     * @param lastName      the player's last name
+     * @param interfaceType the player's preferred interface type
      */
     public void addHumanPlayer(String firstName, String lastName, Player.InterfaceType interfaceType) {
         Player player = new Player(firstName, lastName, interfaceType);
         this.players.add(player);
     }
 
+    /**
+     * Add a virtual player with specified strategy.
+     *
+     * @param firstName the player's first name
+     * @param lastName  the player's last name
+     * @param strategy  the strategy type for the virtual player
+     */
     public void addVirtualPlayer(String firstName, String lastName, String strategy) {
         VirtualPlayer player;
         switch (strategy) {
@@ -420,9 +437,15 @@ public class Game implements Serializable {
         return players;
     }
 
+    /**
+     * A record to hold player and their score for ranking.
+     */
     private record PlayerScore(Player player, int score) {
     }
 
+    /**
+     * A record to hold player and their trophy card.
+     */
     private record PlayerTrophyCard(Player player, Card card) {
     }
 

@@ -8,10 +8,20 @@ public enum Suit {
 
     private final int strength;
 
+    /**
+     * Constructor of the suit.
+     *
+     * @param strength the strength of the suit.
+     */
     Suit(int strength) {
         this.strength = strength;
     }
 
+    /**
+     * Get the strength of the suit.
+     *
+     * @return the strength.
+     */
     public int getStrength() {
         return strength;
     }
