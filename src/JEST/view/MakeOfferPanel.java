@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
+/**
+ * This is a panel where the player can make an offer.
+ */
 public class MakeOfferPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;

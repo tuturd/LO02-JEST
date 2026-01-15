@@ -6,6 +6,9 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 
+/**
+ * It creates the window where we add the panel adapted to the game' situation.
+ */
 public class MainWindow {
 
     private static final String[] STEPS = {
@@ -28,6 +31,9 @@ public class MainWindow {
     private ChooseOfferPanel chooseOfferPanel;
     private GUIController gameController;
 
+    /**
+     * Create the window and initialize all the panels.
+     */
     public MainWindow() {
         this.frame = new JFrame("JEST");
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

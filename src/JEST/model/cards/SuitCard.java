@@ -48,6 +48,10 @@ public class SuitCard extends Card {
         this.faceValue = 5;
     }
 
+    /**
+     * Provide the path to access the image.
+     * @return the path.
+     */
     public String getPicturePath() {
         return "/JEST/static/" + this.suit + "_" + this.faceValue + ".png";
     }

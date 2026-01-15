@@ -25,7 +25,6 @@ public class MainConsole {
 
     /**
      * We use the Singleton design pattern, to guarantee that there is only one instance of this class.
-     *
      * @return the only instance of the class.
      */
     public static MainConsole getInstance() {
@@ -36,7 +35,7 @@ public class MainConsole {
     }
 
     /**
-     * This class is one of the most important : it is the one that truly launches the game and allows the player to use the console.
+     * Launch the game and allows the player to use the console (if he chooses the console mode).
      */
     public static void main(String[] args) {
         MainConsole main = MainConsole.getInstance();
@@ -80,7 +79,6 @@ public class MainConsole {
 
     /**
      * Create a new game, destroying the old one.
-     *
      * @return the new game.
      */
     public Game renewGame() {

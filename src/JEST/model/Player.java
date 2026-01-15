@@ -11,8 +11,8 @@ import java.util.List;
  * This class defines a player, real or virtual.
  */
 public class Player implements Serializable {
-
     private static final long serialVersionUID = 1L;
+    
     private final String firstName;
     private final String lastName;
     protected Jest jest;
@@ -33,8 +33,8 @@ public class Player implements Serializable {
     /**
      * The player is defined by his first name, last name and preferred interface.
      *
-     * @param firstName          first name of the player.
-     * @param lastName           last name of the player.
+     * @param firstName first name of the player.
+     * @param lastName last name of the player.
      * @param preferredInterface the player's preferred interface type
      */
     public Player(String firstName, String lastName, InterfaceType preferredInterface) {
@@ -65,9 +65,9 @@ public class Player implements Serializable {
     /**
      * The REAL player makes his {@link Offer} : it retrieves 2 {@link OfferCard} (a face-up or face down {@link Card} and creates the player's offer.
      *
-     * @param c1     : this is the face-up card of his offer.
-     * @param c2     : this is the face-down card of his offer.
-     * @param router : the player router to use for interaction
+     * @param c1 this is the face-up card of his offer.
+     * @param c2 this is the face-down card of his offer.
+     * @param router the player router to use for interaction
      */
     public void makeOffer(Card c1, Card c2, PlayerRouter router) {
         int upsideCardIndex = router.askMakeOffer(this, this.jest.toString(), c1, c2);
@@ -81,7 +81,7 @@ public class Player implements Serializable {
      * The REAL player is asked to choose the player whose offer they want to receive, and then which card they want to receive (face down or face up).
      *
      * @param players all the players where we can get one card of their offer.
-     * @param router  : the player router to use for interaction
+     * @param router the player router to use for interaction
      * @return the player whose player chooses the offer.
      */
     public Player chooseOffer(List<Player> players, PlayerRouter router) {
@@ -110,7 +110,7 @@ public class Player implements Serializable {
     /**
      * The player, virtual or real, draws from the {@link Deck} selected.
      *
-     * @param deck : the deck selected (the general or the restOfCards).
+     * @param deck the deck selected (the general or the restOfCards).
      */
     public void drawCard(Deck deck) {
         this.currentOffer.addOfferCard(new OfferCard(deck.deal(), !this.currentOffer.getFirstOfferCard().isUpside()));

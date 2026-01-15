@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
  */
 public class Game implements Serializable {
     private static final long serialVersionUID = 1L;
+    
     private static Game instance;
     private List<Player> players;
     private Deck generalDeck;
@@ -59,7 +60,7 @@ public class Game implements Serializable {
     /**
      * Verify if the file's name is valid.
      *
-     * @param "name" is the file's name.
+     * @param name the file's name.
      * @return true if the file's name is valid, or false if it is invalid.
      */
     private static boolean isValidFilename(String name) {
@@ -148,6 +149,12 @@ public class Game implements Serializable {
         this.addHumanPlayer(firstName, lastName, Player.InterfaceType.CONSOLE);
     }
 
+    /**
+     * Add a human player, with his interface type.
+     * @param firstName player's first name.
+     * @param lastName player's last name.
+     * @param interfaceType the interface (console or GUI) chosen by the player.
+     */
     public void addHumanPlayer(String firstName, String lastName, Player.InterfaceType interfaceType) {
         Player player = new Player(firstName, lastName, interfaceType);
         this.players.add(player);

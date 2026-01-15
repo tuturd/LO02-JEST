@@ -6,15 +6,18 @@ import JEST.model.Player;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This is the panel where we can create the new Jest game.
+ */
 public class NewGameCreationPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    // ===== Etats =====
+
     private static final int STEP_FIRSTNAME = 0;
     private static final int STEP_LASTNAME = 1;
     private static final int STEP_STRATEGY = 2;
     private static final int STEP_INTERFACE = 3;
-    // ===== UI =====
+
     private JLabel lblNombreDeJoueurs;
     private JLabel nomJoueur;
     private JButton btn3Players;
@@ -26,7 +29,7 @@ public class NewGameCreationPanel extends JPanel {
     private JButton btnDefensive;
     private JButton btnAggressive;
     private JTextField txtPrenomNom;
-    // ===== Gestion joueurs =====
+
     private int totalPlayers;
     private int currentPlayer = 1;
     private boolean isVirtualPlayer;
@@ -39,13 +42,16 @@ public class NewGameCreationPanel extends JPanel {
     private JButton btnGUI;
     private JButton btnConsole;
 
+    /**
+     * Creates the panel in the main window
+     * @param main the main window
+     */
     public NewGameCreationPanel(MainWindow main) {
 
         this.main = main;
 
         setLayout(null);
 
-        // ===== Choix nombre joueurs =====
         lblNombreDeJoueurs = new JLabel("Nombre de joueurs ?");
         lblNombreDeJoueurs.setHorizontalAlignment(SwingConstants.CENTER);
         lblNombreDeJoueurs.setFont(new Font("Comic Sans MS", Font.BOLD, 17));
@@ -64,7 +70,6 @@ public class NewGameCreationPanel extends JPanel {
         btn4Players.addActionListener(e -> setPlayers(4));
         add(btn4Players);
 
-        // ===== Label dynamique =====
         nomJoueur = new JLabel();
         nomJoueur.setHorizontalAlignment(SwingConstants.CENTER);
         nomJoueur.setFont(new Font("Comic Sans MS", Font.BOLD, 17));
@@ -72,7 +77,6 @@ public class NewGameCreationPanel extends JPanel {
         nomJoueur.setVisible(false);
         add(nomJoueur);
 
-        // ===== Virtuel ? =====
         btnOui = new JButton("OUI");
         btnOui.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
         btnOui.setBounds(140, 116, 128, 31);
@@ -93,13 +97,11 @@ public class NewGameCreationPanel extends JPanel {
         });
         add(btnNon);
 
-        // ===== Champ texte =====
         txtPrenomNom = new JTextField();
         txtPrenomNom.setBounds(195, 90, 265, 31);
         txtPrenomNom.setVisible(false);
         add(txtPrenomNom);
 
-        // ===== Bouton suivant =====
         btnSuivant = new JButton("Suivant");
         btnSuivant.setFont(new Font("Comic Sans MS", Font.PLAIN, 17));
         btnSuivant.setBounds(413, 157, 128, 31);
@@ -107,7 +109,6 @@ public class NewGameCreationPanel extends JPanel {
         btnSuivant.addActionListener(e -> handleNext());
         add(btnSuivant);
 
-        // ===== Boutons stratégies =====
         btnRandom = new JButton("Aléatoire");
         btnRandom.setFont(new Font("Comic Sans MS", Font.PLAIN, 17));
         btnRandom.setBounds(89, 117, 128, 31);
@@ -129,7 +130,6 @@ public class NewGameCreationPanel extends JPanel {
         btnAggressive.addActionListener(e -> selectStrategy("3"));
         add(btnAggressive);
 
-        // ===== Boutons choix interface =====
         btnGUI = new JButton("Interface Graphique");
         btnGUI.setFont(new Font("Comic Sans MS", Font.PLAIN, 17));
         btnGUI.setBounds(140, 117, 200, 31);
@@ -144,10 +144,6 @@ public class NewGameCreationPanel extends JPanel {
         btnConsole.addActionListener(e -> selectInterface("CONSOLE"));
         add(btnConsole);
     }
-
-    // =====================================================
-    // =================== LOGIQUE =========================
-    // =====================================================
 
     private void setPlayers(int number) {
         totalPlayers = number;

@@ -7,11 +7,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * This is the panel where we have the choice if we want to start a new game or load one.
+ */
 public class PartyStartPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
     private GUIController gameController;
 
+    /**
+     * Create the panel in the main window.
+     * @param main the main window.
+     */
     public PartyStartPanel(MainWindow main) {
         setLayout(null);
 

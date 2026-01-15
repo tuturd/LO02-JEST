@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * This is a panel where the player can choose a card between all the available offers.
+ */
 public class ChooseOfferPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;

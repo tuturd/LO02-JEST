@@ -13,7 +13,7 @@ import java.util.List;
  * - askMakeOffer
  * - askChooseOffer
  * - displayCardAddedToJest
- * <p>
+ * </p>
  * All other game operations (setup, save, global displays) should use the main GameController directly.
  */
 public class PlayerRouter {
@@ -24,7 +24,7 @@ public class PlayerRouter {
     /**
      * Create a player router with GUI and Console controllers.
      *
-     * @param guiController     the controller for GUI interactions
+     * @param guiController the controller for GUI interactions
      * @param consoleController the controller for console interactions
      */
     public PlayerRouter(GameController guiController, GameController consoleController) {
@@ -49,9 +49,9 @@ public class PlayerRouter {
      * Ask a player to make an offer, using their preferred interface.
      *
      * @param player the player making the offer
-     * @param jest   the player's current jest
-     * @param c1     first card
-     * @param c2     second card
+     * @param jest the player's current jest
+     * @param c1 first card
+     * @param c2 second card
      * @return the index of the card to show face up (1 or 2)
      */
     public int askMakeOffer(Player player, String jest, Card c1, Card c2) {
@@ -61,8 +61,8 @@ public class PlayerRouter {
     /**
      * Ask a player to choose an offer, using their preferred interface.
      *
-     * @param player           the player choosing
-     * @param jest             the player's current jest
+     * @param player the player choosing
+     * @param jest the player's current jest
      * @param availablePlayers players with available offers
      * @return array with [playerIndex, cardChoice]
      */
@@ -74,7 +74,7 @@ public class PlayerRouter {
      * Display that a card was added to a player's jest, using their preferred interface.
      *
      * @param player the player who received the card
-     * @param card   the card that was added
+     * @param card the card that was added
      */
     public void displayCardAddedToJest(Player player, Card card) {
         getControllerForPlayer(player).displayCardAddedToJest(player, card);

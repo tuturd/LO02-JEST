@@ -41,6 +41,10 @@ public class JokerCard extends Card {
         return "Joker";
     }
 
+    /**
+     * Provide the path to access the image.
+     * @return the path.
+     */
     public String getPicturePath() {
         return "/JEST/static/joker.png";
     }

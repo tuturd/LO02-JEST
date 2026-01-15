@@ -23,8 +23,8 @@ public class AgressiveStrategy implements Strategy, Serializable {
      * The card with the fewest points is downside (because it is the best card for the player, compared to the other), and the other is upside.
      *
      * @param player player the player who chooses the offer.
-     * @param c1     the first card of the offer.
-     * @param c2     the second card of the offer.
+     * @param c1 the first card of the offer.
+     * @param c2 the second card of the offer.
      */
     public void makeOffer(VirtualPlayer player, Card c1, Card c2) {
         int bestCard1 = this.computeAdvantageOnMakingOffer(player, c1);

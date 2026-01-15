@@ -8,6 +8,9 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * This is the panel with the initialization if the trophies and the display of these.
+ */
 public class TrophyInitializationPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;

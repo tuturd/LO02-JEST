@@ -13,21 +13,21 @@ public interface GameController {
 
     /**
      * Ask the user to start a new game or load an existing one.
-     *
+     * 
      * @return 1 for new game, 2 for load game
      */
     int askNewOrLoadGame();
 
     /**
      * Ask for the number of players.
-     *
+     * 
      * @return the number of players (3 or 4)
      */
     int askNumberOfPlayers();
 
     /**
      * Ask if a player is virtual.
-     *
+     * 
      * @param playerNumber the player number
      * @return true if virtual, false otherwise
      */
@@ -35,7 +35,7 @@ public interface GameController {
 
     /**
      * Ask for the first name of a player.
-     *
+     * 
      * @param playerNumber the player number
      * @return the first name
      */
@@ -43,7 +43,7 @@ public interface GameController {
 
     /**
      * Ask for the last name of a player.
-     *
+     * 
      * @param playerNumber the player number
      * @return the last name
      */
@@ -51,7 +51,7 @@ public interface GameController {
 
     /**
      * Ask for the strategy of a virtual player.
-     *
+     * 
      * @param playerNumber the player number
      * @return "1" for random, "2" for defensive, "3" for aggressive
      */
@@ -59,37 +59,37 @@ public interface GameController {
 
     /**
      * Display a message about player creation.
-     *
+     * 
      * @param playerNumber the player number
-     * @param firstName    the first name
-     * @param lastName     the last name
-     * @param isVirtual    true if virtual player
+     * @param firstName the first name
+     * @param lastName the last name
+     * @param isVirtual true if virtual player
      */
     void displayPlayerCreated(int playerNumber, String firstName, String lastName, boolean isVirtual);
 
     /**
      * Display the trophy cards.
-     *
+     * 
      * @param trophyCards the trophy cards
      */
     void displayTrophyCards(List<Card> trophyCards);
 
     /**
      * Ask a player to make an offer.
-     *
+     * 
      * @param player the player making the offer
-     * @param jest   the player's current jest
-     * @param c1     first card
-     * @param c2     second card
+     * @param jest the player's current jest
+     * @param c1 first card
+     * @param c2 second card
      * @return the index of the card to show (1 or 2)
      */
     int askMakeOffer(Player player, String jest, Card c1, Card c2);
 
     /**
      * Ask a player to choose an offer.
-     *
-     * @param player           the player choosing
-     * @param jest             the player's current jest
+     * 
+     * @param player the player choosing
+     * @param jest the player's current jest
      * @param availablePlayers the list of players with available offers
      * @return an array with [playerIndex, cardChoice] where cardChoice is 1 for face-up, 2 for face-down
      */

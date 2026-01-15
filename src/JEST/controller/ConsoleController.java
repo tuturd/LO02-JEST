@@ -11,14 +11,12 @@ import java.util.Scanner;
  * All interactions happen through the console using Scanner.
  */
 public class ConsoleController implements GameController {
-
     private final Scanner scanner;
 
     public ConsoleController() {
         this.scanner = new Scanner(System.in);
     }
 
-    @Override
     public int askNewOrLoadGame() {
         while (true) {
             System.out.print("Voulez-vous commencer une nouvelle partie (1) ou charger une partie existante (2) : ");
@@ -35,7 +33,6 @@ public class ConsoleController implements GameController {
         }
     }
 
-    @Override
     public int askNumberOfPlayers() {
         int playerNumber = 0;
         while (playerNumber == 0) {
@@ -55,26 +52,22 @@ public class ConsoleController implements GameController {
         return playerNumber;
     }
 
-    @Override
     public boolean askIsVirtualPlayer(int playerNumber) {
         System.out.printf("Le joueur %d est-il un joueur virtuel ? (o/n) : ", playerNumber);
         String isVirtual = scanner.nextLine().trim().toLowerCase();
         return isVirtual.equals("o");
     }
 
-    @Override
     public String askFirstName(int playerNumber) {
         System.out.printf("Prénom du joueur %d : ", playerNumber);
         return scanner.nextLine();
     }
 
-    @Override
     public String askLastName(int playerNumber) {
         System.out.printf("Nom du joueur %d : ", playerNumber);
         return scanner.nextLine();
     }
 
-    @Override
     public String askStrategy(int playerNumber) {
         System.out.printf("Quelle stratégie pour le joueur virtuel %d ? (1: Aléatoire, 2: Défensive, 3: Agressive) : ", playerNumber);
         String strategyChoice = scanner.nextLine().trim();
@@ -85,7 +78,6 @@ public class ConsoleController implements GameController {
         return strategyChoice;
     }
 
-    @Override
     public void displayPlayerCreated(int playerNumber, String firstName, String lastName, boolean isVirtual) {
         if (isVirtual) {
             System.out.printf(">>> Joueur virtuel n°%d créé\n", playerNumber);
@@ -196,6 +188,11 @@ public class ConsoleController implements GameController {
         return choice - 1;
     }
 
+    /**
+     * Check if the filename is valid.
+     * @param name name of the file.
+     * @return true is the filename is valid.
+     */
     private boolean isValidFilename(String name) {
         if (name == null) return false;
         name = name.trim();

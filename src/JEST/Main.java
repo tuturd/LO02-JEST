@@ -9,9 +9,15 @@ import JEST.view.MainWindow;
 import javax.swing.*;
 import java.util.Scanner;
 
+/**
+ * This class creates the first display of the game : it allows the player to choose whether they want to play on the console or with the GUI.
+ */
 public class Main {
 
-    public static void main(String[] args) {
+    /**
+     * Ask to the player if he wants to play on the console or with the GUI.
+     */
+	public static void main(String[] args) {
 
         // Ask in console if user wants to start GUI
         Scanner scanner = new Scanner(System.in);
